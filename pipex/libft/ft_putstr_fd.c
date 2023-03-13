@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hello.c                                            :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 12:24:20 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/09 12:25:00 by yichinos         ###   ########.fr       */
+/*   Created: 2022/10/09 23:45:53 by ichinoseyuu       #+#    #+#             */
+/*   Updated: 2022/11/21 14:20:37 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include"libft.h"
 
-int	main(void)
+void	ft_putstr_fd(char *s, int fd)
 {
-	printf("hello world\n");
-	return (0);
+	if (fd < 0 || !s)
+		return ;
+	while (*s != 0)
+	{
+		ft_putchar_fd(*s, fd);
+		s++;
+	}
 }
