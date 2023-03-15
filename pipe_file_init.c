@@ -6,11 +6,11 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 16:50:07 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/09 17:52:49 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/15 11:18:09 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "pipex.h"
 
 int	file_open_rd(char	*argv)
 {

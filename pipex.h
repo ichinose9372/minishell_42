@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:45:33 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/09 17:57:31 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/15 11:16:24 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include "../libft/libft.h"
+# include "libft/libft.h"
 # include <fcntl.h>
 # include <errno.h>
 

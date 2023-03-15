@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   make_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:41:12 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/10 15:26:48 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/03/15 11:18:04 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "pipex.h"
 
 char	**envp_make_path(char **envp)
 {

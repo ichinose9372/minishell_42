@@ -6,11 +6,11 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 12:51:56 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/09 19:02:29 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/15 11:17:53 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "pipex.h"
 
 void	chiled_1(char **argv, t_data *px, char **envp)
 {

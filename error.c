@@ -6,11 +6,11 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 16:58:43 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/10 11:52:54 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/15 11:17:57 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/pipex.h"
+#include "pipex.h"
 
 void	command_not_found(char *str)
 {
