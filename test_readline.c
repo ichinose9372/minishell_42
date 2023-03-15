@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:52:05 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/15 11:48:49 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/15 11:55:21 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	do_cmd(char	*str)
 	execve(path[0], path, environ);
 }
 
-int	main(void)
+void	main(void)
 {
 	char	*str;
 	pid_t	pid;
@@ -53,5 +53,5 @@ int	main(void)
 		}
 		free (str);
 	}
-	exit(0);
+	exit (0)
 }
