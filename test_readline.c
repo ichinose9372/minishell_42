@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 11:52:05 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/15 11:55:21 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/16 12:08:28 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ void	do_cmd(char	*str)
 	execve(path[0], path, environ);
 }
 
-void	main(void)
+int	main(void)
 {
 	char	*str;
 	pid_t	pid;
 	int		status;
 
+	rl_outstream = stderr;
 	while (1)
 	{
 		str = readline("mini_shell$ ");
@@ -53,5 +54,5 @@ void	main(void)
 		}
 		free (str);
 	}
-	exit (0)
+	exit (0);
 }
