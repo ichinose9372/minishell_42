@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/17 16:03:51 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/17 21:52:11 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,26 @@ t_token	*new_token(char *str, int start, int end)
 	tok->word = new_strdup(&str[start], end - start);
 	if (!tok->word)
 		exit (0);
+	tok->next = NULL;
 	return (tok);
 }
 
 void	make_token(t_token **tok, char *str, int start, int end)
 {
-	*tok = (*tok)->next;
-	*tok = new_token(str, start, end);
-	printf("%s\n", (*tok)->word);
+	t_token	*tmp;
+
+	if ((*tok)->word == NULL)
+	{
+		(*tok)->word = new_strdup(&str[start], end - start);
+		if (!(*tok)->word)
+			exit (0);
+	}
+	else
+	{
+		(*tok)->next = new_token(str, start, end);
+		*tok = (*tok)->next;
+	}
+	(*tok)->next = NULL;
 }
 
 int	operater_comp(char *str, int end)
@@ -133,16 +145,20 @@ int	seartch_quote(char *str, int start, int *end)
 }
 
 
-t_token	*tokenizer(char *str)
+t_token	*tokenizer(char *str, t_token *tok)
 {
-	t_token	*tok;
+	t_token	*tmp;
 	int		start;
 	int		end;
 
 	start = 0;
 	end = 0;
+	tmp = tok;
 	while (str[start])
 	{
+		while(str[end] != '\0' && space_check(str, end))
+			end++;
+		start = end;
 		while (str[end] != '\0' && !space_check(str, end))
 		{
 			if (operater_check(str, &start, &end, &tok))
@@ -154,19 +170,24 @@ t_token	*tokenizer(char *str)
 			}
 			end++;
 		}
-		make_token(&tok, str, start, end);
-		while(str[end] != '\0' && space_check(str, end))
-			end++;
-		start = end;
+		if (str[start] != '\0')
+			make_token(&tok, str, start, end);
 	}
-	return (tok);
+	return (tmp);
 }
 
 int	main(void)
 {
-char *str = "\"hello w\"\'orld\'; cat<file|wc";
-
+	char *str = "  echo \"hello w\"\'orld\'; cat<file|wc  ";
 	t_token	*tok;
-	tok = tokenizer(str);
-	// printf("%s\n", tok->word);
+
+	tok = (t_token *)malloc(sizeof(t_token));
+	tok->word = NULL;
+	tok = tokenizer(str, tok);
+
+	while (tok)
+	{
+		printf("%s\n", tok->word);
+		tok = tok->next;
+	}
 }
