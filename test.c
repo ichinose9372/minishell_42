@@ -3,28 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/17 21:52:11 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/20 17:07:47 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "minishell.h"
 
-typedef struct s_token
-{
-	char			*word;
-	struct s_token	*next;
-}	t_token;
 
-typedef enum e_token_quote
-{
-	OUT_QUOTE,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-}	t_token_quote;
+// typedef struct s_token
+// {
+// 	char			*word;
+// 	struct s_token	*next;
+// }	t_token;
+
+// typedef enum e_token_quote
+// {
+// 	OUT_QUOTE,
+// 	SINGLE_QUOTE,
+// 	DOUBLE_QUOTE,
+// }	t_token_quote;
 
 char	*new_strdup(const char *s1, int size)
 {
@@ -144,7 +146,6 @@ int	seartch_quote(char *str, int start, int *end)
 	return (0);
 }
 
-
 t_token	*tokenizer(char *str, t_token *tok)
 {
 	t_token	*tmp;
@@ -176,18 +177,140 @@ t_token	*tokenizer(char *str, t_token *tok)
 	return (tmp);
 }
 
-int	main(void)
+void	printf_token(t_token **p_tok)
 {
-	char *str = "  echo \"hello w\"\'orld\'; cat<file|wc  ";
+	while (*p_tok)
+	{
+		printf("%s\n", (*p_tok)->word);
+		p_tok = &(*p_tok)->next;
+	}
+}
+void	all_free_token(t_token **p_toke)
+{
+	size_t	i;
+
+	i = 0;
+	while (p_toke[i])
+	{
+		free(p_toke[i]);
+		i++;
+	}
+}
+int	tokensize(t_token *p_tok)
+{
+	int	i;
+
+	i = 0;
+	while (p_tok)
+	{
+		p_tok = p_tok->next;
+		i++;
+	}
+	return (i);
+}
+
+void do_cmd(t_token **p_tok)
+{
+	char	**path;
+	int		fd[2];
+	pid_t	pid;
+	int		f_fd;
+	int		count;
+	t_token	**tmp;
+
+	tmp = p_tok;
+	count = tokensize(*p_tok);
+	if ((*p_tok)->word && (*p_tok)->next == NULL)
+	{
+		path = split_arg((*p_tok)->word, environ);
+		execve(path[0], path, environ);
+	}
+	else
+	{
+		if (ft_strncmp((*p_tok)->next->word, "|", 1) == 0)
+		{
+			pipe(fd);
+			pid = fork();
+			if (pid == 0)
+			{
+				close(fd[READ]);
+				dup2(fd[WRITE], STDOUT_FILENO);
+				close(fd[WRITE]);
+				path = split_arg((*p_tok)->word, environ);
+				execve(path[0], path, environ);
+			}
+			else if (pid > 0)
+			{
+				*p_tok = (*p_tok)->next->next;
+				close(fd[WRITE]);
+				dup2(fd[READ], STDIN_FILENO);
+				close(fd[READ]);
+				path = split_arg((*p_tok)->word, environ);
+				execve(path[0], path, environ);
+			}
+		}
+		else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0
+			&& (*p_tok)->next->next != NULL)
+		{
+			f_fd = file_open_wrt((*p_tok)->next->next->word);
+			dup2(f_fd, STDOUT_FILENO);
+			close(f_fd);
+			path = split_arg((*p_tok)->word, environ);
+			execve(path[0], path, environ);
+		}
+		else if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
+		{
+			path = split_arg((*p_tok)->next->next->word, environ);
+			if (path[0] == NULL)
+				exit(EXIT_FAILURE);
+			f_fd = file_open_rd((*p_tok)->next->word);
+			dup2(f_fd, STDIN_FILENO);
+			close(f_fd);
+			execve(path[0], path, environ);
+		}
+		else
+			printf("aaaa\n");
+	}
+}
+
+int main(void)
+{
+	char *str;
+	pid_t pid;
+	int status;
+	int i;
+	t_token	**p_tok;
 	t_token	*tok;
 
-	tok = (t_token *)malloc(sizeof(t_token));
-	tok->word = NULL;
-	tok = tokenizer(str, tok);
 
-	while (tok)
+	p_tok = malloc(sizeof(t_token *));
+	if (p_tok == NULL)
+		exit(1);
+	rl_outstream = stderr;
+	while (1)
 	{
-		printf("%s\n", tok->word);
-		tok = tok->next;
+		str = readline("mini_shell$ ");
+		if (str == NULL)
+			exit(1);
+		else
+		{
+			add_history(str);
+			pid = fork();
+			if (pid == 0)
+			{
+				tok = malloc(sizeof(t_token));
+				if (tok == NULL)
+					exit(1);
+				tok = tokenizer(str, tok);
+				*p_tok = tok;
+				do_cmd(p_tok);
+			}
+			else if (pid > 0)
+				wait(&status);
+			else
+				exit(1);
+		}
+		all_free_token(p_tok);
 	}
+	exit(0);
 }
