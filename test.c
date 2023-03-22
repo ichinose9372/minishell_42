@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/17 21:52:11 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/19 17:44:38 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ t_token	*tokenizer(char *str, t_token *tok)
 
 int	main(void)
 {
-	char *str = "  echo \"hello w\"\'orld\'; cat<file|wc  ";
+	char *str = "ls | wc";
 	t_token	*tok;
 
 	tok = (t_token *)malloc(sizeof(t_token));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:41:12 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/15 11:18:04 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/18 18:07:36 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ char	*make_path(char *argv, char **envp)
 	path = serch_path(tmp, env_split);
 	if (path == NULL)
 	{
-		command_not_found(argv);
 		all_free_and_tmp(tmp, env_split);
 		return (NULL);
 	}
