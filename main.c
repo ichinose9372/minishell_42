@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/22 18:31:04 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:48:09 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,14 +303,15 @@ int main(void)
 					exit(1);
 				tok = tokenizer(str, tok);
 				*p_tok = tok;
-				do_cmd(p_tok);
+				// do_cmd(p_tok);
+				printf_token(p_tok);
 			}
 			else if (pid > 0)
 				wait(&status);
 			else
 				exit(1);
 		}
-		all_free_token(p_tok);
+		// all_free_token(p_tok);
 	}
 	exit(0);
 }
