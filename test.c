@@ -6,25 +6,27 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/19 17:44:38 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/22 12:51:14 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "minishell.h"
 
-typedef struct s_token
-{
-	char			*word;
-	struct s_token	*next;
-}	t_token;
 
-typedef enum e_token_quote
-{
-	OUT_QUOTE,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-}	t_token_quote;
+// typedef struct s_token
+// {
+// 	char			*word;
+// 	struct s_token	*next;
+// }	t_token;
+
+// typedef enum e_token_quote
+// {
+// 	OUT_QUOTE,
+// 	SINGLE_QUOTE,
+// 	DOUBLE_QUOTE,
+// }	t_token_quote;
 
 char	*new_strdup(const char *s1, int size)
 {
@@ -144,7 +146,6 @@ int	seartch_quote(char *str, int start, int *end)
 	return (0);
 }
 
-
 t_token	*tokenizer(char *str, t_token *tok)
 {
 	t_token	*tmp;
@@ -176,18 +177,48 @@ t_token	*tokenizer(char *str, t_token *tok)
 	return (tmp);
 }
 
-int	main(void)
+void	printf_token(t_token **p_tok)
+{
+	while (*p_tok)
+	{
+		printf("%s\n", (*p_tok)->word);
+		p_tok = &(*p_tok)->next;
+	}
+}
+void	all_free_token(t_token **p_toke)
 {
 	char *str = "ls | wc";
 	t_token	*tok;
 
-	tok = (t_token *)malloc(sizeof(t_token));
-	tok->word = NULL;
-	tok = tokenizer(str, tok);
 
-	while (tok)
+	p_tok = malloc(sizeof(t_token *));
+	if (p_tok == NULL)
+		exit(1);
+	rl_outstream = stderr;
+	while (1)
 	{
-		printf("%s\n", tok->word);
-		tok = tok->next;
+		str = readline("mini_shell$ ");
+		if (str == NULL)
+			exit(1);
+		else
+		{
+			add_history(str);
+			pid = fork();
+			if (pid == 0)
+			{
+				tok = malloc(sizeof(t_token));
+				if (tok == NULL)
+					exit(1);
+				tok = tokenizer(str, tok);
+				*p_tok = tok;
+				do_cmd(p_tok);
+			}
+			else if (pid > 0)
+				wait(&status);
+			else
+				exit(1);
+		}
+		all_free_token(p_tok);
 	}
+	exit(0);
 }
