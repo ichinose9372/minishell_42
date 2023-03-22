@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 12:43:10 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/22 16:25:28 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:28:43 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_token
 	char	*word;
 	struct s_token	*next;
 	int		test;
+	long	test1;
 }	t_token;
 
 
