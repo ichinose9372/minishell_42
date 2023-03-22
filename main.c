@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/22 18:04:02 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:13:39 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,6 @@
 #include <stdlib.h>
 #include "minishell.h"
 
-// typedef struct s_token
-// {
-// 	char			*word;
-// 	struct s_token	*next;
-// }	t_token;
-
-// typedef enum e_token_quote
-// {
-// 	OUT_QUOTE,
-// 	SINGLE_QUOTE,
-// 	DOUBLE_QUOTE,
-// }	t_token_quote;
 
 char *new_strdup(const char *s1, int size)
 {
