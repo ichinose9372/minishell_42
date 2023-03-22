@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/22 18:13:39 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:47:43 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,67 +196,71 @@ int tokensize(t_token *p_tok)
 	return (i);
 }
 
-void do_cmd(t_token **p_tok)
+void	do_cmd(t_token **p_tok)
 {
-	char	**path;
-	int		fd[2];
-	pid_t	pid;
-	int		f_fd;
-	t_token	**tmp;
 
-	tmp = p_tok;
-	if ((*p_tok)->word && (*p_tok)->next == NULL)
-	{
-		path = split_arg((*p_tok)->word, environ);
-		execve(path[0], path, environ);
-	}
-	else
-	{
-		if (ft_strncmp((*p_tok)->next->word, "|", 1) == 0)
-		{
-			pipe(fd);
-			pid = fork();
-			if (pid == 0)
-			{
-				close(fd[READ]);
-				dup2(fd[WRITE], STDOUT_FILENO);
-				close(fd[WRITE]);
-				path = split_arg((*p_tok)->word, environ);
-				execve(path[0], path, environ);
-			}
-			else if (pid > 0)
-			{
-				*p_tok = (*p_tok)->next->next;
-				close(fd[WRITE]);
-				dup2(fd[READ], STDIN_FILENO);
-				close(fd[READ]);
-				path = split_arg((*p_tok)->word, environ);
-				execve(path[0], path, environ);
-			}
-		}
-		else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0
-			&& (*p_tok)->next->next != NULL)
-		{
-			f_fd = file_open_wrt((*p_tok)->next->next->word);
-			dup2(f_fd, STDOUT_FILENO);
-			close(f_fd);
-			path = split_arg((*p_tok)->word, environ);
-			execve(path[0], path, environ);
-		}
-		else if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
-		{
-			path = split_arg((*p_tok)->next->next->word, environ);
-			if (path[0] == NULL)
-				exit(EXIT_FAILURE);
-			f_fd = file_open_rd((*p_tok)->next->word);
-			dup2(f_fd, STDIN_FILENO);
-			close(f_fd);
-			execve(path[0], path, environ);
-		}
-		else
-			return ;
-	}
 }
+// void do_cmd(t_token **p_tok)
+// {
+// 	char	**path;
+// 	int		fd[2];
+// 	pid_t	pid;
+// 	int		f_fd;
+// 	t_token	**tmp;
+
+// 	tmp = p_tok;
+// 	if ((*p_tok)->word && (*p_tok)->next == NULL)
+// 	{
+// 		path = split_arg((*p_tok)->word, environ);
+// 		execve(path[0], path, environ);
+// 	}
+// 	else
+// 	{
+// 		if (ft_strncmp((*p_tok)->next->word, "|", 1) == 0)
+// 		{
+// 			pipe(fd);
+// 			pid = fork();
+// 			if (pid == 0)
+// 			{
+// 				close(fd[READ]);
+// 				dup2(fd[WRITE], STDOUT_FILENO);
+// 				close(fd[WRITE]);
+// 				path = split_arg((*p_tok)->word, environ);
+// 				execve(path[0], path, environ);
+// 			}
+// 			else if (pid > 0)
+// 			{
+// 				*p_tok = (*p_tok)->next->next;
+// 				close(fd[WRITE]);
+// 				dup2(fd[READ], STDIN_FILENO);
+// 				close(fd[READ]);
+// 				path = split_arg((*p_tok)->word, environ);
+// 				execve(path[0], path, environ);
+// 			}
+// 		}
+// 		else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0
+// 			&& (*p_tok)->next->next != NULL)
+// 		{
+// 			f_fd = file_open_wrt((*p_tok)->next->next->word);
+// 			dup2(f_fd, STDOUT_FILENO);
+// 			close(f_fd);
+// 			path = split_arg((*p_tok)->word, environ);
+// 			execve(path[0], path, environ);
+// 		}
+// 		else if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
+// 		{
+// 			path = split_arg((*p_tok)->next->next->word, environ);
+// 			if (path[0] == NULL)
+// 				exit(EXIT_FAILURE);
+// 			f_fd = file_open_rd((*p_tok)->next->word);
+// 			dup2(f_fd, STDIN_FILENO);
+// 			close(f_fd);
+// 			execve(path[0], path, environ);
+// 		}
+// 		else
+// 			return ;
+// 	}
+// }
 
 int main(void)
 {
@@ -287,14 +291,15 @@ int main(void)
 					exit(1);
 				tok = tokenizer(str, tok);
 				*p_tok = tok;
-				do_cmd(p_tok);
+				// do_cmd(p_tok);
+				printf_token(p_tok);
 			}
 			else if (pid > 0)
 				wait(&status);
 			else
 				exit(1);
 		}
-		all_free_token(p_tok);
+		// all_free_token(p_tok);
 	}
 	exit(0);
 }
