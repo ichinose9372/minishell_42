@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 12:43:10 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/22 16:45:47 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:07:20 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef enum e_token_kind
 
 typedef struct s_token
 {
-	char	*word;
+	char			*word;
+	t_token_kind	kind;
 	struct s_token	*next;
 }	t_token;
 
