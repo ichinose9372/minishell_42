@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 12:43:10 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/22 15:58:10 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:12:34 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,20 @@
 
 extern char	**environ;
 
+typedef enum e_token_kind
+{
+	WORD,
+	PIPE,
+	OUTPUT,
+	INPUT,
+	ADD,
+	HEREDOC,
+}	t_token_kind;
+
 typedef struct s_token
 {
 	char	*word;
 	struct s_token	*next;
-	char	*test;
 }	t_token;
 
 
