@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/22 18:13:31 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/23 16:27:34 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,65 +195,149 @@ int tokensize(t_token *p_tok)
 	return (i);
 }
 
-void do_cmd(t_token **p_tok)
-{
-	char	**path;
-	int		fd[2];
-	pid_t	pid;
-	int		f_fd;
-	t_token	**tmp;
+// void do_cmd(t_token **p_tok)
+// {
+// 	char	**path;
+// 	int		fd[2];
+// 	pid_t	pid;
+// 	int		f_fd;
+// 	t_token	**tmp;
 
-	tmp = p_tok;
-	if ((*p_tok)->word && (*p_tok)->next == NULL)
+// 	while (1)
+// 	{
+// 		if ((*p_tok)->word && (*p_tok)->next == NULL)
+// 		{
+// 			path = split_arg((*p_tok)->word, environ);
+// 			execve(path[0], path, environ);
+// 		}
+// 		else
+// 		{
+// 			if (ft_strncmp((*p_tok)->next->word, "|", 1) == 0)
+// 			{
+// 				pipe(fd);
+// 				pid = fork();
+// 				if (pid == 0)
+// 				{
+// 					close(fd[READ]);
+// 					dup2(fd[WRITE], STDOUT_FILENO);
+// 					close(fd[WRITE]);
+// 					path = split_arg((*p_tok)->word, environ);
+// 					execve(path[0], path, environ);
+// 				}
+// 				else if (pid > 0)
+// 				{
+// 					*p_tok = (*p_tok)->next->next;
+// 					close(fd[WRITE]);
+// 					dup2(fd[READ], STDIN_FILENO);
+// 					close(fd[READ]);
+// 					path = split_arg((*p_tok)->word, environ);
+// 					execve(path[0], path, environ);
+// 				}
+// 			}
+// 			else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0
+// 				&& (*p_tok)->next->next != NULL)
+// 			{
+// 				f_fd = file_open_wrt((*p_tok)->next->next->word);
+// 				dup2(f_fd, STDOUT_FILENO);
+// 				close(f_fd);
+// 				path = split_arg((*p_tok)->word, environ);
+// 				execve(path[0], path, environ);
+// 			}
+// 			else if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
+// 			{
+// 				path = split_arg((*p_tok)->next->next->word, environ);
+// 				if (path[0] == NULL)
+// 					exit(EXIT_FAILURE);
+// 				f_fd = file_open_rd((*p_tok)->next->word);
+// 				dup2(f_fd, STDIN_FILENO);
+// 				close(f_fd);
+// 				execve(path[0], path, environ);
+// 			}
+// 		}
+// 	}
+// }
+// int pipe_check(t_token **p_tok)
+// {
+// 	while (p_tok)
+// 	{
+// 		if ((*p_tok)->word == "|")
+// 			return (1);
+// 		p_tok = (*p_tok)->next;
+// 	}
+// 	return (0);
+// }
+
+void do_cmd(t_token **p_tok, int input_fd, int output_fd)
+{
+	char **path;
+	int fd[2];
+	pid_t pid;
+	t_token *next_tok;
+	int		f_fd;
+
+	if ((*p_tok)->next && ft_strncmp((*p_tok)->next->word, "|", 1) == 0)
 	{
+		if (pipe(fd) == -1)
+			exit(EXIT_FAILURE);
+		pid = fork();
+		if (pid == -1)
+			exit(EXIT_FAILURE);
+		if (pid == 0)
+		{
+			if (input_fd != STDIN_FILENO)
+				dup2(input_fd, STDIN_FILENO);
+			close(fd[READ]);
+			dup2(fd[WRITE], STDOUT_FILENO);
+			close(fd[WRITE]);
+			path = split_arg((*p_tok)->word, environ);
+			execve(path[0], path, environ);
+			perror("exec");
+			exit(EXIT_FAILURE);
+		}
+		if (pid > 0)
+		{
+			close(fd[WRITE]);
+			do_cmd(&(*p_tok)->next->next, fd[READ], output_fd);
+			close(fd[READ]);
+			waitpid(pid, NULL, 0);
+		}
+	}
+	else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0 && (*p_tok)->next->next != NULL)
+	{
+		if (input_fd != 0)
+			dup2(input_fd, STDIN_FILENO);
+		f_fd = file_open_wrt((*p_tok)->next->next->word);
+		dup2(f_fd, STDOUT_FILENO);
+		path = split_arg((*p_tok)->word, environ);
+		execve(path[0], path, environ);
+	}
+	else if (ft_strncmp((*p_tok)->next->word, ">>", 2) == 0 && (*p_tok)->next->next != NULL)
+	{
+		if (input_fd != 0)
+			dup2(input_fd, STDIN_FILENO);
+		f_fd = file_open_wrt_add((*p_tok)->next->next->word);
+		dup2(f_fd, STDOUT_FILENO);
 		path = split_arg((*p_tok)->word, environ);
 		execve(path[0], path, environ);
 	}
 	else
 	{
-		if (ft_strncmp((*p_tok)->next->word, "|", 1) == 0)
+		pid = fork();
+		if (pid == -1)
+			exit(EXIT_FAILURE);
+		if (pid == 0)
 		{
-			pipe(fd);
-			pid = fork();
-			if (pid == 0)
-			{
-				close(fd[READ]);
-				dup2(fd[WRITE], STDOUT_FILENO);
-				close(fd[WRITE]);
-				path = split_arg((*p_tok)->word, environ);
-				execve(path[0], path, environ);
-			}
-			else if (pid > 0)
-			{
-				*p_tok = (*p_tok)->next->next;
-				close(fd[WRITE]);
-				dup2(fd[READ], STDIN_FILENO);
-				close(fd[READ]);
-				path = split_arg((*p_tok)->word, environ);
-				execve(path[0], path, environ);
-			}
-		}
-		else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0
-			&& (*p_tok)->next->next != NULL)
-		{
-			f_fd = file_open_wrt((*p_tok)->next->next->word);
-			dup2(f_fd, STDOUT_FILENO);
-			close(f_fd);
+			if (input_fd != 0)
+				dup2(input_fd, STDIN_FILENO);
+			if (output_fd != 1)
+				dup2(output_fd, STDOUT_FILENO);
 			path = split_arg((*p_tok)->word, environ);
 			execve(path[0], path, environ);
+			perror("exec");
+			exit(EXIT_FAILURE);
 		}
-		else if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
-		{
-			path = split_arg((*p_tok)->next->next->word, environ);
-			if (path[0] == NULL)
-				exit(EXIT_FAILURE);
-			f_fd = file_open_rd((*p_tok)->next->word);
-			dup2(f_fd, STDIN_FILENO);
-			close(f_fd);
-			execve(path[0], path, environ);
-		}
-		else
-			return ;
+		else if (pid > 0)
+			waitpid(pid, NULL, 0);
 	}
 }
 
@@ -286,7 +370,7 @@ int main(void)
 					exit(1);
 				tok = tokenizer(str, tok);
 				*p_tok = tok;
-				do_cmd(p_tok);
+				do_cmd(p_tok, 0, 1);
 			}
 			else if (pid > 0)
 				wait(&status);

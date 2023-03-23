@@ -6,7 +6,7 @@
 /*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 13:45:33 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/16 23:21:27 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/03/23 16:29:29 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	**split_arg(char *argv, char **envp);
 void	pipe_init(t_data *px);
 int		file_open_wrt(char *argv);
 int		file_open_rd(char	*argv);
+int		file_open_wrt_add(char *argv);
 void	chiled_1(char **argv, t_data *px, char **envp);
 void	chiled_2(char **argv, t_data *px, char **envp);
 void	check_arg(char	*argv, t_data *px, char	**envp);

@@ -1,0 +1,13 @@
+a
+a.out
+b
+chiled.c
+error.c
+libft
+main.c
+make_path.c
+many_pipe.c
+minishell.h
+pipe_file_init.c
+pipex.h
+test_readline.c
