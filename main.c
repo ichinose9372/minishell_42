@@ -6,7 +6,7 @@
 /*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/23 16:27:34 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/03/24 15:41:28 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,10 +269,10 @@ int tokensize(t_token *p_tok)
 
 void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 {
-	char **path;
-	int fd[2];
-	pid_t pid;
-	t_token *next_tok;
+	char	**path;
+	int		fd[2];
+	pid_t	pid;
+	t_token	*next_tok;
 	int		f_fd;
 
 	if ((*p_tok)->next && ft_strncmp((*p_tok)->next->word, "|", 1) == 0)
@@ -302,25 +302,7 @@ void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 			waitpid(pid, NULL, 0);
 		}
 	}
-	else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0 && (*p_tok)->next->next != NULL)
-	{
-		if (input_fd != 0)
-			dup2(input_fd, STDIN_FILENO);
-		f_fd = file_open_wrt((*p_tok)->next->next->word);
-		dup2(f_fd, STDOUT_FILENO);
-		path = split_arg((*p_tok)->word, environ);
-		execve(path[0], path, environ);
-	}
-	else if (ft_strncmp((*p_tok)->next->word, ">>", 2) == 0 && (*p_tok)->next->next != NULL)
-	{
-		if (input_fd != 0)
-			dup2(input_fd, STDIN_FILENO);
-		f_fd = file_open_wrt_add((*p_tok)->next->next->word);
-		dup2(f_fd, STDOUT_FILENO);
-		path = split_arg((*p_tok)->word, environ);
-		execve(path[0], path, environ);
-	}
-	else
+	else if ((*p_tok)->next == NULL)
 	{
 		pid = fork();
 		if (pid == -1)
@@ -338,6 +320,18 @@ void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 		}
 		else if (pid > 0)
 			waitpid(pid, NULL, 0);
+	}
+	else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0 && (*p_tok)->next->next != NULL)
+	{
+		if (ft_strncmp((*p_tok)->next->word, ">>", 2) == 0 && (*p_tok)->next->next != NULL)
+			f_fd = file_open_wrt_add((*p_tok)->next->next->word);
+		else
+			f_fd = file_open_wrt((*p_tok)->next->next->word);
+		if (input_fd != 0)
+			dup2(input_fd, STDIN_FILENO);
+		dup2(f_fd, STDOUT_FILENO);
+		path = split_arg((*p_tok)->word, environ);
+		execve(path[0], path, environ);
 	}
 }
 
