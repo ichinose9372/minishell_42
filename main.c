@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/24 22:34:01 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/24 22:56:41 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,18 @@ int ft_strncmp(const char *s1, const char *s2, size_t n)
 
 void    check_kind(t_token *tok)
 {
-    if (ft_strncmp((tok)->word, "|", 1) == 0)
-        tok->kind = PIPE;
-    else if (ft_strncmp((tok)->word, "<<", 2) == 0)
-        tok->kind = HEREDOC;
-    else if (ft_strncmp((tok)->word, ">>", 2) == 0)
-        tok->kind = ADD;
-    else if (ft_strncmp((tok)->word, "<", 1) == 0)
-        tok->kind = OUTPUT;
-    else if (ft_strncmp((tok)->word, ">", 1) == 0)
-        tok->kind = INPUT;
-    else
-        tok->kind = WORD;
+	if (ft_strncmp((tok)->word, "|", 1) == 0)
+		tok->kind = PIPE;
+	else if (ft_strncmp((tok)->word, "<<", 2) == 0)
+		tok->kind = HEREDOC;
+	else if (ft_strncmp((tok)->word, ">>", 2) == 0)
+		tok->kind = ADD;
+	else if (ft_strncmp((tok)->word, "<", 1) == 0)
+		tok->kind = OUTPUT;
+	else if (ft_strncmp((tok)->word, ">", 1) == 0)
+		tok->kind = INPUT;
+	else
+		tok->kind = WORD;
 }
 
 t_token *new_token(char *str, int start, int end)
