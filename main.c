@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/24 22:56:41 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/24 23:02:44 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,6 +292,7 @@ void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 			dup2(fd[WRITE], STDOUT_FILENO);
 			close(fd[WRITE]);
 			path = token_path(p_tok);
+			// path = split_arg((*p_tok)->word, environ);
 			execve(path[0], path, environ);
 			perror("exec");
 			exit(EXIT_FAILURE);
