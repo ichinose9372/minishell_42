@@ -6,7 +6,7 @@
 /*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 12:51:56 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/17 11:46:15 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/03/23 13:50:14 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	chiled_2(char **argv, t_data *px, char	**envp)
 		dup2(px->f_fd, STDOUT_FILENO);
 		close(px->f_fd);
 		px->error_num = execve(px->split_arg[0], px->split_arg, envp);
-		perror("exec");
 	}
 	else
 	{
