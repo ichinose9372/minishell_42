@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/22 18:48:09 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/24 22:34:01 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,18 @@ void make_token(t_token **tok, char *str, int start, int end)
 		(*tok)->word = new_strdup(&str[start], end - start);
 		if (!(*tok)->word)
 			exit(0);
+		check_kind(*tok);
 	}
 	else
 	{
 		(*tok)->next = new_token(str, start, end);
+		check_kind(*tok);
 		*tok = (*tok)->next;
 	}
 	(*tok)->next = NULL;
 }
 
-int operater_comp(char *str, int end)
+int operater_cmp(char *str, int end)
 {
 	if (ft_strncmp(&str[end], "|", 1) == 0)
 		return (1);
@@ -120,12 +122,12 @@ int operater_comp(char *str, int end)
 
 int operater_check(char *str, int *start, int *end, t_token **tok)
 {
-	if (operater_comp(str, *end))
+	if (operater_cmp(str, *end))
 	{
 		if (*start != *end)
 			return (1);
 		else
-			*end += operater_comp(str, *end);
+			*end += operater_cmp(str, *end);
 	}
 	else
 		return (0);
@@ -170,7 +172,10 @@ t_token *tokenizer(char *str, t_token *tok)
 			if (str[end] == '\'' || str[end] == '\"')
 			{
 				if (seartch_quote(str, start, &end))
+				{
+					printf("error\n");
 					exit(0);
+				}
 			}
 			end++;
 		}
@@ -185,6 +190,7 @@ void printf_token(t_token **p_tok)
 	while (*p_tok)
 	{
 		printf("%s\n", (*p_tok)->word);
+		printf("%d\n", (*p_tok)->kind);
 		p_tok = &(*p_tok)->next;
 	}
 }
@@ -199,80 +205,154 @@ void all_free_token(t_token **p_toke)
 		i++;
 	}
 }
-int tokensize(t_token *p_tok)
-{
-	int i;
 
-	i = 0;
-	while (p_tok)
+char	**token_path(t_token **p_tok)
+{
+	char	**argv;
+	int		i;
+	int		size;
+	t_token	**tmp_tok;
+
+	tmp_tok = p_tok;
+	size = 0;
+	while ((*tmp_tok))
 	{
-		p_tok = p_tok->next;
-		i++;
+		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">>", 2) == 0)
+			break ;
+		size++;
+		tmp_tok = &(*tmp_tok)->next;
 	}
-	return (i);
+	argv = malloc(sizeof(char *) * (size + 1));
+	tmp_tok = p_tok;
+	i = 0;
+	while (i < size)
+	{
+		argv[i] = ft_strdup((*tmp_tok)->word);
+		i++;
+		tmp_tok = &(*tmp_tok)->next;
+	}
+	argv[size] = NULL;
+	argv[0] = make_path(argv[0], environ);
+	return (argv);
+
 }
 
-void do_cmd(t_token **p_tok)
+int	check_no_operation(t_token **p_tok)
+{
+	t_token	**tmp;
+	int		ret;
+
+	tmp = p_tok;
+	ret = 0;
+	while ((*tmp))
+	{
+		if (ft_strncmp((*tmp)->word, "|", 1) == 0)
+		{
+			ret = 1;
+			return (ret);
+		}
+		else if (ft_strncmp((*tmp)->word, ">", 1) == 0)
+		{
+			if (ft_strncmp((*tmp)->word, ">>", 2) == 0)
+			{
+				ret = 3;
+				return (ret);
+			}
+			else
+			{
+				ret = 2;
+				return (ret);
+			}
+		}
+		tmp = &(*tmp)->next;
+	}
+	return (ret);
+}
+
+void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 {
 	char	**path;
 	int		fd[2];
 	pid_t	pid;
+	t_token	*next_tok;
 	int		f_fd;
-	t_token	**tmp;
 
-	tmp = p_tok;
-	if ((*p_tok)->word && (*p_tok)->next == NULL)
+	if (check_no_operation(p_tok) == 1)
 	{
-		path = split_arg((*p_tok)->word, environ);
-		execve(path[0], path, environ);
+		if (pipe(fd) == -1)
+			exit(EXIT_FAILURE);
+		pid = fork();
+		if (pid == -1)
+			exit(EXIT_FAILURE);
+		if (pid == 0)
+		{
+			if (input_fd != STDIN_FILENO)
+				dup2(input_fd, STDIN_FILENO);
+			close(fd[READ]);
+			dup2(fd[WRITE], STDOUT_FILENO);
+			close(fd[WRITE]);
+			path = token_path(p_tok);
+			execve(path[0], path, environ);
+			perror("exec");
+			exit(EXIT_FAILURE);
+		}
+		if (pid > 0)
+		{
+			close(fd[WRITE]);
+			while (ft_strncmp((*p_tok)->word, "|", 1) != 0)
+				p_tok = &(*p_tok)->next;
+			p_tok = &(*p_tok)->next;
+			do_cmd(p_tok, fd[READ], output_fd);
+			close(fd[READ]);
+			waitpid(pid, NULL, 0);
+		}
 	}
-	else
+	else if (check_no_operation(p_tok) == 0)
 	{
-		if (ft_strncmp((*p_tok)->next->word, "|", 1) == 0)
+		pid = fork();
+		if (pid == -1)
+			exit(EXIT_FAILURE);
+		if (pid == 0)
 		{
-			pipe(fd);
-			pid = fork();
-			if (pid == 0)
-			{
-				close(fd[READ]);
-				dup2(fd[WRITE], STDOUT_FILENO);
-				close(fd[WRITE]);
-				path = split_arg((*p_tok)->word, environ);
-				execve(path[0], path, environ);
-			}
-			else if (pid > 0)
-			{
-				*p_tok = (*p_tok)->next->next;
-				close(fd[WRITE]);
-				dup2(fd[READ], STDIN_FILENO);
-				close(fd[READ]);
-				path = split_arg((*p_tok)->word, environ);
-				execve(path[0], path, environ);
-			}
-		}
-		else if (ft_strncmp((*p_tok)->next->word, ">", 1) == 0
-			&& (*p_tok)->next->next != NULL)
-		{
-			f_fd = file_open_wrt((*p_tok)->next->next->word);
-			dup2(f_fd, STDOUT_FILENO);
-			close(f_fd);
-			path = split_arg((*p_tok)->word, environ);
+			if (input_fd != 0)
+				dup2(input_fd, STDIN_FILENO);
+			if (output_fd != 1)
+				dup2(output_fd, STDOUT_FILENO);
+			path = token_path(p_tok);
 			execve(path[0], path, environ);
+			perror("exec");
+			exit(EXIT_FAILURE);
 		}
-		else if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
+		else if (pid > 0)
+			waitpid(pid, NULL, 0);
+	}
+	else if (check_no_operation(p_tok) == 2 || check_no_operation(p_tok) == 3)
+	{
+		t_token	**tmp;
+
+		tmp = p_tok;
+		if (check_no_operation(p_tok) == 3)
 		{
-			path = split_arg((*p_tok)->next->next->word, environ);
-			if (path[0] == NULL)
-				exit(EXIT_FAILURE);
-			f_fd = file_open_rd((*p_tok)->next->word);
-			dup2(f_fd, STDIN_FILENO);
-			close(f_fd);
-			execve(path[0], path, environ);
+			while (ft_strncmp((*p_tok)->word, ">>", 2) != 0)
+				p_tok = &(*p_tok)->next;
+			p_tok = &(*p_tok)->next;
+			f_fd = file_open_wrt_add((*p_tok)->word);
 		}
 		else
-			return ;
+		{
+			while (ft_strncmp((*p_tok)->word, ">", 1) != 0)
+				p_tok = &(*p_tok)->next;
+			p_tok = &(*p_tok)->next;
+			f_fd = file_open_wrt((*p_tok)->word);
+		}
+		if (input_fd != 0)
+			dup2(input_fd, STDIN_FILENO);
+		dup2(f_fd, STDOUT_FILENO);
+		path = token_path(tmp);
+		execve(path[0], path, environ);
 	}
 }
+
 
 int main(void)
 {
@@ -300,7 +380,11 @@ int main(void)
 			{
 				tok = malloc(sizeof(t_token));
 				if (tok == NULL)
+				{
+					printf("malloc error\n");
 					exit(1);
+				}
+				tok->word = NULL;
 				tok = tokenizer(str, tok);
 				*p_tok = tok;
 				// do_cmd(p_tok);
