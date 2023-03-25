@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_file_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 16:50:07 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/24 15:33:49 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/03/25 16:19:41 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 int	file_open_rd(char	*argv)
 {
@@ -49,12 +49,4 @@ int	file_open_wrt_add(char	*argv)
 		exit(EXIT_FAILURE);
 	}
 	return (fd);
-}
-
-void	pipe_init(t_data *px)
-{
-	px->pid[0] = 0;
-	px->pid[1] = 0;
-	if (pipe(px->p_fd) < 0)
-		exit(EXIT_FAILURE);
 }

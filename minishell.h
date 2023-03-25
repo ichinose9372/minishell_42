@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/16 12:43:10 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/25 16:56:11 by stakimot         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -17,14 +6,14 @@
 # include <stdlib.h>
 # include <string.h>
 # include "libft/libft.h"
-# include "pipex.h"
 # include <fcntl.h>
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
-
 extern char	**environ;
+# define READ	0
+# define WRITE	1
 
 typedef enum e_token_kind
 {
@@ -50,4 +39,37 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+// env
+t_env	*new_env(char *str);
+t_env	*make_env();
+
+// tokenize
+t_token	*tokenizer(char *str, t_token *tok);
+int		space_check(char *str, int start);
+int		operater_check(char *str, int *start, int *end, t_token **tok);
+int		seartch_quote(char *str, int start, int *end);
+void	make_token(t_token **tok, char *str, int start, int end);
+char	*new_strdup(const char *s1, int size);
+t_token	*new_token(char *str, int start, int end);
+int		operater_comp(char *str, int end);
+
+// exec
+char	**envp_make_path(char **envp);
+char	*make_path(char *split_arg, char **envp);
+char	**envp_make_path(char **envp);
+char	*serch_path(char	*tmp, char **env_split);
+char	*make_path(char *split_arg, char **envp);
+char	**token_path(t_token **p_tok);
+int		check_no_operation(t_token **p_tok);
+void	do_cmd(t_token **p_tok, int input_fd, int output_fd);
+
+// file oparate
+int		file_open_wrt(char *argv);
+int		file_open_rd(char	*argv);
+int		file_open_wrt_add(char *argv);
+
+// free
+void	all_free(char **env_split);
+void	all_free_and_tmp(char *tmp, char **env_split);
+void	command_not_found(char *str);
 #endif
