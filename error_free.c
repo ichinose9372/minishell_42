@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   error_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 16:58:43 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/15 11:17:57 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/25 16:19:15 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 void	command_not_found(char *str)
 {
@@ -30,6 +30,21 @@ void	all_free(char **env_split)
 		i++;
 	}
 	free(env_split);
+}
+
+void	all_free_token(t_token **p_tok)
+{
+	size_t	i;
+	t_token	*tmp;
+
+	i = 0;
+	while ((*p_tok))
+	{
+		tmp = (*p_tok)->next;
+		free((*p_tok));
+		*p_tok = tmp;
+	}
+	p_tok = NULL;
 }
 
 void	all_free_and_tmp(char *tmp, char **env_split)
