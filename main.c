@@ -21,7 +21,6 @@ int main(void)
 	int status;
 	t_token **p_tok;
 	t_token *tok;
-	t_env	*env;
 
 	env = make_env();
 	p_tok = malloc(sizeof(t_token *));
@@ -47,7 +46,7 @@ int main(void)
 				}
 				tok->word = NULL;
 				tok = tokenizer(str, tok);
-				p_tok = expantion(tok);
+				p_tok = expansion(tok);
 				// *p_tok = tok;
 				// do_cmd(p_tok, 0, 1);
 				// print_token(p_tok);
