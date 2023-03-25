@@ -13,6 +13,7 @@ SRCS	=	main.c\
 			tokenize.c\
 			tokenize_utils.c\
 			error_free.c\
+			env.c\
 
 HEAD_FILE	=	minishell.h
 
