@@ -3,6 +3,17 @@
 #include <stdlib.h>
 #include "minishell.h"
 
+t_env	*env;
+
+void	print_token(t_token **tok)
+{
+	while (tok)
+	{
+		printf("%s\n", (*tok)->word);
+		*tok = (*tok)->next;
+	}
+}
+
 int main(void)
 {
 	char *str;
@@ -36,9 +47,10 @@ int main(void)
 				}
 				tok->word = NULL;
 				tok = tokenizer(str, tok);
-				*p_tok = tok;
-				// do_cmd(p_tok);
-				printf_token(p_tok);
+				p_tok = expantion(tok);
+				// *p_tok = tok;
+				// do_cmd(p_tok, 0, 1);
+				// print_token(p_tok);
 			}
 			else if (pid > 0)
 				wait(&status);

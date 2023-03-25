@@ -15,6 +15,7 @@ extern char	**environ;
 # define READ	0
 # define WRITE	1
 
+
 typedef enum e_token_kind
 {
 	WORD,
@@ -39,6 +40,8 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+extern t_env	*env;
+
 // env
 t_env	*new_env(char *str);
 t_env	*make_env(void);
@@ -52,6 +55,9 @@ void	make_token(t_token **tok, char *str, int start, int end);
 char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
 int		operater_comp(char *str, int end);
+
+// expantion
+t_token	**expansion(t_token *tok);
 
 // exec
 char	**envp_make_path(char **envp);
