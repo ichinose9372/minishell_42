@@ -32,6 +32,17 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+// env
+t_env	*new_env(char *str);
+t_env	*make_env();
+
 // tokenize
 t_token	*tokenizer(char *str, t_token *tok);
 int		space_check(char *str, int start);
