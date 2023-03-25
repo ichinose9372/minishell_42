@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 12:43:10 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/22 18:07:20 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/25 16:56:11 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 #endif

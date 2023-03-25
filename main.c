@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/14 16:12:27 by stakimot          #+#    #+#             */
-/*   Updated: 2023/03/24 23:02:44 by stakimot         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "minishell.h"
@@ -182,6 +170,44 @@ t_token *tokenizer(char *str, t_token *tok)
 		if (str[start] != '\0')
 			make_token(&tok, str, start, end);
 	}
+	return (tmp);
+}
+
+t_env	*new_env(char *str)
+{
+	t_env	*env;
+	size_t	cnt;
+	size_t	tmp;
+
+	cnt = 0;
+	env = (t_env *)malloc(sizeof(t_env));
+	while (str[cnt] != '=')
+		cnt++;
+	env->name = new_strdup(str, cnt);
+	cnt++;
+	tmp = cnt;
+	while (str[cnt])
+		cnt++;
+	env->value = new_strdup(&str[tmp], cnt - tmp);
+	return (env);
+}
+
+t_env	*make_env()
+{
+	t_env	*env;
+	t_env	*tmp;
+	extern char	**environ;
+	size_t	cnt;
+
+	cnt = 0;
+	env = new_env(environ[cnt++]);
+	tmp = env;
+	while (environ[cnt])
+	{
+		env->next = new_env(environ[cnt++]);
+		env = env->next;
+	}
+	env = NULL;
 	return (tmp);
 }
 
@@ -363,6 +389,9 @@ int main(void)
 	int i;
 	t_token **p_tok;
 	t_token *tok;
+	t_env	*env;
+
+	env = make_env();
 
 	p_tok = malloc(sizeof(t_token *));
 	if (p_tok == NULL)
