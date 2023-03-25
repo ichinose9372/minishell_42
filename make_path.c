@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   make_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:41:12 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/18 18:07:36 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/03/25 16:19:26 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 char	**envp_make_path(char **envp)
 {
@@ -77,17 +77,32 @@ char	*make_path(char *argv, char **envp)
 	return (path);
 }
 
-char	**split_arg(char *argv, char **envp)
+char	**token_path(t_token **p_tok)
 {
-	char	**tmp;
+	char	**argv;
+	int		i;
+	int		size;
+	t_token	**tmp_tok;
 
-	if (argv == NULL || *argv == '\0')
-		return (NULL);
-	tmp = ft_split(argv, ' ');
-	if (tmp == NULL)
-		return (NULL);
-	tmp[0] = make_path(tmp[0], envp);
-	if (tmp[0] == NULL)
-		return (NULL);
-	return (tmp);
+	tmp_tok = p_tok;
+	size = 0;
+	while ((*tmp_tok))
+	{
+		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">>", 2) == 0)
+			break ;
+		size++;
+		tmp_tok = &(*tmp_tok)->next;
+	}
+	argv = malloc(sizeof(char *) * (size + 1));
+	tmp_tok = p_tok;
+	i = 0;
+	while (i < size)
+	{
+		argv[i] = ft_strdup((*tmp_tok)->word);
+		i++;
+		tmp_tok = &(*tmp_tok)->next;
+	}
+	argv[size] = NULL;
+	argv[0] = make_path(argv[0], environ);
+	return (argv);
 }
