@@ -7,10 +7,13 @@ t_env	*env;
 
 void	print_token(t_token **tok)
 {
-	while (tok)
+	t_token	*tmp;
+
+	tmp = *tok;
+	while (tmp)
 	{
-		printf("%s\n", (*tok)->word);
-		*tok = (*tok)->next;
+		printf("tok:%s\n", tmp->word);
+		tmp = tmp->next;
 	}
 }
 
@@ -23,7 +26,7 @@ int main(void)
 	t_token *tok;
 
 	env = make_env();
-	p_tok = malloc(sizeof(t_token *));
+	p_tok = (t_token **)malloc(sizeof(t_token *));
 	if (p_tok == NULL)
 		exit(1);
 	rl_outstream = stderr;
@@ -46,10 +49,8 @@ int main(void)
 				}
 				tok->word = NULL;
 				tok = tokenizer(str, tok);
-				p_tok = expansion(tok);
-				// *p_tok = tok;
-				// do_cmd(p_tok, 0, 1);
-				// print_token(p_tok);
+				expansion(tok, p_tok);
+				do_cmd(p_tok, 0, 1);
 			}
 			else if (pid > 0)
 				wait(&status);

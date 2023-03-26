@@ -34,7 +34,7 @@ char	*new_strjoin(char const *s1, char const *s2, size_t s2_len)
 
 bool	check_variable(char *src, size_t *cnt)
 {
-	if (!ft_isalpha(src[*cnt]))
+	if (!ft_isalpha(src[*cnt]) && src[*cnt] != '_')
 		return (false);
 	*cnt += 1;
 	while (src[*cnt])
@@ -69,7 +69,7 @@ size_t	variable_expansion(char **dest, char *src)
 	char	*name;
 
 	cnt = 1;
-	if (src[cnt] == '\0' || src[cnt] == '\"')
+	if (src[cnt] == '\0' || src[cnt] == '\"' || src[cnt] == '\"')
 	{
 		tmp = new_strjoin(*dest, src, 1);
 		free(*dest);
@@ -106,7 +106,7 @@ size_t	double_expansion(char **dest, char *src)
 		else
 			cnt++;
 	}
-	tmp = new_strjoin(*dest, src, cnt - last_cnt);
+	tmp = new_strjoin(*dest, &src[last_cnt], cnt - last_cnt);
 	free(*dest);
 	*dest = tmp;
 	return (cnt + 2);
@@ -137,13 +137,12 @@ size_t	char_expansion(char **dest, char *src)
 	return (1);
 }
 
-t_token	*expansion(t_token *tok)
+void	expansion(t_token *tok, t_token **p_tok)
 {
-	t_token	*p_tok;
 	char	*new_word;
 	size_t	cnt;
 
-	p_tok = tok;
+	*p_tok = tok;
 	while (tok)
 	{
 		new_word = NULL;
@@ -160,10 +159,9 @@ t_token	*expansion(t_token *tok)
 				cnt += char_expansion(&new_word, &tok->word[cnt]);
 		}
 		free(tok->word);
+		if (!new_word)
+			new_word = ft_calloc(1, 1);
 		tok->word = new_word;
-		free(new_word);
-		printf("%s\n", tok->word);
 		tok = tok->next;
-	}
-	return (p_tok);
+	}\
 }

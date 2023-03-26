@@ -34,6 +34,7 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+//double pointer
 typedef struct s_env
 {
 	char			*name;
@@ -58,7 +59,7 @@ t_token	*new_token(char *str, int start, int end);
 int		operater_comp(char *str, int end);
 
 // expantion
-t_token	*expansion(t_token *tok);
+void	expansion(t_token *tok, t_token **p_tok);
 
 // exec
 char	**envp_make_path(char **envp);

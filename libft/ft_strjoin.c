@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 21:04:20 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/26 03:12:24 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/03/26 15:43:36 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*str;
 	char	*str_new;
 
+	if (!s1 && !s2)
+		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
 	if (!s2)
 		return (ft_strdup(s1));
-	if (!s1 && !s2)
-		return (NULL);
 	len = ft_strlen(s1) + ft_strlen(s2);
 	str = (char *)malloc(len + 1);
 	if (str == NULL)
