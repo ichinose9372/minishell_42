@@ -15,6 +15,7 @@
 extern char	**environ;
 # define READ	0
 # define WRITE	1
+# define PATH_SIZE	512
 
 
 typedef enum e_token_kind
@@ -83,4 +84,7 @@ void	command_not_found(char *str);
 
 // テスト用
 void	print_token(t_token **tok);
+
+// builtin
+bool	builtin_pwd(t_token **p_tok);
 #endif

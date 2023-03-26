@@ -15,6 +15,7 @@ SRCS	=	main.c\
 			error_free.c\
 			env.c\
 			expansion.c\
+			pwd.c\
 
 HEAD_FILE	=	minishell.h
 
