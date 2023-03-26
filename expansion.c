@@ -51,7 +51,7 @@ char	*new_getenv(char *name)
 	t_env	*tmp;
 	size_t	len;
 
-	tmp = env;
+	tmp = *env;
 	len = ft_strlen(name);
 	while (tmp)
 	{

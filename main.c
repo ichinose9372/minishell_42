@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "minishell.h"
 
-t_env	*env;
+t_env	**env;
 
 void	print_token(t_token **tok)
 {
@@ -25,7 +25,7 @@ int main(void)
 	t_token **p_tok;
 	t_token *tok;
 
-	env = make_env();
+	make_env();
 	p_tok = (t_token **)malloc(sizeof(t_token *));
 	if (p_tok == NULL)
 		exit(1);
