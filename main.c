@@ -3,6 +3,20 @@
 #include <stdlib.h>
 #include "minishell.h"
 
+t_env	*env;
+
+void	print_token(t_token **tok)
+{
+	t_token	*tmp;
+
+	tmp = *tok;
+	while (tmp)
+	{
+		printf("tok:%s\n", tmp->word);
+		tmp = tmp->next;
+	}
+}
+
 int main(void)
 {
 	char *str;
@@ -10,10 +24,9 @@ int main(void)
 	int status;
 	t_token **p_tok;
 	t_token *tok;
-	t_env	*env;
 
 	env = make_env();
-	p_tok = malloc(sizeof(t_token *));
+	p_tok = (t_token **)malloc(sizeof(t_token *));
 	if (p_tok == NULL)
 		exit(1);
 	rl_outstream = stderr;
@@ -36,9 +49,8 @@ int main(void)
 				}
 				tok->word = NULL;
 				tok = tokenizer(str, tok);
-				*p_tok = tok;
-				// do_cmd(p_tok);
-				printf_token(p_tok);
+				expansion(tok, p_tok);
+				do_cmd(p_tok, 0, 1);
 			}
 			else if (pid > 0)
 				wait(&status);
