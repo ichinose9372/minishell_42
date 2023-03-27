@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	space_check(char *str, int start)

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_cmd.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/25 16:13:23 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/26 16:35:23 by ichinoseyuu      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	check_no_operation(t_token **p_tok)
@@ -115,6 +103,11 @@ void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 				dup2(input_fd, STDIN_FILENO);
 			if (output_fd != 1)
 				dup2(output_fd, STDOUT_FILENO);
+			// if (!ft_strncmp((*p_tok)->word, "pwd", 4))
+			// {
+			// 	printf("test\n");
+			// 	builtin_pwd(p_tok);
+			// }
 			path = token_path(p_tok);
 			execve(path[0], path, environ);
 			perror("exec");

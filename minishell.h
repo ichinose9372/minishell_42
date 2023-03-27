@@ -1,4 +1,3 @@
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -10,10 +9,13 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
 
 extern char	**environ;
 # define READ	0
 # define WRITE	1
+# define PATH_SIZE	512
+
 
 typedef enum e_token_kind
 {
@@ -32,6 +34,7 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+//double pointer
 typedef struct s_env
 {
 	char			*name;
@@ -39,9 +42,11 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+extern t_env	**env;
+
 // env
 t_env	*new_env(char *str);
-t_env	*make_env(void);
+void	make_env(void);
 
 // tokenize
 t_token	*tokenizer(char *str, t_token *tok);
@@ -52,6 +57,9 @@ void	make_token(t_token **tok, char *str, int start, int end);
 char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
 int		operater_comp(char *str, int end);
+
+// expantion
+void	expansion(t_token *tok, t_token **p_tok);
 
 // exec
 char	**envp_make_path(char **envp);
@@ -72,6 +80,10 @@ int		file_open_wrt_add(char *argv);
 void	all_free(char **env_split);
 void	all_free_token(t_token **p_tok);
 void	command_not_found(char *str);
-void	all_free_and_tmp(char *tmp, char **env_split);
 
+// テスト用
+void	print_token(t_token **tok);
+
+// builtin
+bool	builtin_pwd(t_token **p_tok);
 #endif

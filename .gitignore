@@ -1,4 +1,6 @@
 a.out
 *.o
+/*.o
 .DS_Store
+/*.a
 minishell

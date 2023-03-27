@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   error_free.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/26 16:58:43 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/26 13:00:02 by ichinoseyuu      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	command_not_found(char *str)
@@ -34,8 +22,10 @@ void	all_free(char **env_split)
 
 void	all_free_token(t_token **p_tok)
 {
+	// size_t	i;
 	t_token	*tmp;
 
+	// i = 0;
 	while ((*p_tok))
 	{
 		tmp = (*p_tok)->next;
