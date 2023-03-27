@@ -92,5 +92,10 @@ char	**token_path(t_token **p_tok)
 	}
 	argv[size] = NULL;
 	argv[0] = make_path(argv[0], environ);
+	while (argv[i])
+	{
+		printf("%s\n", argv[i]);
+		i++;
+	}
 	return (argv);
 }

@@ -24,35 +24,32 @@ LIBFT	=	$(LIBFT_DIR)/libft.a
 
 RM	=	rm -rf
 
-OBJ_DIR =	obj
+OBJ_DIR	=	obj
 
 OBJS	=	$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 .PHONY:	all clean fclean re
 
-$(shell mkdir -p $(OBJ_DIR))
+all: $(NAME)
 
-all : $(NAME)
-
-$(NAME) : $(OBJS) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LFLAGS) -o $@
 
-$(OBJ_DIR)/%.o: %.c $(HEAD_FILE)
+$(OBJ_DIR)/%.o: %.c $(HEAD_FILE) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT) :
+$(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 clean:
 	$(RM) $(OBJ_DIR)
 	$(MAKE) clean -C $(LIBFT_DIR)
 
-fclean:	clean
+fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) fclean -C $(LIBFT_DIR)
-	$(RM) $(OBJS)
 
-$(OBJS): | $(OBJ_DIR)
-
-re:		fclean all
-
+re: fclean all
