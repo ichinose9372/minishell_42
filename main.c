@@ -10,9 +10,9 @@ int main(void)
 	int status;
 	t_token **p_tok;
 	t_token *tok;
-	t_env	*env;
+	// t_env	*env;
 
-	env = make_env();
+	// env = make_env();
 	p_tok = malloc(sizeof(t_token *));
 	if (p_tok == NULL)
 		exit(1);
@@ -34,18 +34,17 @@ int main(void)
 					printf("malloc error\n");
 					exit(1);
 				}
-				tok->word = NULL;
+				tok->next = NULL;
 				tok = tokenizer(str, tok);
 				*p_tok = tok;
-				// do_cmd(p_tok);
-				printf_token(p_tok);
+				do_cmd(p_tok, 0, 1);
 			}
 			else if (pid > 0)
 				wait(&status);
 			else
 				exit(1);
 		}
-		// all_free_token(p_tok);
+		all_free_token(p_tok);
 	}
 	exit(0);
 }

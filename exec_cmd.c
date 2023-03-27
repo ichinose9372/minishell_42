@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 16:13:23 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/25 18:04:31 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/26 16:35:23 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,17 @@ int	check_no_operation(t_token **p_tok)
 		}
 		else if (ft_strncmp((*tmp)->word, "<", 1) == 0)
 		{
+			if (ft_strncmp((*tmp)->word, "<<", 2) == 0)
+			{
+				ret = 5;
+				return (ret);
+			}
 			ret = 4;
+			return (ret);
+		}
+		else if (ft_strncmp((*tmp)->word, "<<", 2) == 0)
+		{
+			ret = 5;
 			return (ret);
 		}
 		tmp = &(*tmp)->next;
@@ -56,7 +66,14 @@ void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 	pid_t	pid;
 	int		f_fd;
 	t_token	**tmp;
+	char	*str;
+	char	*str2;
+	char	*tmp_str;
+	char	*c;
 
+	path = NULL;
+	if(p_tok == NULL)
+		exit(EXIT_FAILURE);
 	if (check_no_operation(p_tok) == 1)
 	{
 		if (pipe(fd) == -1)
@@ -134,10 +151,8 @@ void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 		if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
 		{
 			f_fd = file_open_rd((*p_tok)->next->word);
-			dup2(f_fd, STDIN_FILENO);
 			p_tok = &(*p_tok)->next->next;
-			path = token_path(p_tok);
-			execve(path[0], path, environ);
+			do_cmd(p_tok, f_fd, 1);
 		}
 		else
 		{
@@ -151,6 +166,37 @@ void do_cmd(t_token **p_tok, int input_fd, int output_fd)
 			dup2(f_fd, STDIN_FILENO);
 			path = token_path(tmp);
 			execve(path[0], path, environ);
+		}
+	}
+	else if (check_no_operation(p_tok) == 5)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			pipe(fd);
+			c = " ";
+			str2 = malloc(sizeof(char) * 1);
+			while (1)
+			{
+				str = readline("> ");
+				if (ft_strncmp(str, (*p_tok)->next->next->word, ft_strlen(str)) == 0)
+					break ;
+				tmp_str = ft_strjoin(str, c);
+				str2 = ft_strjoin(str2, tmp_str);
+			}
+			c = "\n";
+			str2 = ft_strjoin(str2, c);
+			write(fd[1], str2, ft_strlen(str2));
+			dup2(fd[0], STDIN_FILENO);
+			path = token_path(p_tok);
+			close(fd[0]);
+			close(fd[1]);
+			execve(path[0], path, environ);
+		}
+		else if (pid > 0)
+		{
+			wait(NULL);
+			exit(1);
 		}
 	}
 }

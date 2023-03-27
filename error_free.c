@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 16:58:43 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/25 16:19:15 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/26 13:00:02 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ void	all_free(char **env_split)
 
 void	all_free_token(t_token **p_tok)
 {
-	size_t	i;
 	t_token	*tmp;
 
-	i = 0;
 	while ((*p_tok))
 	{
 		tmp = (*p_tok)->next;

@@ -19,7 +19,7 @@ t_env	*new_env(char *str)
 	return (env);
 }
 
-t_env	*make_env()
+t_env	*make_env(void)
 {
 	t_env	*env;
 	t_env	*tmp;
