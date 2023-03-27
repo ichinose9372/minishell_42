@@ -46,7 +46,7 @@ int main(void)
 					printf("malloc error\n");
 					exit(1);
 				}
-				tok->word = NULL;
+				tok->next = NULL;
 				tok = tokenizer(str, tok);
 				expansion(tok, p_tok);
 				do_cmd(p_tok, 0, 1);
@@ -56,7 +56,7 @@ int main(void)
 			else
 				exit(1);
 		}
-		// all_free_token(p_tok);
+		all_free_token(p_tok);
 	}
 	exit(0);
 }

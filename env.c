@@ -34,5 +34,6 @@ void	make_env(void)
 		tmp->next = new_env(environ[cnt++]);
 		tmp = tmp->next;
 	}
-	tmp = NULL;
+	env = NULL;
+	return (tmp);
 }

@@ -76,7 +76,7 @@ char	**token_path(t_token **p_tok)
 	size = 0;
 	while ((*tmp_tok))
 	{
-		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">>", 2) == 0)
+		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">>", 2) == 0 || ft_strncmp((*tmp_tok)->word, "<<", 2) == 0 || ft_strncmp((*tmp_tok)->word, "<", 2) == 0)
 			break ;
 		size++;
 		tmp_tok = &(*tmp_tok)->next;

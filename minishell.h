@@ -78,7 +78,7 @@ int		file_open_wrt_add(char *argv);
 
 // free
 void	all_free(char **env_split);
-void	all_free_and_tmp(char *tmp, char **env_split);
+void	all_free_token(t_token **p_tok);
 void	command_not_found(char *str);
 
 // テスト用
