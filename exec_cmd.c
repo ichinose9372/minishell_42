@@ -103,14 +103,14 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 				dup2(input_fd, STDIN_FILENO);
 			if (output_fd != 1)
 				dup2(output_fd, STDOUT_FILENO);
-			if (!ft_strncmp((*p_tok)->word, "pwd", 4))
+			if (ft_strncmp((*p_tok)->word, "pwd", 4) == 0)
 			{
 			// 	printf("test\n");
 				builtin_pwd(p_tok);
 			}
-			// path = token_path(p_tok);
-			// execve(path[0], path, environ);
-			// perror("exec");
+			path = token_path(p_tok);
+			execve(path[0], path, environ);
+			perror("exec");
 			exit(EXIT_FAILURE);
 		}
 		else if (pid > 0)
@@ -166,19 +166,20 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 		pid = fork();
 		if (pid == 0)
 		{
+			tmp = p_tok;
+			while (ft_strncmp((*tmp)->word, "<<", 2) != 0)
+				tmp = &(*tmp)->next;
 			pipe(fd);
-			c = " ";
+			c = "\n";
 			str2 = malloc(sizeof(char) * 1);
 			while (1)
 			{
 				str = readline("> ");
-				if (ft_strncmp(str, (*p_tok)->next->next->word, ft_strlen(str)) == 0)
+				if (ft_strncmp(str, (*tmp)->next->word, ft_strlen(str)) == 0)
 					break ;
 				tmp_str = ft_strjoin(str, c);
 				str2 = ft_strjoin(str2, tmp_str);
 			}
-			c = "\n";
-			str2 = ft_strjoin(str2, c);
 			write(fd[1], str2, ft_strlen(str2));
 			dup2(fd[0], STDIN_FILENO);
 			path = token_path(p_tok);
