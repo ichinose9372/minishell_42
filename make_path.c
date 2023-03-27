@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   make_path.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 15:41:12 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/25 16:19:26 by yichinos         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 char	**envp_make_path(char **envp)
@@ -88,7 +76,7 @@ char	**token_path(t_token **p_tok)
 	size = 0;
 	while ((*tmp_tok))
 	{
-		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">>", 2) == 0)
+		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">>", 2) == 0 || ft_strncmp((*tmp_tok)->word, "<<", 2) == 0 || ft_strncmp((*tmp_tok)->word, "<", 2) == 0)
 			break ;
 		size++;
 		tmp_tok = &(*tmp_tok)->next;
