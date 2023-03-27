@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 16:13:23 by yichinos          #+#    #+#             */
-/*   Updated: 2023/03/25 18:04:31 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:47:28 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_no_operation(t_token **p_tok)
 	return (ret);
 }
 
-void do_cmd(t_token **p_tok, int input_fd, int output_fd)
+void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 {
 	char	**path;
 	int		fd[2];

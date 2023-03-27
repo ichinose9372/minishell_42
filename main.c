@@ -37,7 +37,7 @@ int main(void)
 				tok->word = NULL;
 				tok = tokenizer(str, tok);
 				*p_tok = tok;
-				// do_cmd(p_tok);
+				do_cmd(p_tok);
 				printf_token(p_tok);
 			}
 			else if (pid > 0)
