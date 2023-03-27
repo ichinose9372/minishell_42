@@ -19,7 +19,7 @@ t_env	*new_env(char *str)
 	return (node);
 }
 
-void	make_env(void)
+t_env	*make_env(void)
 {
 	t_env	*tmp;
 	extern char	**environ;
