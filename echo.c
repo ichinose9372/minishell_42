@@ -19,7 +19,7 @@ int	builtin_echo(t_token **p_tok)
 	{
 		ft_putstr_fd(tmp->word, 1);
 		tmp = tmp->next;
-		if (tmp && operater_comp(tmp->word, 0) != 0)
+		if (tmp && operater_comp(tmp->word, 0) == 0)
 			ft_putchar_fd(' ', 1);
 	}
 	if (flag == 0)
