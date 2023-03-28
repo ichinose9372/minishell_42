@@ -11,7 +11,7 @@ void	print_token(t_token **tok)
 	tmp = *tok;
 	while (tmp)
 	{
-		printf("tok:%s\n", tmp->word);
+		printf("tok:%s\t%p\n", tmp->word, tmp->next);
 		tmp = tmp->next;
 	}
 }
@@ -21,17 +21,22 @@ int	main(void)
 	char	*str;
 	t_token	**p_tok;
 	t_token	*tok;
+	pid_t	pid;
 
-	p_tok = (t_token **)malloc(sizeof(t_token *));
-	if (p_tok == NULL)
-		exit(1);
 	make_env();
 	rl_outstream = stderr;
 	while (1)
 	{
+		p_tok = (t_token **)malloc(sizeof(t_token *));
+		if (p_tok == NULL)
+			exit(1);
 		str = readline("mini_shell$ ");
 		if (str == NULL)
 			exit(1);
+		else if (*str == '\0')
+		{
+			free(p_tok);
+		}
 		else
 		{
 			tok = malloc(sizeof(t_token));
@@ -41,13 +46,16 @@ int	main(void)
 				exit(1);
 			}
 			add_history(str);
-			tok->next = NULL;
+			tok->word = NULL;
 			tok = tokenizer(str, tok);
-			printf("tok (1) %p\n", tok);
 			expansion(tok, p_tok);
-			do_cmd(p_tok, 0, 1);
+			pid = fork();
+			if (pid == 0)
+				do_cmd(p_tok, 0, 1);
+			else
+				wait(NULL);
+			all_free_token(p_tok);
 		}
-		all_free_token(p_tok);
 	}
 	exit(0);
 }

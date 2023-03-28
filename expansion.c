@@ -142,9 +142,7 @@ void	expansion(t_token *tok, t_token **p_tok)
 	char	*new_word;
 	size_t	cnt;
 
-	printf("tok (2) %p\n", tok);
 	*p_tok = tok;
-	printf("p_tok (2) %p\n", *p_tok);
 	while (tok)
 	{
 		new_word = NULL;
@@ -165,5 +163,5 @@ void	expansion(t_token *tok, t_token **p_tok)
 			new_word = ft_calloc(1, 1);
 		tok->word = new_word;
 		tok = tok->next;
-	}\
+	}
 }
