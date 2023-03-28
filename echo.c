@@ -5,7 +5,6 @@ int	builtin_echo(t_token **p_tok)
 	t_token	*tmp;
 	int		flag;
 
-	printf("!!!test\n");
 	if ((*p_tok)->next == NULL)
 		return (0);
 	tmp = (*p_tok)->next;
