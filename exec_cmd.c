@@ -104,15 +104,18 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 			{
 				builtin_pwd(p_tok);
 			}
-			if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
+			else if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
 			{
-				printf("test1\n");
+				printf("test5\n");
 				builtin_echo(p_tok);
 			}
-			path = token_path(p_tok);
-			execve(path[0], path, environ);
-			perror("exec");
-
+			else
+			{
+				printf("test6\n");
+				path = token_path(p_tok);
+				execve(path[0], path, environ);
+				perror("exec");
+			}
 			exit(EXIT_FAILURE);
 		}
 		else if (pid > 0)
@@ -140,11 +143,15 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 		dup2(f_fd, STDOUT_FILENO);
 		if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
 			{
-				printf("test\n");
+				printf("test2\n");
 				builtin_echo(p_tok);
 			}
-		path = token_path(tmp);
-		execve(path[0], path, environ);
+		else
+		{
+			printf("test3\n");
+			path = token_path(tmp);
+			execve(path[0], path, environ);
+		}
 	}
 	else if (check_no_operation(p_tok) == 4)
 	{
