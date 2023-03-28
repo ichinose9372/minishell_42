@@ -88,4 +88,5 @@ void	print_token(t_token **tok);
 // builtin
 bool	builtin_pwd(t_token **p_tok);
 int		builtin_echo(t_token **p_tok);
+int		builtin_cd(t_token **p_tok);
 #endif

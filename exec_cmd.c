@@ -81,7 +81,7 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 		if (pid > 0)
 		{
 			close(fd[WRITE]);
-			while (ft_strncmp((*p_tok)->word, "|", 1) != 0)
+			while (ft_strncmp((*p_tok)->word, "|", 2) != 0)
 				p_tok = &(*p_tok)->next;
 			p_tok = &(*p_tok)->next;
 			do_cmd(p_tok, fd[READ], output_fd);
@@ -101,11 +101,11 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 			if (output_fd != 1)
 				dup2(output_fd, STDOUT_FILENO);
 			if (ft_strncmp((*p_tok)->word, "pwd", 4) == 0)
-			{
 				builtin_pwd(p_tok);
-			}
 			else if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
 				builtin_echo(p_tok);
+			else if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
+				builtin_cd(p_tok);
 			else
 			{
 				path = token_path(p_tok);
