@@ -16,13 +16,13 @@ void	print_token(t_token **tok)
 	}
 }
 
-int main(void)
+int	main(void)
 {
-	char *str;
-	pid_t pid;
-	int status;
-	t_token **p_tok;
-	t_token *tok;
+	char	*str;
+	pid_t	pid;
+	int		status;
+	t_token	**p_tok;
+	t_token	*tok;
 
 	make_env();
 	p_tok = (t_token **)malloc(sizeof(t_token *));
