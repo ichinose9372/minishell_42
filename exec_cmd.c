@@ -73,9 +73,7 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 			close(fd[READ]);
 			dup2(fd[WRITE], STDOUT_FILENO);
 			close(fd[WRITE]);
-			if (ft_strncmp((*p_tok)->word, "env", 4) == 0)
-				builtin_env(p_tok);
-			else
+			if (builtin_list(p_tok) == 1)
 			{
 				path = token_path(p_tok);
 				execve(path[0], path, environ);
@@ -105,15 +103,7 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 				dup2(input_fd, STDIN_FILENO);
 			if (output_fd != 1)
 				dup2(output_fd, STDOUT_FILENO);
-			if (ft_strncmp((*p_tok)->word, "pwd", 4) == 0)
-				builtin_pwd(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
-				builtin_echo(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "export", 7) == 0)
-				builtin_export(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "env", 4) == 0)
-				builtin_env(p_tok);
-			else
+			if (builtin_list(p_tok) == 1)
 			{
 				path = token_path(p_tok);
 				execve(path[0], path, environ);
@@ -144,9 +134,7 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 		if (input_fd != 0)
 			dup2(input_fd, STDIN_FILENO);
 		dup2(f_fd, STDOUT_FILENO);
-		if (ft_strncmp((*tmp)->word, "echo", 5) == 0)
-			builtin_echo(tmp);
-		else
+		if (builtin_list(tmp) == 1)
 		{
 			path = token_path(tmp);
 			execve(path[0], path, environ);

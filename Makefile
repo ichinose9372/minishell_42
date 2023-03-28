@@ -19,6 +19,7 @@ SRCS	=	main.c\
 			echo.c\
 			export.c\
 			env.c\
+			exec_utils.c\
 
 HEAD_FILE	=	minishell.h
 
