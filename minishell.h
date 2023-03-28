@@ -46,7 +46,7 @@ extern t_env	**env;
 
 // env
 t_env	*new_env(char *str);
-t_env	*make_env(void);
+void	make_env(void);
 
 // tokenize
 t_token	*tokenizer(char *str, t_token *tok);
