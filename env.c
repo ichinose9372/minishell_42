@@ -1,38 +1,18 @@
 #include "minishell.h"
 
-t_env	*new_env(char *str)
+int	builtin_env(t_token **p_tok)
 {
-	t_env	*node;
-	size_t	cnt;
-	size_t	tmp;
+	t_env *tmp;
 
-	cnt = 0;
-	node = (t_env *)malloc(sizeof(t_env));
-	while (str[cnt] != '=')
-		cnt++;
-	node->name = new_strdup(str, cnt);
-	cnt++;
-	tmp = cnt;
-	while (str[cnt])
-		cnt++;
-	node->value = new_strdup(&str[tmp], cnt - tmp);
-	return (node);
-}
-
-void	make_env(void)
-{
-	t_env	*tmp;
-	extern char	**environ;
-	size_t	cnt;
-
-	cnt = 0;
-	env = (t_env **)malloc(sizeof(t_env *));
-	tmp = new_env(environ[cnt++]);
-	*env = tmp;
-	while (environ[cnt])
+	tmp = *env;
+	(void)p_tok;
+	while (tmp)
 	{
-		tmp->next = new_env(environ[cnt++]);
+		ft_putstr_fd(tmp->name, 1);
+		ft_putstr_fd("=", 1);
+		ft_putstr_fd(tmp->value, 1);
+		ft_putstr_fd("\n", 1);
 		tmp = tmp->next;
 	}
-	tmp = NULL;
+	return (0);
 }

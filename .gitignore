@@ -1,7 +1,6 @@
 a.out
 *.o
-/*.o
-.DS_Store
-/*.a
+.DS_Store\
+*.a
 minishell
 test_*
