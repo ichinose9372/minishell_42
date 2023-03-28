@@ -23,14 +23,12 @@ void	all_free(char **env_split)
 void	all_free_token(t_token **p_tok)
 {
 	t_token	*tmp;
-	printf("p_tok (3) %p\n", *p_tok);
 	while (*p_tok)
 	{
 		tmp = (*p_tok)->next;
 		free((*p_tok));
 		*p_tok = tmp;
 	}
-	printf("p_tok (4) %p\n", *p_tok);
 }
 
 void	all_free_and_tmp(char *tmp, char **env_split)

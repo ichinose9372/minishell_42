@@ -41,9 +41,8 @@ int	main(void)
 				exit(1);
 			}
 			add_history(str);
-			tok->next = NULL;
+			tok->word = NULL;
 			tok = tokenizer(str, tok);
-			printf("tok (1) %p\n", tok);
 			expansion(tok, p_tok);
 			do_cmd(p_tok, 0, 1);
 		}
