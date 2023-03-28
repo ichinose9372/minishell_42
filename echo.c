@@ -5,7 +5,6 @@ int	builtin_echo(t_token **p_tok)
 	t_token	*tmp;
 	int		flag;
 
-	printf("!!!test\n");
 	if ((*p_tok)->next == NULL)
 		return (0);
 	tmp = (*p_tok)->next;
@@ -19,7 +18,7 @@ int	builtin_echo(t_token **p_tok)
 	{
 		ft_putstr_fd(tmp->word, 1);
 		tmp = tmp->next;
-		if (tmp && operater_comp(tmp->word, 0) != 0)
+		if (tmp && operater_comp(tmp->word, 0) == 0)
 			ft_putchar_fd(' ', 1);
 	}
 	if (flag == 0)
