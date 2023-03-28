@@ -7,12 +7,12 @@ int	space_check(char *str, int start)
 
 int	operater_check(char *str, int *start, int *end, t_token **tok)
 {
-	if (operater_comp(str, *end))
+	if (operater_cmp(str, *end))
 	{
 		if (*start != *end)
 			return (1);
 		else
-			*end += operater_comp(str, *end);
+			*end += operater_cmp(str, *end);
 	}
 	else
 		return (0);

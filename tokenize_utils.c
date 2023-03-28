@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	operater_comp(char *str, int end)
+int	operater_cmp(char *str, int end)
 {
 	if (ft_strncmp(&str[end], "|", 1) == 0)
 		return (1);

@@ -56,7 +56,7 @@ int		seartch_quote(char *str, int start, int *end);
 void	make_token(t_token **tok, char *str, int start, int end);
 char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
-int		operater_comp(char *str, int end);
+int		operater_cmp(char *str, int end);
 
 // expantion
 void	expansion(t_token *tok, t_token **p_tok);
@@ -88,4 +88,6 @@ void	print_token(t_token **tok);
 // builtin
 bool	builtin_pwd(t_token **p_tok);
 int		builtin_echo(t_token **p_tok);
+int		builtin_export(t_token **p_tok);
+int		builtin_env(t_token **p_tok);
 #endif
