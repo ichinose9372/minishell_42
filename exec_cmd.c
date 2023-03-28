@@ -109,6 +109,7 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 				builtin_pwd(p_tok);
 			}
 			path = token_path(p_tok);
+			printf("path[0]  = %s path[1] = %s path[2] = %s\n", path[0], path[1], path[2]);
 			execve(path[0], path, environ);
 			perror("exec");
 			exit(EXIT_FAILURE);
