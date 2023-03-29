@@ -94,31 +94,31 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 	}
 	else if (check_no_operation(p_tok) == 0)
 	{
-		pid = fork();
-		if (pid == -1)
-			exit(EXIT_FAILURE);
-		if (pid == 0)
+		if (ft_strncmp((*p_tok)->word, "pwd", 4) == 0)
+			builtin_pwd(p_tok);
+		else if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
+			builtin_echo(p_tok);
+		else if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
+			builtin_cd(p_tok);
+		else
 		{
-			if (input_fd != 0)
-				dup2(input_fd, STDIN_FILENO);
-			if (output_fd != 1)
-				dup2(output_fd, STDOUT_FILENO);
-			if (ft_strncmp((*p_tok)->word, "pwd", 4) == 0)
-				builtin_pwd(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
-				builtin_echo(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
-				builtin_cd(p_tok);
-			else
+			pid = fork();
+			if (pid == -1)
+				exit(EXIT_FAILURE);
+			if (pid == 0)
 			{
+				if (input_fd != 0)
+					dup2(input_fd, STDIN_FILENO);
+				if (output_fd != 1)
+					dup2(output_fd, STDOUT_FILENO);
 				path = token_path(p_tok);
 				execve(path[0], path, environ);
 				perror("exec");
+				exit(EXIT_FAILURE);
 			}
-			exit(EXIT_FAILURE);
+			else if (pid > 0)
+				waitpid(pid, NULL, 0);
 		}
-		else if (pid > 0)
-			waitpid(pid, NULL, 0);
 	}
 	else if (check_no_operation(p_tok) == 2 || check_no_operation(p_tok) == 3)
 	{

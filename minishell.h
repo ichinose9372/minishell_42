@@ -88,6 +88,7 @@ void	print_token(t_token **tok);
 // builtin
 int		builtin_pwd(t_token **p_tok);
 int		builtin_echo(t_token **p_tok);
+int		builtin_cd(t_token **p_tok);
 int		builtin_export(t_token **p_tok);
 int		builtin_env(t_token **p_tok);
 int		builtin_list(t_token **p_tok);
