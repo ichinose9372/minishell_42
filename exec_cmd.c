@@ -98,8 +98,6 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 			builtin_pwd(p_tok);
 		else if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
 			builtin_echo(p_tok);
-		else if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
-			builtin_cd(p_tok);
 		else
 		{
 			pid = fork();

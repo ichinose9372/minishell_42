@@ -32,21 +32,5 @@ int	builtin_cd(t_token **p_tok)
 			exit(1);
 		}
 	}
-	else
-	{
-		while (*environ)
-		{
-			if ((ft_strncmp(*environ, "HOME=", 5)) == 0)
-				break ;
-			environ++;
-		}
-		new_path = ft_strtrim(*environ, "HOME=");
-		let = chdir(new_path);
-		if (let == -1)
-		{
-			perror("chdir");
-			exit(1);
-		}
-	}
 	return (0);
 }

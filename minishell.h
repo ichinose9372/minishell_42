@@ -92,4 +92,6 @@ int		builtin_cd(t_token **p_tok);
 int		builtin_export(t_token **p_tok);
 int		builtin_env(t_token **p_tok);
 int		builtin_list(t_token **p_tok);
+int		builtin_exit(t_token **p_tok);
+
 #endif

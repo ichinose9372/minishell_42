@@ -49,11 +49,20 @@ int	main(void)
 			tok->word = NULL;
 			tok = tokenizer(str, tok);
 			expansion(tok, p_tok);
-			pid = fork();
-			if (pid == 0)
-				do_cmd(p_tok, 0, 1);
+			if (ft_strncmp((*p_tok)->word, "exit", 4) == 0)
+				builtin_exit(p_tok);
+			else if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
+				builtin_cd(p_tok);
+			else if (ft_strncmp((*p_tok)->word, "export", 6) == 0)
+				builtin_export(p_tok);
 			else
-				wait(NULL);
+			{
+				pid = fork();
+				if (pid == 0)
+					do_cmd(p_tok, 0, 1);
+				else
+					wait(NULL);
+			}
 			all_free_token(p_tok);
 		}
 	}
