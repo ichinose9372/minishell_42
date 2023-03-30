@@ -33,21 +33,17 @@ void	sort_name(char **str, size_t size)
 	size_t	j;
 	char	*tmp;
 
-	(void)size;
 	i = 0;
 	while(str[i + 1])
 	{
-		j = i + 1;
-		while (str[j])
+		j = 0;
+		while (j < size - i)
 		{
-			// printf("i = %zu j = %zu\n", i, j);
-			if (ft_strcmp(str[i], str[j]) > 0)
+			if (ft_strcmp(str[j], str[j + 1]) > 0)
 			{
-				// printf("%s %s\n", str[i], str[j]);
-				tmp = str[i];
-				str[i] = str[j];
-				str[j] = tmp;
-				// printf("%s %s\n", str[j], str[j]);
+				tmp = str[j];
+				str[j] = str[j + 1];
+				str[j + 1] = tmp;
 			}
 			j++;
 		}
