@@ -51,6 +51,33 @@ void	sort_name(char **str, size_t size)
 	}
 }
 
+int	print_export(char **str)
+{
+	t_env	*tmp;
+	size_t	cnt;
+	char *s;
+
+	cnt = 0;
+	while (str[cnt])
+	{
+		tmp = *env;
+		while (ft_strcmp(str[cnt], tmp->name) != 0)
+			tmp = tmp->next;
+		s = "declare -x ";
+		ft_putstr_fd(s, STDOUT_FILENO);
+		ft_putstr_fd(tmp->name, STDOUT_FILENO);
+		if (tmp->value)
+		{
+			ft_putstr_fd("=\"", STDOUT_FILENO);
+			ft_putstr_fd(tmp->value, STDOUT_FILENO);
+			ft_putchar_fd('\"', STDOUT_FILENO);
+		}
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		cnt++;
+	}
+	return (0);
+}
+
 bool	put_export(t_env *tmp, size_t size)
 {
 	char	**str;
@@ -65,15 +92,8 @@ bool	put_export(t_env *tmp, size_t size)
 		str[cnt++] = tmp->name;
 		tmp = tmp->next;
 	}
-	// printf("%s\n", str[0]);
 	sort_name(str, size);
-	// printf("%s\n", str[0]);
-	int i = 0;
-	while (str[i])
-	{
-		printf("%s\n", str[i++]);
-
-	}
+	print_export(str);
 	return (true);
 }
 
