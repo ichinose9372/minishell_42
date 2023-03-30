@@ -4,7 +4,7 @@ CC		=	cc
 
 CFLAGS	=	-Wall -Wextra -Werror
 
-LFLAGS	=	-lreadline
+LFLAGS	=	-L $(shell brew --prefix readline)/lib -lreadline
 
 SRCS	=	main.c\
 			exec_cmd.c\
@@ -20,6 +20,7 @@ SRCS	=	main.c\
 			export.c\
 			env.c\
 			exec_utils.c\
+			signal.c\
 
 HEAD_FILE	=	minishell.h
 
@@ -40,7 +41,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LFLAGS) -o $@
 
 $(OBJ_DIR)/%.o: %.c $(HEAD_FILE) | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(shell brew --prefix readline)/include
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)

@@ -30,6 +30,7 @@ int	main(void)
 		p_tok = (t_token **)malloc(sizeof(t_token *));
 		if (p_tok == NULL)
 			exit(1);
+		signal_one();
 		str = readline("mini_shell$ ");
 		if (str == NULL)
 			exit(1);

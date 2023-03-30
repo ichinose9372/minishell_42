@@ -91,4 +91,7 @@ int		builtin_echo(t_token **p_tok);
 int		builtin_export(t_token **p_tok);
 int		builtin_env(t_token **p_tok);
 int		builtin_list(t_token **p_tok);
+
+// signal
+void	signal_one(void);
 #endif
