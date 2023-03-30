@@ -11,7 +11,7 @@ void	signal_one_c(int sig)
 
 void	signal_one()
 {
-	printf("test\n");
+	// printf("test\n");
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_one_c);
 }

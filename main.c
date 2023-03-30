@@ -57,6 +57,7 @@ int	main(void)
 				wait(NULL);
 			all_free_token(p_tok);
 		}
+		free(str);
 	}
 	exit(0);
 }

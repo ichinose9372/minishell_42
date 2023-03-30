@@ -74,7 +74,10 @@ t_token	*tokenizer(char *str, t_token *tok)
 			if (str[end] == '\'' || str[end] == '\"')
 			{
 				if (seartch_quote(str, start, &end))
-					exit(0);
+				{
+					ft_putendl_fd("quote error", STDOUT_FILENO);
+					return (NULL);
+				}
 			}
 			end++;
 		}
