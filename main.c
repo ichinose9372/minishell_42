@@ -11,7 +11,7 @@ void	print_token(t_token **tok)
 	tmp = *tok;
 	while (tmp)
 	{
-		printf("tok:%s\t%p\n", tmp->word, tmp->next);
+		printf("tok:%u\t%p\n", tmp->kind, tmp->next);
 		tmp = tmp->next;
 	}
 }

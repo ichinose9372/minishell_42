@@ -42,6 +42,12 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_pipe
+{
+	int	pipe_fd[2];
+}	t_pipe;
+
+
 extern t_env	**env;
 
 // env
@@ -70,13 +76,22 @@ char	*make_path(char *split_arg, char **envp);
 char	**token_path(t_token **p_tok);
 int		check_no_operation(t_token **p_tok);
 void	do_cmd(t_token **p_tok, int input_fd, int output_fd);
+void	exec_pipe(t_token **p_tok, int input_fd, int output_fd);
+void	exec(t_token **p_tok);
+void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd);
+void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd);
+void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
+void	exec_redirect_out(t_token **p_tok, int input_fd);
+void	exec_redirect_inp(t_token **p_tok, int output_fd);
+void	exec_heardocu(t_token **p_tok);
 
-// file oparate
+	// file oparate
 int		file_open_wrt(char *argv);
 int		file_open_rd(char	*argv);
 int		file_open_wrt_add(char *argv);
+int 	ft_open(t_token **p_tok);
 
-// free
+	// free
 void	all_free(char **env_split);
 void	all_free_token(t_token **p_tok);
 void	all_free_and_tmp(char *tmp, char **env_split);
