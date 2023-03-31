@@ -97,63 +97,39 @@ bool	put_export(t_env *tmp, size_t size)
 	return (true);
 }
 
-// int	put_export(t_env **tmp, size_t size)
-// {
-// 	t_env	*tmp1;
-// 	t_env	*tmp2;
-// 	t_env	*tmptmp;
-// 	size_t	i;
-// 	size_t	j;
+void	add_env(t_token **p_tok , t_env **tmp)
+{
+	char	*str;
+	char	**split_env;
+	t_env	*new_env;
 
-// 	i = 0;
-// 	while (i < size - 1)
-// 	{
-// 		tmp1 = *tmp;
-// 		j = 0;
-// 		while (j < size - i - 1)
-// 		{
-// 			tmp2 = tmp1->next;
-// 			if (ft_strcmp(tmp1->name, tmp2->name) > 0)
-// 			{
-// 				tmptmp = tmp1->next;
-// 				tmp1->next = tmp2->next;
-// 				tmp2->next = tmptmp;
-// 			}
-// 			tmp1 = tmp1->next;
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
+	str = ft_strdup((*p_tok)->next->word);
+	split_env = ft_split(str, '=');
+	new_env = malloc(sizeof(t_env));
+	if (split_env[2] || split_env == NULL)
+		exit(EXIT_FAILURE);
+	if (new_env == NULL)
+		exit(EXIT_FAILURE);
+	new_env->next = NULL;
+	while ((*tmp)->next)
+		tmp = &(*tmp)->next;
+	new_env->name = ft_strdup(split_env[0]);
+	new_env->value = ft_strdup(split_env[1]);
+	(*tmp)->next = new_env;
+}
 
 int	builtin_export(t_token **p_tok)
 {
 	t_env	**tmp;
 	size_t	size;
-	// char	*str;
 
 	tmp = env;
 	size = count_env(*tmp);
 	if ((*p_tok)->next == NULL || operater_cmp((*p_tok)->next->word, 0) != 0)
-	{
-		// while (*tmp)
-		// {
-		// 	printf("%s!!%s\n", (*tmp)->name, (*tmp)->value);
-		// 	tmp = &(*tmp)->next;
-		// }
-		// printf("aaa\n");
 		put_export(*tmp, size);
-		// while (*tmp)
-		// {
-		// 	str = "declare -x ";
-		// 	ft_putstr_fd(str, STDOUT_FILENO);
-		// 	ft_putstr_fd((*tmp)->name, STDOUT_FILENO);
-		// 	ft_putstr_fd("=\"", STDOUT_FILENO);
-		// 	ft_putstr_fd((*tmp)->value, STDOUT_FILENO);
-		// 	ft_putstr_fd("\"\n", STDOUT_FILENO);
-		// 	*tmp = (*tmp)->next;
-		// }
-	}
+	else if ((*p_tok)->next->word && (*p_tok)->next->next == NULL)
+		 add_env(p_tok, env);
+	else
+		printf("error\n");
 	return (0);
 }
