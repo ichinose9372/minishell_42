@@ -10,7 +10,7 @@ void	exec_redirect_inp(t_token **p_tok, int output_fd)
 	{
 		file_fd = file_open_rd((*p_tok)->next->word);
 		p_tok = &(*p_tok)->next->next;
-		do_cmd(p_tok, file_fd, STDOUT_FILENO);
+		exec_cmd(p_tok, file_fd, STDOUT_FILENO);
 	}
 	else
 	{

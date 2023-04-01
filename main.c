@@ -21,7 +21,7 @@ int	main(void)
 	char	*str;
 	t_token	**p_tok;
 	t_token	*tok;
-	// pid_t	pid;
+	pid_t	pid;
 
 	make_env();
 	rl_outstream = stderr;
@@ -57,15 +57,15 @@ int	main(void)
 				builtin_export(p_tok);
 			else if (ft_strncmp((*p_tok)->word, "env", 3) == 0)
 				builtin_env(p_tok);
-				// else
-				// {
-				// 	pid = fork();
-				// 	if (pid == 0)
-				// 		do_cmd(p_tok, 0, 1);
-				// 	else
-				// 		wait(NULL);
-				// }
-				all_free_token(p_tok);
+			else
+			{
+				pid = fork();
+				if (pid == 0)
+					exec_cmd(p_tok, 0, 1);
+				else
+					wait(NULL);
+			}
+			all_free_token(p_tok);
 		}
 	}
 	exit(0);

@@ -19,12 +19,12 @@ extern char	**environ;
 
 typedef enum e_token_kind
 {
-	WORD,
-	PIPE,
-	OUTPUT,
-	INPUT,
-	ADD,
-	HEREDOC,
+	WORD,//0
+	PIPE,//1
+	OUTPUT,//2
+	INPUT,//3
+	ADD,//4
+	HEREDOC//5
 }	t_token_kind;
 
 typedef struct s_token
@@ -63,6 +63,7 @@ void	make_token(t_token **tok, char *str, int start, int end);
 char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
 int		operater_cmp(char *str, int end);
+void	token_kind(t_token *tok);
 
 // expantion
 void	expansion(t_token *tok, t_token **p_tok);
@@ -75,12 +76,12 @@ char	*serch_path(char	*tmp, char **env_split);
 char	*make_path(char *split_arg, char **envp);
 char	**token_path(t_token **p_tok);
 int		check_no_operation(t_token **p_tok);
-void	do_cmd(t_token **p_tok, int input_fd, int output_fd);
+void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
 void	exec_pipe(t_token **p_tok, int input_fd, int output_fd);
 void	exec(t_token **p_tok);
 void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd);
 void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd);
-void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
+void	exec_no_oparat(t_token **p_tok, int input_fd, int output_fd);
 void	exec_redirect_out(t_token **p_tok, int input_fd);
 void	exec_redirect_inp(t_token **p_tok, int output_fd);
 void	exec_heardocu(t_token **p_tok);
