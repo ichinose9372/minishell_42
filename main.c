@@ -57,6 +57,8 @@ int	main(void)
 				builtin_export(p_tok);
 			else if (ft_strncmp((*p_tok)->word, "env", 3) == 0)
 				builtin_env(p_tok);
+			else if (ft_strncmp((*p_tok)->word, "unset", 5) == 0)
+				builtin_unset(p_tok);
 			else
 			{
 				pid = fork();
