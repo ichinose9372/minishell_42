@@ -9,66 +9,71 @@ void	print_token(t_token **tok)
 	t_token	*tmp;
 
 	tmp = *tok;
+	if (tok == NULL)
+	{
+		printf("after free all\n");
+	}
 	while (tmp)
 	{
-		printf("tok:%u\t%p\n", tmp->kind, tmp->next);
+		printf("tok:%s\t%p\n", tmp->word, tmp->next);
 		tmp = tmp->next;
 	}
 }
 
-int	main(void)
+
+void	minishell_2(t_token **p_tok, char *str)
+{
+	pid_t	pid;
+	t_token	*tok;
+
+	tok = malloc(sizeof(t_token));
+	if (tok == NULL)
+		exit(EXIT_FAILURE);
+	tok->word = NULL;
+	tok = tokenizer(str, tok);
+	print_token(p_tok);
+	expansion(tok, p_tok);
+	if (builtin_list(p_tok) == 1)
+	{
+		pid = fork();
+		if (pid < 0)
+			exit(EXIT_FAILURE);
+		else if (pid == 0)
+			exec_cmd(p_tok, 0, 1);
+		else
+			wait(NULL);
+	}
+}
+
+void	minishell(void)
 {
 	char	*str;
 	t_token	**p_tok;
-	t_token	*tok;
-	pid_t	pid;
 
 	make_env();
 	rl_outstream = stderr;
 	while (1)
 	{
-		p_tok = (t_token **)malloc(sizeof(t_token *));
+		p_tok = malloc(sizeof(t_token *));
 		if (p_tok == NULL)
-			exit(1);
+			exit(EXIT_FAILURE);
 		str = readline("mini_shell$ ");
 		if (str == NULL)
 			exit(1);
 		else if (*str == '\0')
-		{
 			free(p_tok);
-		}
 		else
 		{
-			tok = malloc(sizeof(t_token));
-			if (tok == NULL)
-			{
-				printf("malloc error\n");
-				exit(1);
-			}
 			add_history(str);
-			tok->word = NULL;
-			tok = tokenizer(str, tok);
-			expansion(tok, p_tok);
-			if (ft_strncmp((*p_tok)->word, "exit", 4) == 0)
-				builtin_exit(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
-				builtin_cd(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "export", 6) == 0)
-				builtin_export(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "env", 3) == 0)
-				builtin_env(p_tok);
-			else if (ft_strncmp((*p_tok)->word, "unset", 5) == 0)
-				builtin_unset(p_tok);
-			else
-			{
-				pid = fork();
-				if (pid == 0)
-					exec_cmd(p_tok, 0, 1);
-				else
-					wait(NULL);
-			}
-			all_free_token(p_tok);
+			minishell_2(p_tok, str);
 		}
+		all_free_token(p_tok);
+		print_token(p_tok);
 	}
 	exit(0);
+}
+
+int	main(void)
+{
+	minishell();
 }

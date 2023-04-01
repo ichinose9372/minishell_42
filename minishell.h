@@ -19,12 +19,12 @@ extern char	**environ;
 
 typedef enum e_token_kind
 {
-	WORD,//0
-	PIPE,//1
-	OUTPUT,//2
-	INPUT,//3
-	ADD,//4
-	HEREDOC//5
+	WORD,
+	PIPE,
+	OUTPUT,
+	INPUT,
+	ADD,
+	HEREDOC
 }	t_token_kind;
 
 typedef struct s_token
@@ -46,7 +46,6 @@ typedef struct s_pipe
 {
 	int	pipe_fd[2];
 }	t_pipe;
-
 
 extern t_env	**env;
 
