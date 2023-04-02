@@ -50,6 +50,7 @@ void	make_token(t_token **tok, char *str, int start, int end)
 		(*tok)->next = new_token(str, start, end);
 		*tok = (*tok)->next;
 	}
+	token_kind(*tok);
 	(*tok)->next = NULL;
 }
 

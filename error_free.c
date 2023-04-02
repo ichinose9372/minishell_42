@@ -27,10 +27,11 @@ void	all_free_token(t_token **p_tok)
 	while (*p_tok)
 	{
 		tmp = (*p_tok)->next;
-		free((*p_tok));
+		free((*p_tok)->word);
+		free(*p_tok);
 		*p_tok = tmp;
 	}
-	free(p_tok);
+	p_tok = NULL;
 }
 
 void	all_free_and_tmp(char *tmp, char **env_split)

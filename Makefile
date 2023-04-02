@@ -7,6 +7,7 @@ CFLAGS	=	-Wall -Wextra -Werror
 LFLAGS	=	-L $(shell brew --prefix readline)/lib -lreadline
 
 SRCS	=	main.c\
+			init.c\
 			exec_cmd.c\
 			make_path.c\
 			pipe_file_init.c\
@@ -20,7 +21,18 @@ SRCS	=	main.c\
 			export.c\
 			env.c\
 			exec_utils.c\
+<<<<<<< HEAD
+			cd.c\
+			exit.c\
+			unset.c\
+			exec_pipe.c\
+			exec_redirect_out.c\
+			exec_redirect_inp.c\
+			exec_heardocu.c\
+
+=======
 			signal.c\
+>>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
 
 HEAD_FILE	=	minishell.h
 

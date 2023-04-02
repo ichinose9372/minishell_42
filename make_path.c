@@ -35,6 +35,7 @@ char	*serch_path(char	*tmp, char **env_split)
 		env_split++;
 		free(path);
 	}
+	command_not_found(tmp);
 	return (NULL);
 }
 
@@ -92,5 +93,7 @@ char	**token_path(t_token **p_tok)
 	}
 	argv[size] = NULL;
 	argv[0] = make_path(argv[0], environ);
+	if (argv[0] == NULL)
+		exit(1);
 	return (argv);
 }

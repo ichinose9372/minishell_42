@@ -50,3 +50,19 @@ char	*new_strdup(const char *s1, int size)
 	dest[cnt] = '\0';
 	return (dest);
 }
+
+void	token_kind(t_token *tok)
+{
+	if (ft_strncmp(tok->word, "|", 1) == 0)
+		tok->kind = PIPE;
+	else if (ft_strncmp(tok->word, ">>", 2) == 0)
+		tok->kind = ADD;
+	else if (ft_strncmp(tok->word, ">", 1) == 0)
+		tok->kind = OUTPUT;
+	else if (ft_strncmp(tok->word, "<<", 2) == 0)
+		tok->kind = HEREDOC;
+	else if (ft_strncmp(tok->word, "<", 1) == 0)
+		tok->kind = INPUT;
+	else
+		tok->kind = WORD;
+}
