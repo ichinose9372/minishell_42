@@ -54,7 +54,12 @@ void	minishell(void)
 	{
 		p_tok = malloc(sizeof(t_token *));
 		if (p_tok == NULL)
+<<<<<<< HEAD
 			exit(EXIT_FAILURE);
+=======
+			exit(1);
+		signal_one();
+>>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
 		str = readline("mini_shell$ ");
 		if (str == NULL)
 			exit(1);
@@ -65,7 +70,11 @@ void	minishell(void)
 			add_history(str);
 			minishell_2(p_tok, str);
 		}
+<<<<<<< HEAD
 		all_free_token(p_tok);
+=======
+		free(str);
+>>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
 	}
 	exit(0);
 }
