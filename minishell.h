@@ -118,14 +118,11 @@ int		builtin_cd(t_token **p_tok);
 int		builtin_export(t_token **p_tok);
 int		builtin_env(t_token **p_tok);
 int		builtin_list(t_token **p_tok);
-<<<<<<< HEAD
 int		builtin_exit(t_token **p_tok);
 int		builtin_unset(t_token **p_tok);
 
-=======
 
 // signal
 void	signal_one(void);
-void	signal_heredoc();
->>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
+void	signal_heredocu();
 #endif
