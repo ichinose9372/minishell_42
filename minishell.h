@@ -24,7 +24,7 @@ typedef enum e_token_kind
 	OUTPUT,
 	INPUT,
 	ADD,
-	HEREDOC,
+	HEREDOC
 }	t_token_kind;
 
 typedef struct s_token
@@ -42,11 +42,27 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-extern t_env	**env;
+typedef struct s_pipe
+{
+	int	pipe_fd[2];
+}	t_pipe;
 
+typedef struct s_global
+{
+	t_env	**env;
+	int		status;
+	char	**our_environ;
+}	t_global;
+
+// extern t_en	**env;
+
+extern t_global	global;
+
+//init
+void	init_minishell(void);
 // env
 t_env	*new_env(char *str);
-void	make_env(void);
+t_env	**make_env(void);
 
 // tokenize
 t_token	*tokenizer(char *str, t_token *tok);
@@ -57,6 +73,7 @@ void	make_token(t_token **tok, char *str, int start, int end);
 char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
 int		operater_cmp(char *str, int end);
+void	token_kind(t_token *tok);
 
 // expantion
 void	expansion(t_token *tok, t_token **p_tok);
@@ -69,14 +86,23 @@ char	*serch_path(char	*tmp, char **env_split);
 char	*make_path(char *split_arg, char **envp);
 char	**token_path(t_token **p_tok);
 int		check_no_operation(t_token **p_tok);
-void	do_cmd(t_token **p_tok, int input_fd, int output_fd);
+void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
+void	exec_pipe(t_token **p_tok, int input_fd, int output_fd);
+void	exec(t_token **p_tok);
+void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd);
+void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd);
+void	exec_no_oparat(t_token **p_tok, int input_fd, int output_fd);
+void	exec_redirect_out(t_token **p_tok, int input_fd);
+void	exec_redirect_inp(t_token **p_tok, int output_fd);
+void	exec_heardocu(t_token **p_tok);
 
-// file oparate
+	// file oparate
 int		file_open_wrt(char *argv);
 int		file_open_rd(char	*argv);
 int		file_open_wrt_add(char *argv);
+int 	ft_open(t_token **p_tok);
 
-// free
+	// free
 void	all_free(char **env_split);
 void	all_free_token(t_token **p_tok);
 void	all_free_and_tmp(char *tmp, char **env_split);
@@ -88,11 +114,18 @@ void	print_token(t_token **tok);
 // builtin
 int		builtin_pwd(t_token **p_tok);
 int		builtin_echo(t_token **p_tok);
+int		builtin_cd(t_token **p_tok);
 int		builtin_export(t_token **p_tok);
 int		builtin_env(t_token **p_tok);
 int		builtin_list(t_token **p_tok);
+<<<<<<< HEAD
+int		builtin_exit(t_token **p_tok);
+int		builtin_unset(t_token **p_tok);
+
+=======
 
 // signal
 void	signal_one(void);
 void	signal_heredoc();
+>>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
 #endif

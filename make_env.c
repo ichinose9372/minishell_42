@@ -19,20 +19,21 @@ t_env	*new_env(char *str)
 	return (node);
 }
 
-void	make_env(void)
+t_env	**make_env(void)
 {
 	t_env	*tmp;
+	t_env	**ret;
 	extern char	**environ;
 	size_t	cnt;
 
 	cnt = 0;
-	env = (t_env **)malloc(sizeof(t_env *));
+	ret = (t_env **)malloc(sizeof(t_env *));
 	tmp = new_env(environ[cnt++]);
-	*env = tmp;
+	*ret = tmp;
 	while (environ[cnt])
 	{
 		tmp->next = new_env(environ[cnt++]);
 		tmp = tmp->next;
 	}
-	tmp = NULL;
+	return (ret);
 }

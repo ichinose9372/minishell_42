@@ -9,6 +9,10 @@ void	print_token(t_token **tok)
 	t_token	*tmp;
 
 	tmp = *tok;
+	if (tok == NULL)
+	{
+		printf("after free all\n");
+	}
 	while (tmp)
 	{
 		printf("tok:%s\t%p\n", tmp->word, tmp->next);
@@ -16,48 +20,67 @@ void	print_token(t_token **tok)
 	}
 }
 
-int	main(void)
+void	minishell_2(t_token **p_tok, char *str)
+{
+	pid_t	pid;
+	t_token	*tok;
+
+	tok = malloc(sizeof(t_token));
+	if (tok == NULL)
+		exit(EXIT_FAILURE);
+	tok->word = NULL;
+	tok = tokenizer(str, tok);
+	expansion(tok, p_tok);
+	if (builtin_list(p_tok) == 1)
+	{
+		pid = fork();
+		if (pid < 0)
+			exit(EXIT_FAILURE);
+		else if (pid == 0)
+			exec_cmd(p_tok, 0, 1);
+		else
+			wait(NULL);
+	}
+}
+
+void	minishell(void)
 {
 	char	*str;
 	t_token	**p_tok;
-	t_token	*tok;
-	pid_t	pid;
 
 	make_env();
 	rl_outstream = stderr;
 	while (1)
 	{
-		p_tok = (t_token **)malloc(sizeof(t_token *));
+		p_tok = malloc(sizeof(t_token *));
 		if (p_tok == NULL)
+<<<<<<< HEAD
+			exit(EXIT_FAILURE);
+=======
 			exit(1);
 		signal_one();
+>>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
 		str = readline("mini_shell$ ");
 		if (str == NULL)
 			exit(1);
 		else if (*str == '\0')
-		{
 			free(p_tok);
-		}
 		else
 		{
-			tok = malloc(sizeof(t_token));
-			if (tok == NULL)
-			{
-				printf("malloc error\n");
-				exit(1);
-			}
 			add_history(str);
-			tok->word = NULL;
-			tok = tokenizer(str, tok);
-			expansion(tok, p_tok);
-			pid = fork();
-			if (pid == 0)
-				do_cmd(p_tok, 0, 1);
-			else
-				wait(NULL);
-			all_free_token(p_tok);
+			minishell_2(p_tok, str);
 		}
+<<<<<<< HEAD
+		all_free_token(p_tok);
+=======
 		free(str);
+>>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
 	}
 	exit(0);
+}
+
+int	main(void)
+{
+	init_minishell();
+	minishell();
 }
