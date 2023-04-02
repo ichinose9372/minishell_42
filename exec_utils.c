@@ -2,10 +2,7 @@
 
 int	builtin_list(t_token **p_tok)
 {
-<<<<<<< HEAD
-=======
 	printf("buitin\n");
->>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
 	if (ft_strncmp((*p_tok)->word, "pwd", 4) == 0)
 		return (builtin_pwd(p_tok));
 	else if (ft_strncmp((*p_tok)->word, "echo", 5) == 0)
