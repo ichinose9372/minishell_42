@@ -14,6 +14,7 @@ void	exec_redirect_inp(t_token **p_tok, int output_fd)
 	}
 	else
 	{
+		(*tmp)->next = NULL;
 		while (ft_strncmp((*p_tok)->word, "<", 1) != 0)
 			p_tok = &(*p_tok)->next;
 		p_tok = &(*p_tok)->next;
@@ -21,6 +22,6 @@ void	exec_redirect_inp(t_token **p_tok, int output_fd)
 		if (output_fd != 1)
 			dup2(output_fd, STDOUT_FILENO);
 		dup2(file_fd, STDIN_FILENO);
-		exec(tmp);
+		exec_cmd(tmp, file_fd, STDOUT_FILENO);
 	}
 }

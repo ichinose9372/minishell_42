@@ -25,4 +25,5 @@ void	exec(t_token **p_tok)
 		execve(path[0], path, environ);
 		perror("exec");
 	}
+	exit (1);
 }

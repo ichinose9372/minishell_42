@@ -35,6 +35,7 @@ void	exec_heardocu(t_token **p_tok)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
+		signal_heredocu();
 		tmp = p_tok;
 		while (ft_strncmp((*tmp)->word, "<<", 2) != 0)
 			tmp = &(*tmp)->next;
