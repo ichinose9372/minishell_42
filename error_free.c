@@ -31,6 +31,7 @@ void	all_free_token(t_token **p_tok)
 		free(*p_tok);
 		*p_tok = tmp;
 	}
+	free(p_tok);
 	p_tok = NULL;
 }
 

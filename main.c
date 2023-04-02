@@ -56,8 +56,8 @@ void	minishell(void)
 		{
 			add_history(str);
 			minishell_2(p_tok, str);
+			all_free_token(p_tok);
 		}
-		all_free_token(p_tok);
 		free(str);
 	}
 	exit(0);

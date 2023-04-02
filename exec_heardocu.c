@@ -31,16 +31,15 @@ void	exec_heardocu(t_token **p_tok)
 	char	*str;
 
 	pid = fork();
-	signal_heredocu();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
-		signal_heredocu();
 		tmp = p_tok;
 		while (ft_strncmp((*tmp)->word, "<<", 2) != 0)
 			tmp = &(*tmp)->next;
 		pipe(pipe_data.pipe_fd);
+		signal_heredocu();
 		str = make_str(tmp);
 		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 		dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);

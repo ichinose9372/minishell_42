@@ -19,9 +19,9 @@ void	signal_one()
 void	handler_heredocu_c(int sig)
 {
 	(void)sig;
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	// rl_replace_line("", 0);
+	// rl_on_new_line();
+	// rl_redisplay();
 	exit(0);
 }
 
