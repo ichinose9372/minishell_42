@@ -20,7 +20,6 @@ void	print_token(t_token **tok)
 	}
 }
 
-
 void	minishell_2(t_token **p_tok, char *str)
 {
 	pid_t	pid;
@@ -31,7 +30,6 @@ void	minishell_2(t_token **p_tok, char *str)
 		exit(EXIT_FAILURE);
 	tok->word = NULL;
 	tok = tokenizer(str, tok);
-	print_token(p_tok);
 	expansion(tok, p_tok);
 	if (builtin_list(p_tok) == 1)
 	{
@@ -68,7 +66,6 @@ void	minishell(void)
 			minishell_2(p_tok, str);
 		}
 		all_free_token(p_tok);
-		print_token(p_tok);
 	}
 	exit(0);
 }

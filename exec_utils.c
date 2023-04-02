@@ -10,6 +10,8 @@ int	builtin_list(t_token **p_tok)
 		return (builtin_env(p_tok));
 	else if (ft_strncmp((*p_tok)->word, "export", 5) == 0)
 		return (builtin_export(p_tok));
+	else if (ft_strncmp((*p_tok)->word, "unset", 5) == 0)
+		return (builtin_unset(p_tok));
 	return (1);
 }
 

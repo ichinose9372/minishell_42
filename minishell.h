@@ -47,11 +47,21 @@ typedef struct s_pipe
 	int	pipe_fd[2];
 }	t_pipe;
 
-extern t_env	**env;
+typedef struct s_global
+{
+	t_env	**env;
+	int		status;
+	char	**our_environ;
+}	t_global;
+
+// extern t_en	**env;
+
+extern t_global	global;
+
 
 // env
 t_env	*new_env(char *str);
-void	make_env(void);
+t_env	**make_env(void);
 
 // tokenize
 t_token	*tokenizer(char *str, t_token *tok);

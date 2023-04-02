@@ -123,12 +123,13 @@ int	builtin_export(t_token **p_tok)
 	t_env	**tmp;
 	size_t	size;
 
+	printf("builtin export\n");
 	tmp = env;
 	size = count_env(*tmp);
 	if ((*p_tok)->next == NULL || operater_cmp((*p_tok)->next->word, 0) != 0)
 		put_export(*tmp, size);
 	else if ((*p_tok)->next->word && (*p_tok)->next->next == NULL)
-		 add_env(p_tok, env);
+		add_env(p_tok, env);
 	else
 		printf("error\n");
 	return (0);
