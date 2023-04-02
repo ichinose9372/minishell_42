@@ -61,9 +61,9 @@ char	*next_move(char	*path_name, char *word)
 	char	*new_path;
 
 	tmp = ft_strjoin("/", word);
-	printf("tmp = %s\n", tmp);
+	if (tmp[ft_strlen(tmp - 1)])
+		tmp = ft_substr(tmp, 0, (ft_strlen(tmp) - 1));
 	new_path = ft_strjoin(path_name, tmp);
-	printf("new_path = %s\n", new_path);
 	ret = chdir(new_path);
 	if (ret == -1)
 	{
