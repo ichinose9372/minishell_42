@@ -28,7 +28,6 @@ SRCS	=	main.c\
 			exec_redirect_out.c\
 			exec_redirect_inp.c\
 			exec_heardocu.c\
-
 			signal.c\
 
 HEAD_FILE	=	minishell.h
