@@ -175,7 +175,7 @@ void	do_cmd(t_token **p_tok, int input_fd, int output_fd)
 			str2 = malloc(sizeof(char) * 1);
 			while (1)
 			{
-				signal_heredoc();
+				signal_heredocu();
 				str = readline("> ");
 				if (ft_strncmp(str, (*tmp)->next->word, ft_strlen(str)) == 0)
 					break ;

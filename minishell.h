@@ -94,5 +94,5 @@ int		builtin_list(t_token **p_tok);
 
 // signal
 void	signal_one(void);
-void	signal_heredoc();
+void	signal_heredocu();
 #endif
