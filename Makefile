@@ -21,7 +21,6 @@ SRCS	=	main.c\
 			export.c\
 			env.c\
 			exec_utils.c\
-<<<<<<< HEAD
 			cd.c\
 			exit.c\
 			unset.c\
@@ -29,10 +28,7 @@ SRCS	=	main.c\
 			exec_redirect_out.c\
 			exec_redirect_inp.c\
 			exec_heardocu.c\
-
-=======
 			signal.c\
->>>>>>> a046845a1dc1b97490a7f0827851167a9fea9669
 
 HEAD_FILE	=	minishell.h
 
