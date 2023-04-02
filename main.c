@@ -30,8 +30,9 @@ void	minishell_2(t_token **p_tok, char *str)
 	tok->word = NULL;
 	tok = tokenizer(str, tok);
 	expansion(tok, p_tok);
-	if (builtin_list(p_tok) == 1)// cdだけはじいて
-		exec_cmd(p_tok, 0, 1);
+	if (ft_strncmp((*p_tok)->word, "cd", 2) == 0)
+		builtin_cd(p_tok);
+	exec_cmd(p_tok, 0, 1);
 }
 
 void	minishell(void)

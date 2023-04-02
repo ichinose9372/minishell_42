@@ -19,7 +19,7 @@ int	check_no_operation(t_token **p_tok)
 void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 {
 	pid_t	pid;
-	
+
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
