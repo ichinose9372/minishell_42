@@ -6,7 +6,7 @@ int	builtin_unset(t_token **p_tok)
 	t_env	*del;
 	t_env	*prev;
 
-	tmp = env;
+	tmp = global.env;
 	prev = NULL;
 	if ((*p_tok)->next == NULL)
 		exit(EXIT_FAILURE);
@@ -18,7 +18,7 @@ int	builtin_unset(t_token **p_tok)
 			del = *tmp;
 			tmp = &(*tmp)->next;
 			if (prev == NULL)
-				env = tmp;
+				global.env = tmp;
 			prev->next = *tmp;
 			free(del->name);
 			free(del->value);

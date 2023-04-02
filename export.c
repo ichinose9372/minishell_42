@@ -60,7 +60,7 @@ int	print_export(char **str)
 	cnt = 0;
 	while (str[cnt])
 	{
-		tmp = *env;
+		tmp = *global.env;
 		while (ft_strcmp(str[cnt], tmp->name) != 0)
 			tmp = tmp->next;
 		s = "declare -x ";
@@ -124,12 +124,12 @@ int	builtin_export(t_token **p_tok)
 	size_t	size;
 
 	printf("builtin export\n");
-	tmp = env;
+	tmp = global.env;
 	size = count_env(*tmp);
 	if ((*p_tok)->next == NULL || operater_cmp((*p_tok)->next->word, 0) != 0)
 		put_export(*tmp, size);
 	else if ((*p_tok)->next->word && (*p_tok)->next->next == NULL)
-		add_env(p_tok, env);
+		add_env(p_tok, global.env);
 	else
 		printf("error\n");
 	return (0);

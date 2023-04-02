@@ -58,7 +58,8 @@ typedef struct s_global
 
 extern t_global	global;
 
-
+//init
+void	init_minishell(void);
 // env
 t_env	*new_env(char *str);
 t_env	**make_env(void);

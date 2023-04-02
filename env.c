@@ -2,10 +2,9 @@
 
 int	builtin_env(t_token **p_tok)
 {
-	t_env **tmp;
+	t_env	**tmp;
 
-	printf("builtin\n");
-	tmp = env;
+	tmp = global.env;
 	(void)p_tok;
 	while (*tmp)
 	{
@@ -15,6 +14,5 @@ int	builtin_env(t_token **p_tok)
 		ft_putstr_fd("\n", 1);
 		tmp = &(*tmp)->next;
 	}
-	printf("!!!!!env = %s\t%s\n", (*env)->name, (*env)->value);
 	return (0);
 }

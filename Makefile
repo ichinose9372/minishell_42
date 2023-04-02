@@ -7,6 +7,7 @@ CFLAGS	=	-Wall -Wextra -Werror
 LFLAGS	=	-lreadline
 
 SRCS	=	main.c\
+			init.c\
 			exec_cmd.c\
 			make_path.c\
 			pipe_file_init.c\
