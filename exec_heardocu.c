@@ -31,6 +31,7 @@ void	exec_heardocu(t_token **p_tok)
 	char	*str;
 
 	pid = fork();
+	signal_heredocu();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)

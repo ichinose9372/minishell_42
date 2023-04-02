@@ -19,7 +19,6 @@ void	signal_one()
 void	handler_heredocu_c(int sig)
 {
 	(void)sig;
-	ft_putchar_fd('\n', STDOUT_FILENO);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
