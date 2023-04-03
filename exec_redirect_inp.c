@@ -31,5 +31,4 @@ void	exec_redirect_inp(t_token **p_tok, int output_fd)
 		else if (pid != 0)
 			wait(NULL);
 	}
-	printf("test\n");
 }

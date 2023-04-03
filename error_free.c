@@ -5,6 +5,7 @@ void	command_not_found(char *str)
 	ft_putstr_fd("command not found: ", 1);
 	ft_putstr_fd(str, 1);
 	ft_putchar_fd('\n', 1);
+	global.status = 127;
 }
 
 void	all_free(char **env_split)

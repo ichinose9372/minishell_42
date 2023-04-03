@@ -8,7 +8,8 @@ int	file_open_rd(char	*argv)
 	if (fd < 0)
 	{
 		perror("Error");
-		exit(EXIT_FAILURE);
+		global.status = 130;
+		exit(global.status);
 	}
 	return (fd);
 }
@@ -21,7 +22,8 @@ int	file_open_wrt(char	*argv)
 	if (fd < 0)
 	{
 		perror("Error");
-		exit(EXIT_FAILURE);
+		global.status = 130;
+		exit(global.status);
 	}
 	return (fd);
 }
@@ -34,7 +36,8 @@ int	file_open_wrt_add(char	*argv)
 	if (fd < 0)
 	{
 		perror("Error");
-		exit(EXIT_FAILURE);
+		global.status = 130;
+		exit(global.status);
 	}
 	return (fd);
 }

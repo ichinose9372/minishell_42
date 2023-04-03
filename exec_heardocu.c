@@ -15,8 +15,7 @@ char	*make_str(char	*stop)
 	while (1)
 	{
 		str = readline("> ");
-		if (ft_strncmp(str, stop, ft_strlen(str)) == 0)
-			break ;
+		if (ft_strncmp(str, stop, ft_strlen(stop)) == 0)		break ;
 		str2 = ft_strjoin(str, linefeed);
 		str3 = ft_strjoin(str3, str2);
 	}
@@ -48,13 +47,13 @@ void	exec_heardocu(t_token **p_tok)
 	char	*str;
 
 	str = NULL;
+	signal_heredocu();
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
 		pipe(pipe_data.pipe_fd);
-		signal_heredocu();
 		str = heredocu(p_tok, str);
 		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 		dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
