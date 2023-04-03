@@ -32,7 +32,8 @@ void	minishell_2(t_token **p_tok, char *str)
 	expansion(tok, p_tok);
 	if (ft_strncmp((*p_tok)->word, "cd", 2) == 0)
 		builtin_cd(p_tok);
-	exec_cmd(p_tok, 0, 1);
+	else
+		exec_cmd(p_tok, 0, 1);
 }
 
 void	minishell(void)

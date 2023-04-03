@@ -54,27 +54,32 @@ char	*prev_move(char	*path_name)
 	return (new_path);
 }
 
-char	*next_move(char	*path_name, char *word)
+char	*next_move(char *path_name, char *word)
 {
-	char	*tmp;
-	int		ret;
 	char	*new_path;
+	char	*tmp;
 
-	tmp = ft_strjoin("/", word);
-	if (tmp[ft_strlen(tmp - 1)])
-		tmp = ft_substr(tmp, 0, (ft_strlen(tmp) - 1));
-	new_path = ft_strjoin(path_name, tmp);
-	ret = chdir(new_path);
-	if (ret == -1)
+	if (word && word[0] != '\0')
+	{
+		if (word[ft_strlen(word) - 1] == '/')
+			tmp = ft_substr(word, 0, ft_strlen(word) - 1);
+		else
+			tmp = ft_strdup(word);
+		new_path = ft_strjoin(path_name, "/");
+		new_path = ft_strjoin(new_path, tmp);
+		free(tmp);
+	}
+	else
+		new_path = ft_strdup(path_name);
+	if (chdir(new_path) == -1)
 	{
 		perror("chdir");
-		exit(1);
+		free(new_path);
+		return (NULL);
 	}
-	free(tmp);
 	return (new_path);
-
-
 }
+
 int	builtin_cd(t_token **p_tok)
 {
 	char	path_name[PATH_SIZE];
