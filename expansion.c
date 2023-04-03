@@ -76,6 +76,11 @@ size_t	variable_expansion(char **dest, char *src)
 		*dest = tmp;
 		return (cnt);
 	}
+	else if (src[cnt] == '?')
+	{
+		*dest = ft_itoa(global.status);
+		return (cnt + 1);
+	}
 	if (!check_variable(src, &cnt))
 		return (cnt + 1);
 	name = new_strdup(&src[1], cnt - 1);

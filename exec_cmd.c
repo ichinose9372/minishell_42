@@ -20,6 +20,8 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 {
 	pid_t	pid;
 
+	int		status;
+
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
@@ -33,11 +35,15 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 		exit(EXIT_FAILURE);
 	}
 	else
-		waitpid(pid, NULL, 0);
+		wait(&status);
+	if (WIFEXITED(status))
+		global.status = WEXITSTATUS(status);
 }
 
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 {
+	if (p_tok == NULL)
+		return ;
 	if (check_no_operation(p_tok) == 1)
 		exec_pipe(p_tok, input_fd, output_fd);
 	else if (check_no_operation(p_tok) == 0)

@@ -77,7 +77,11 @@ char	**token_path(t_token **p_tok)
 	size = 0;
 	while ((*tmp_tok))
 	{
-		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">", 1) == 0 || ft_strncmp((*tmp_tok)->word, ">>", 2) == 0 || ft_strncmp((*tmp_tok)->word, "<<", 2) == 0 || ft_strncmp((*tmp_tok)->word, "<", 2) == 0)
+		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0
+			|| ft_strncmp((*tmp_tok)->word, ">", 1) == 0
+			||ft_strncmp((*tmp_tok)->word, ">>", 2) == 0
+			||ft_strncmp((*tmp_tok)->word, "<<", 2) == 0
+			|| ft_strncmp((*tmp_tok)->word, "<", 2) == 0)
 			break ;
 		size++;
 		tmp_tok = &(*tmp_tok)->next;
@@ -92,8 +96,8 @@ char	**token_path(t_token **p_tok)
 		tmp_tok = &(*tmp_tok)->next;
 	}
 	argv[size] = NULL;
-	argv[0] = make_path(argv[0], environ);
+	argv[0] = make_path(argv[0], global.our_environ);
 	if (argv[0] == NULL)
-		exit(1);
+		return (NULL);
 	return (argv);
 }

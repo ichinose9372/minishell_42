@@ -44,6 +44,7 @@ OBJS	=	$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 .PHONY:	all clean fclean re
 
 all: $(NAME)
+	$(shell echo > ~/.inputrc set echo-control-characters off)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LFLAGS) -o $@

@@ -27,11 +27,16 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 {
 	t_token	**tmp;
 	int		file_fd;
+	pid_t	pid;
 
 	tmp = p_tok;
 	file_fd = ft_open(p_tok);
 	if (input_fd != 0)
 		dup2(input_fd, STDIN_FILENO);
 	dup2(file_fd, STDOUT_FILENO);
-	exec(tmp);
+	pid = fork();
+	if (pid == 0)
+		exec(tmp);
+	else if (pid > 0)
+		wait(NULL);
 }

@@ -22,7 +22,6 @@ void	print_token(t_token **tok)
 
 void	minishell_2(t_token **p_tok, char *str)
 {
-	pid_t	pid;
 	t_token	*tok;
 
 	tok = malloc(sizeof(t_token));
@@ -31,16 +30,10 @@ void	minishell_2(t_token **p_tok, char *str)
 	tok->word = NULL;
 	tok = tokenizer(str, tok);
 	expansion(tok, p_tok);
-	if (builtin_list(p_tok) == 1)
-	{
-		pid = fork();
-		if (pid < 0)
-			exit(EXIT_FAILURE);
-		else if (pid == 0)
-			exec_cmd(p_tok, 0, 1);
-		else
-			wait(NULL);
-	}
+	if (ft_strncmp((*p_tok)->word, "cd", 2) == 0)
+		builtin_cd(p_tok);
+	else
+		exec_cmd(p_tok, 0, 1);
 }
 
 void	minishell(void)
@@ -65,8 +58,8 @@ void	minishell(void)
 		{
 			add_history(str);
 			minishell_2(p_tok, str);
+			all_free_token(p_tok);
 		}
-		all_free_token(p_tok);
 		free(str);
 	}
 	exit(0);
