@@ -12,10 +12,11 @@ char	*make_str(char	*stop)
 	if (str3 == NULL)
 		exit(EXIT_FAILURE);
 	str3 = "";
-	while (1)
+	while (global.heredoc_flag == 0)
 	{
 		str = readline("> ");
-		if (ft_strncmp(str, stop, ft_strlen(stop)) == 0)		break ;
+		if (str == NULL || ft_strncmp(str, stop, ft_strlen(stop)) == 0)
+			break ;
 		str2 = ft_strjoin(str, linefeed);
 		str3 = ft_strjoin(str3, str2);
 	}
@@ -46,15 +47,18 @@ void	exec_heardocu(t_token **p_tok)
 	t_pipe	pipe_data;
 	char	*str;
 
+	global.heredoc_flag = 0;
 	str = NULL;
-	signal_heredocu();
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
+		signal_heredocu();
 		pipe(pipe_data.pipe_fd);
 		str = heredocu(p_tok, str);
+		if (global.heredoc_flag == 1)
+			exit(0);
 		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 		dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
 		close(pipe_data.pipe_fd[READ]);

@@ -52,6 +52,7 @@ typedef struct s_global
 	t_env	**env;
 	int		status;
 	char	**our_environ;
+	int		heredoc_flag;
 }	t_global;
 
 // extern t_en	**env;
@@ -128,4 +129,5 @@ int		builtin_unset(t_token **p_tok);
 // signal
 void	signal_one(void);
 void	signal_heredocu();
+void	signal_cmd();
 #endif

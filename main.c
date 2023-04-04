@@ -29,9 +29,13 @@ void	minishell_2(t_token **p_tok, char *str)
 		exit(EXIT_FAILURE);
 	tok->word = NULL;
 	tok = tokenizer(str, tok);
+	if (tok->word == NULL)
+		return ;
 	expansion(tok, p_tok);
-	if (ft_strncmp((*p_tok)->word, "cd", 2) == 0)
+	if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
 		builtin_cd(p_tok);
+	else if (ft_strncmp((*p_tok)->word, "exit", 5) == 0)
+		builtin_exit(p_tok);
 	else
 		exec_cmd(p_tok, 0, 1);
 }
@@ -50,6 +54,7 @@ void	minishell(void)
 			exit(1);
 		signal_one();
 		str = readline("mini_shell$ ");
+		signal(SIGINT, SIG_IGN);
 		if (str == NULL)
 			exit(1);
 		else if (*str == '\0')

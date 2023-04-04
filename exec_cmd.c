@@ -22,6 +22,7 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 
 	int		status;
 
+	signal_cmd();
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
