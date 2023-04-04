@@ -6,17 +6,13 @@ t_env	**env;
 
 void	print_token(t_token **tok)
 {
-	t_token	*tmp;
+	t_token	**tmp;
 
-	tmp = *tok;
-	if (tok == NULL)
-	{
-		printf("after free all\n");
-	}
+	tmp = tok;
 	while (tmp)
 	{
-		printf("tok:%s\t%p\n", tmp->word, tmp->next);
-		tmp = tmp->next;
+		printf("tok:%d\t%s\t%p\n", (*tmp)->kind, (*tmp)->word, (*tmp)->next);
+		tmp = &(*tmp)->next;
 	}
 }
 
@@ -49,7 +45,7 @@ void	minishell(void)
 		if (p_tok == NULL)
 			exit(1);
 		signal_one();
-		str = readline("mini_shell$ ");
+		str = readline("minishell $ ");
 		if (str == NULL)
 			exit(1);
 		else if (*str == '\0')
@@ -67,6 +63,7 @@ void	minishell(void)
 
 int	main(void)
 {
+
 	init_minishell();
 	minishell();
 }
