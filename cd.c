@@ -18,6 +18,20 @@ char	*my_getcwd(char *buf, size_t length)
 	return (buf);
 }
 
+char	*home_path(void)
+{
+	char	*home;
+	t_env	**tmp;
+
+	tmp = global.env;
+	while (ft_strncmp((*tmp)->name, "HOME", 5) != 0)
+		tmp = &(*tmp)->next;
+	home = ft_strdup((*tmp)->value);
+	if (home == NULL)
+		return (NULL);
+	return (home);
+}
+
 void	remake_pwd(char	*new_path)
 {
 	t_env	**tmp;
@@ -59,7 +73,10 @@ char	*next_move(char *path_name, char *word)
 	char	*new_path;
 	char	*tmp;
 
-	if (word && word[0] != '\0')
+
+	if (word[0] == '/')
+		new_path = ft_strdup(word);
+	else
 	{
 		if (word[ft_strlen(word) - 1] == '/')
 			tmp = ft_substr(word, 0, ft_strlen(word) - 1);
@@ -69,8 +86,6 @@ char	*next_move(char *path_name, char *word)
 		new_path = ft_strjoin(new_path, tmp);
 		free(tmp);
 	}
-	else
-		new_path = ft_strdup(path_name);
 	if (chdir(new_path) == -1)
 	{
 		perror("chdir");
@@ -87,6 +102,17 @@ int	builtin_cd(t_token **p_tok)
 
 	if (!my_getcwd(path_name, PATH_SIZE))
 		return (1);
+	if ((*p_tok)->next == NULL)
+	{
+		new_path = home_path();
+		if (chdir(new_path) == -1)
+		{
+			perror("chdir");
+			return (0);
+		}
+		remake_pwd(new_path);
+		return (0);
+	}
 	if (ft_strncmp((*p_tok)->next->word, "..", 3) == 0)
 	{
 		new_path = prev_move(path_name);
