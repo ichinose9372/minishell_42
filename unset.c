@@ -1,9 +1,22 @@
 #include "minishell.h"
 
+static void	del_env(t_env **tmp, t_env *prev)
+{
+	t_env *del;
+
+	del = *tmp;
+	tmp = &(*tmp)->next;
+	if (prev == NULL)
+		global.env = tmp;
+	prev->next = *tmp;
+	free(del->name);
+	free(del->value);
+	free(del);
+}
+
 int	builtin_unset(t_token **p_tok)
 {
 	t_env	**tmp;
-	t_env	*del;
 	t_env	*prev;
 
 	tmp = global.env;
@@ -14,16 +27,7 @@ int	builtin_unset(t_token **p_tok)
 	{
 		if (ft_strncmp((*tmp)->name, (*p_tok)->next->word,
 				ft_strlen((*p_tok)->next->word)) == 0)
-		{
-			del = *tmp;
-			tmp = &(*tmp)->next;
-			if (prev == NULL)
-				global.env = tmp;
-			prev->next = *tmp;
-			free(del->name);
-			free(del->value);
-			free(del);
-		}
+			del_env(tmp, prev);
 		else
 		{
 			prev = *tmp;

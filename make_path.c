@@ -96,8 +96,13 @@ char	**token_path(t_token **p_tok)
 		tmp_tok = &(*tmp_tok)->next;
 	}
 	argv[size] = NULL;
-	argv[0] = make_path(argv[0], global.our_environ);
-	if (argv[0] == NULL)
-		return (NULL);
-	return (argv);
+	if (ft_strchr(argv[0], '/') != 0)
+		return (argv);
+	else
+	{
+		argv[0] = make_path(argv[0], global.our_environ);
+		if (argv[0] == NULL)
+			return (NULL);
+		return (argv);
+	}
 }

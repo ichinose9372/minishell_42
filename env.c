@@ -6,7 +6,7 @@ int	builtin_env(t_token **p_tok)
 
 	tmp = global.env;
 	(void)p_tok;
-	while (*tmp)
+	while (tmp)
 	{
 		ft_putstr_fd((*tmp)->name, 1);
 		ft_putstr_fd("=", 1);

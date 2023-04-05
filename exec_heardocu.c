@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*make_str(char	*stop)
+static char	*make_str(char	*stop)
 {
 	char	*str;
 	char	*linefeed;
@@ -11,18 +11,19 @@ char	*make_str(char	*stop)
 	str3 = malloc(sizeof(char));
 	if (str3 == NULL)
 		exit(EXIT_FAILURE);
-	str3 = "";
+	str3 = NULL;
 	while (1)
 	{
 		str = readline("> ");
-		if (ft_strncmp(str, stop, ft_strlen(stop)) == 0)		break ;
+		if (ft_strncmp(str, stop, ft_strlen(stop)) == 0)
+			break ;
 		str2 = ft_strjoin(str, linefeed);
 		str3 = ft_strjoin(str3, str2);
 	}
 	return (str3);
 }
 
-char	*heredocu(t_token **p_tok, char	*str)
+static char	*heredocu(t_token **p_tok, char	*str)
 {
 	t_token	**tmp;
 
@@ -47,12 +48,12 @@ void	exec_heardocu(t_token **p_tok)
 	char	*str;
 
 	str = NULL;
-	signal_heredocu();
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
+		signal_heredocu();
 		pipe(pipe_data.pipe_fd);
 		str = heredocu(p_tok, str);
 		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
