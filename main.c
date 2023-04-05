@@ -4,14 +4,14 @@
 
 t_env	**env;
 
-void	print_token(t_token **tok)
+void	print_token()
 {
-	t_token	**tmp;
+	t_env	**tmp;
 
-	tmp = tok;
+	tmp = global.env;
 	while (tmp)
 	{
-		printf("tok:%d\t%s\t%p\n", (*tmp)->kind, (*tmp)->word, (*tmp)->next);
+		printf("%p\t%s\t%s\t%p\n",(*tmp),(*tmp)->name, (*tmp)->value, (*tmp)->next);
 		tmp = &(*tmp)->next;
 	}
 }

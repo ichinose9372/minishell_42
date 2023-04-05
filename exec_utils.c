@@ -18,14 +18,10 @@ int	builtin_list(t_token **p_tok)
 void	exec(t_token **p_tok)
 {
 	char	**path;
-
-	if (builtin_list(p_tok) == 1)
-	{
-		path = token_path(p_tok);
-		if (path == NULL)
-			exit(global.status);
-		execve(path[0], path, environ);
-		perror("exec");
-	}
+	path = token_path(p_tok);
+	if (path == NULL)
+		exit(global.status);
+	execve(path[0], path, environ);
+	perror("exec");
 	exit (1);
 }

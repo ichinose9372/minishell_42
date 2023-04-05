@@ -21,22 +21,27 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 	pid_t	pid;
 	int		status;
 
-	pid = fork();
-	if (pid < 0)
-		exit(EXIT_FAILURE);
-	else if (pid == 0)
+	if (builtin_list(p_tok) == 1)
 	{
-		if (input_fd != 0)
-			dup2(input_fd, STDIN_FILENO);
-		if (output_fd != 1)
-			dup2(output_fd, STDOUT_FILENO);
-		exec(p_tok);
-		exit(EXIT_FAILURE);
+		pid = fork();
+		if (pid < 0)
+			exit(EXIT_FAILURE);
+		else if (pid == 0)
+		{
+			if (input_fd != 0)
+				dup2(input_fd, STDIN_FILENO);
+			if (output_fd != 1)
+				dup2(output_fd, STDOUT_FILENO);
+			exec(p_tok);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			wait(&status);
+			if (WIFEXITED(status))
+				global.status = WEXITSTATUS(status);
+		}
 	}
-	else
-		wait(&status);
-	if (WIFEXITED(status))
-		global.status = WEXITSTATUS(status);
 }
 
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)

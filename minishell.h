@@ -83,11 +83,9 @@ void	token_kind(t_token *tok);
 void	expansion(t_token *tok, t_token **p_tok);
 
 // exec
-char	**envp_make_path(char **envp);
-char	*make_path(char *split_arg, char **envp);
-char	**envp_make_path(char **envp);
+char	**envp_make_path(void);
+char	*make_path(char *argv);
 char	*serch_path(char	*tmp, char **env_split);
-char	*make_path(char *split_arg, char **envp);
 char	**token_path(t_token **p_tok);
 int		check_operation(t_token **p_tok);
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
@@ -114,7 +112,7 @@ void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
 
 // テスト用
-void	print_token(t_token **tok);
+void	print_token();
 
 // builtin
 int		builtin_pwd(t_token **p_tok);

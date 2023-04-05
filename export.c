@@ -58,7 +58,6 @@ int	print_export(char **str)
 	char	*s;
 
 	cnt = 0;
-	printf("export!!!!!\n");
 	while (str[cnt])
 	{
 		tmp = global.env;
@@ -88,7 +87,6 @@ bool	put_export(t_env **tmp, size_t size)
 	if (!str)
 		return (false);
 	cnt = 0;
-	printf("put@@@@\n");
 	while (*tmp)
 	{
 		str[cnt++] = (*tmp)->name;
@@ -104,9 +102,9 @@ void	add_env(t_token **p_tok)
 	char	*str;
 	char	**split_env;
 	t_env	*new_env;
-	t_env	**tmp;
+	t_env	*tmp;
 
-	tmp = global.env;
+	tmp = *global.env;
 	str = ft_strdup((*p_tok)->next->word);
 	split_env = ft_split(str, '=');
 	if (split_env[2] || split_env == NULL)
@@ -117,9 +115,9 @@ void	add_env(t_token **p_tok)
 	new_env->next = NULL;
 	new_env->name = ft_strdup(split_env[0]);
 	new_env->value = ft_strdup(split_env[1]);
-	while ((*tmp)->next != NULL)
-		tmp = &(*tmp)->next;
-	(*tmp)->next = new_env;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new_env;
 }
 
 int	builtin_export(t_token **p_tok)
@@ -127,21 +125,12 @@ int	builtin_export(t_token **p_tok)
 	t_env	**tmp;
 	size_t	size;
 
-	printf("aaa\n");
 	tmp = global.env;
 	size = count_env(tmp);
-	printf("bbbbb\n");
 	if ((*p_tok)->next == NULL || operater_cmp((*p_tok)->next->word, 0) != 0)
-	{
 		put_export(tmp, size);
-		printf("ccccc\n");
-	}
 	else if ((*p_tok)->next->word && (*p_tok)->next->next == NULL)
-	{
 		add_env(p_tok);
-		builtin_env(p_tok);
-		printf("ddddd\n");
-	}
 	else
 		printf("error\n");
 	return (0);
