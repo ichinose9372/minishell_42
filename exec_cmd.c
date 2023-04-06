@@ -21,6 +21,7 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 	pid_t	pid;
 	int		status;
 
+	signal_cmd();
 	if (builtin_list(p_tok) == 1)
 	{
 		pid = fork();

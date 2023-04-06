@@ -12,6 +12,8 @@ int	builtin_list(t_token **p_tok)
 		return (builtin_export(p_tok));
 	else if (ft_strncmp((*p_tok)->word, "unset", 5) == 0)
 		return (builtin_unset(p_tok));
+	else if (ft_strncmp((*p_tok)->word, "exit", 5) == 0)
+		return (builtin_exit(p_tok));
 	return (1);
 }
 

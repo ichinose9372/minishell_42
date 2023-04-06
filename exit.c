@@ -18,8 +18,9 @@ int	builtin_exit(t_token **p_tok)
 {
 	int		status;
 
+	ft_putendl_fd("exit", STDOUT_FILENO);
 	if ((*p_tok)->next == 0)
-		exit (1);
+		exit (0);
 	if ((*p_tok)->next->next != NULL)
 	{
 		perror("exit");
@@ -28,7 +29,10 @@ int	builtin_exit(t_token **p_tok)
 	if (check_digit((*p_tok)->next->word))
 	{
 		status = ft_atoi((*p_tok)->next->word);
-		exit (status);
+		if (status < 256)
+			exit (status);
+		else if (status > 255)
+			exit (status - 256);
 	}
 	exit(255);
 }
