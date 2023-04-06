@@ -52,7 +52,6 @@ typedef struct s_global
 {
 	t_env	**env;
 	int		status;
-	char	**our_environ;
 }	t_global;
 
 // extern t_en	**env;
