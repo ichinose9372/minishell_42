@@ -15,7 +15,7 @@ static char	*make_str(char	*stop)
 	while (global.heredoc_flag == 0)
 	{
 		str = readline("> ");
-		if (str == NULL || ft_strncmp(str, stop, ft_strlen(stop)) == 0)
+		if (str == NULL || ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
 			break ;
 		str2 = ft_strjoin(str, linefeed);
 		str3 = ft_strjoin(str3, str2);

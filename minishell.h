@@ -95,7 +95,7 @@ void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd);
 void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd);
 void	exec_no_oparat(t_token **p_tok, int input_fd, int output_fd);
 void	exec_redirect_out(t_token **p_tok, int input_fd);
-void	exec_redirect_inp(t_token **p_tok, int output_fd);
+void	exec_redirect_inp(t_token **p_tok);
 void	exec_heardocu(t_token **p_tok);
 void	exec_colon(t_token **p_tok);
 
