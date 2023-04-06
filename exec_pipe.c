@@ -26,6 +26,7 @@ void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 	t_pipe	pipe_data;
 	pid_t	pid;
 
+	signal_cmd();
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
 	pid = fork();

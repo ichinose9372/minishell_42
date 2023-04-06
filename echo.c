@@ -24,7 +24,10 @@ int	builtin_echo(t_token **p_tok)
 	int		flag;
 
 	if ((*p_tok)->next == NULL)
+	{
+		ft_putchar_fd('\n', 1);
 		return (0);
+	}
 	tmp = (*p_tok)->next;
 	flag = 0;
 	while (option_check(tmp))
