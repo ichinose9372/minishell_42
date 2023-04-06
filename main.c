@@ -4,19 +4,15 @@
 
 t_env	**env;
 
-void	print_token(t_token **tok)
+void	print_token()
 {
-	t_token	*tmp;
+	t_env	**tmp;
 
-	tmp = *tok;
-	if (tok == NULL)
-	{
-		printf("after free all\n");
-	}
+	tmp = global.env;
 	while (tmp)
 	{
-		printf("tok:%s\t%p\n", tmp->word, tmp->next);
-		tmp = tmp->next;
+		printf("%p\t%s\t%s\t%p\n",(*tmp),(*tmp)->name, (*tmp)->value, (*tmp)->next);
+		tmp = &(*tmp)->next;
 	}
 }
 
@@ -72,6 +68,7 @@ void	minishell(void)
 
 int	main(void)
 {
+
 	init_minishell();
 	minishell();
 }

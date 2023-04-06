@@ -15,20 +15,23 @@ void	exec_redirect_inp(t_token **p_tok, int output_fd)
 	}
 	else
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			while (ft_strncmp((*p_tok)->word, "<", 1) != 0)
-				p_tok = &(*p_tok)->next;
+		while (ft_strncmp((*p_tok)->word, "<", 1) != 0)
 			p_tok = &(*p_tok)->next;
-			file_fd = file_open_rd((*p_tok)->word);
-			if (output_fd != 1)
-				dup2(output_fd, STDOUT_FILENO);
-			dup2(file_fd, STDIN_FILENO);
+		p_tok = &(*p_tok)->next;
+		file_fd = file_open_rd((*p_tok)->word);
+		if (output_fd != 1)
+			dup2(output_fd, STDOUT_FILENO);
+		dup2(file_fd, STDIN_FILENO);
+		if (builtin_list(p_tok) == 1)
+		{
+			pid = fork();
+			if (pid == 0)
 				exec(tmp);
+			else if (pid != 0)
+			{
+				wait(NULL);
 				close(file_fd);
+			}
 		}
-		else if (pid != 0)
-			wait(NULL);
 	}
 }

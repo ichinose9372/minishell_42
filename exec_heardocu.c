@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*make_str(char	*stop)
+static char	*make_str(char	*stop)
 {
 	char	*str;
 	char	*linefeed;
@@ -23,7 +23,7 @@ char	*make_str(char	*stop)
 	return (str3);
 }
 
-char	*heredocu(t_token **p_tok, char	*str)
+static char	*heredocu(t_token **p_tok, char	*str)
 {
 	t_token	**tmp;
 

@@ -5,7 +5,7 @@ int	ft_open(t_token **p_tok)
 	int	check_num;
 	int	file_fd;
 
-	check_num = check_no_operation(p_tok);
+	check_num = check_operation(p_tok);
 	if (check_num == 3)
 	{
 		while (ft_strncmp((*p_tok)->word, ">>", 2) != 0)

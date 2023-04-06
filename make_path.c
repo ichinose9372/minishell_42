@@ -1,23 +1,18 @@
 #include "minishell.h"
 
-char	**envp_make_path(char **envp)
+char	**envp_make_path(void)
 {
+	t_env	**tmp;
 	char	*serch;
-	char	*trim_env;
 	char	**env_split;
 
-	serch = "PATH=";
-	while (*envp)
-	{
-		if ((ft_strncmp(*envp, serch, ft_strlen(serch))) == 0)
-			break ;
-		envp++;
-	}
-	trim_env = ft_strtrim(*envp, serch);
-	env_split = ft_split(trim_env, ':');
+	serch = "PATH";
+	tmp = &(*global.env);
+	while (ft_strncmp((*tmp)->name, serch, 4) != 0)
+		tmp = &(*tmp)->next;
+	env_split = ft_split((*tmp)->value, ':');
 	if (env_split == NULL)
 		return (NULL);
-	free(trim_env);
 	return (env_split);
 }
 
@@ -39,16 +34,20 @@ char	*serch_path(char	*tmp, char **env_split)
 	return (NULL);
 }
 
-char	*make_path(char *argv, char **envp)
+char	*make_path(char *argv)
 {
 	char	**env_split;
 	char	*trim;
 	char	*path;
 	char	*tmp;
 
-	env_split = envp_make_path(envp);
+	env_split = envp_make_path();
 	if (env_split == NULL)
+	{
+
+		command_not_found(argv);
 		return (NULL);
+	}
 	trim = "/";
 	tmp = ft_strjoin(trim, argv);
 	if (tmp == NULL)
@@ -96,8 +95,13 @@ char	**token_path(t_token **p_tok)
 		tmp_tok = &(*tmp_tok)->next;
 	}
 	argv[size] = NULL;
-	argv[0] = make_path(argv[0], global.our_environ);
-	if (argv[0] == NULL)
-		return (NULL);
-	return (argv);
+	if (ft_strchr(argv[0], '/') != 0)
+		return (argv);
+	else
+	{
+		argv[0] = make_path(argv[0]);
+		if (argv[0] == NULL)
+			return (NULL);
+		return (argv);
+	}
 }

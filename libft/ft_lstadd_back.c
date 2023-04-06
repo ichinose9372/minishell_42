@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/29 09:26:38 by yichinos          #+#    #+#             */
-/*   Updated: 2023/04/05 18:34:38 by ichinoseyuu      ###   ########.fr       */
+/*   Created: 2022/10/19 20:21:27 by ichinoseyuu       #+#    #+#             */
+/*   Updated: 2023/04/05 11:39:27 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	ft_lstadd_back(t_env **lst, t_env *new)
 {
-	size_t	i;
+	t_env	*ndptr;
 
-	if (n == 0)
-		return (0);
-	i = 0;
-	while (i < n)
+	ndptr = *lst;
+	if (*lst == NULL)
 	{
-		if (*s1 == '\0' || *s2 == '\0')
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		if (*s1 != *s2)
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		i++;
-		s1++;
-		s2++;
+		*lst = new;
+		return ;
 	}
-	return (0);
+	while (ndptr -> next != NULL)
+		ndptr = ndptr -> next;
+	ndptr -> next = new;
 }

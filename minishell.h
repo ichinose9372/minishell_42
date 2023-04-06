@@ -17,6 +17,7 @@ extern char	**environ;
 # define PATH_SIZE	512
 
 
+
 typedef enum e_token_kind
 {
 	WORD,
@@ -24,7 +25,7 @@ typedef enum e_token_kind
 	OUTPUT,
 	INPUT,
 	ADD,
-	HEREDOC
+	HEREDOC,
 }	t_token_kind;
 
 typedef struct s_token
@@ -61,6 +62,9 @@ extern t_global	global;
 
 //init
 void	init_minishell(void);
+void	minishell_2(t_token **p_tok, char *str);
+void	minishell(void);
+
 // env
 t_env	*new_env(char *str);
 t_env	**make_env(void);
@@ -80,13 +84,11 @@ void	token_kind(t_token *tok);
 void	expansion(t_token *tok, t_token **p_tok);
 
 // exec
-char	**envp_make_path(char **envp);
-char	*make_path(char *split_arg, char **envp);
-char	**envp_make_path(char **envp);
+char	**envp_make_path(void);
+char	*make_path(char *argv);
 char	*serch_path(char	*tmp, char **env_split);
-char	*make_path(char *split_arg, char **envp);
 char	**token_path(t_token **p_tok);
-int		check_no_operation(t_token **p_tok);
+int		check_operation(t_token **p_tok);
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
 void	exec_pipe(t_token **p_tok, int input_fd, int output_fd);
 void	exec(t_token **p_tok);
@@ -96,6 +98,7 @@ void	exec_no_oparat(t_token **p_tok, int input_fd, int output_fd);
 void	exec_redirect_out(t_token **p_tok, int input_fd);
 void	exec_redirect_inp(t_token **p_tok, int output_fd);
 void	exec_heardocu(t_token **p_tok);
+void	exec_colon(t_token **p_tok);
 
 	// file oparate
 int		file_open_wrt(char *argv);
@@ -110,7 +113,7 @@ void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
 
 // テスト用
-void	print_token(t_token **tok);
+void	print_token();
 
 // builtin
 int		builtin_pwd(t_token **p_tok);
