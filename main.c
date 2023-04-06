@@ -40,9 +40,13 @@ void	minishell(void)
 {
 	char	*str;
 	t_token	**p_tok;
+	int		fd_in;
+	int		fd_out;
 
 	make_env();
 	rl_outstream = stderr;
+	fd_in = dup(STDIN_FILENO);
+	fd_out = dup(STDOUT_FILENO);
 	while (1)
 	{
 		p_tok = malloc(sizeof(t_token *));
@@ -62,6 +66,8 @@ void	minishell(void)
 			all_free_token(p_tok);
 		}
 		free(str);
+		dup2(fd_in, STDIN_FILENO);
+		dup2(fd_out, STDOUT_FILENO);
 	}
 	exit(0);
 }

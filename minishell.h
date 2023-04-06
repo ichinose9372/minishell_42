@@ -52,7 +52,6 @@ typedef struct s_global
 {
 	t_env	**env;
 	int		status;
-	char	**our_environ;
 	int		heredoc_flag;
 }	t_global;
 

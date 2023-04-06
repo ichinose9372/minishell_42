@@ -22,6 +22,8 @@ void	exec_redirect_inp(t_token **p_tok, int output_fd)
 		if (output_fd != 1)
 			dup2(output_fd, STDOUT_FILENO);
 		dup2(file_fd, STDIN_FILENO);
+		printf("%d\n", file_fd);
+		printf("[%d] [%d]\n", STDIN_FILENO, STDOUT_FILENO);
 		if (builtin_list(p_tok) == 1)
 		{
 			pid = fork();

@@ -36,8 +36,8 @@ void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 		chiled1(p_tok, &pipe_data, input_fd);
 	else if (pid > 0)
 	{
+		waitpid(pid, NULL, 0);
 		chiled2(p_tok, &pipe_data, output_fd);
 		close(pipe_data.pipe_fd[READ]);
-		waitpid(pid, NULL, 0);
 	}
 }
