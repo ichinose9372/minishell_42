@@ -6,6 +6,7 @@ static char	*make_str(char	*stop)
 	char	*linefeed;
 	char	*str2;
 	char	*str3;
+	char	*tmp;
 
 	linefeed = "\n";
 	str3 = malloc(sizeof(char));
@@ -18,7 +19,16 @@ static char	*make_str(char	*stop)
 		if (str == NULL || ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
 			break ;
 		str2 = ft_strjoin(str, linefeed);
-		str3 = ft_strjoin(str3, str2);
+		if (str2 == NULL)
+			return (NULL);
+		tmp = str3;
+		free(str3);
+		str3 = ft_strjoin(tmp, str2);
+		if (str3 == NULL)
+			return (NULL);
+		free(tmp);
+		free(str);
+		free(str2);
 	}
 	return (str3);
 }
@@ -33,6 +43,8 @@ static char	*heredocu(t_token **p_tok, char	*str)
 		while (ft_strncmp((*tmp)->word, "<<", 2) != 0)
 			tmp = &(*tmp)->next;
 		str = make_str((*tmp)->next->word);
+		if (str == NULL)
+			return (NULL);
 		if ((*tmp)->next->next == NULL)
 			break ;
 		else
@@ -57,6 +69,11 @@ void	exec_heardocu(t_token **p_tok)
 		signal_heredocu();
 		pipe(pipe_data.pipe_fd);
 		str = heredocu(p_tok, str);
+		if (str == NULL)
+		{
+			exit(EXIT_FAILURE);
+			exit (1);
+		}
 		if (global.heredoc_flag == 1)
 			exit(0);
 		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));

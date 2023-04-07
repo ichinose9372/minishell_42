@@ -44,7 +44,6 @@ char	*make_path(char *argv)
 	env_split = envp_make_path();
 	if (env_split == NULL)
 	{
-
 		command_not_found(argv);
 		return (NULL);
 	}
@@ -86,11 +85,15 @@ char	**token_path(t_token **p_tok)
 		tmp_tok = &(*tmp_tok)->next;
 	}
 	argv = malloc(sizeof(char *) * (size + 1));
+	if (argv == NULL)
+		return (NULL);
 	tmp_tok = p_tok;
 	i = 0;
 	while (i < size)
 	{
 		argv[i] = ft_strdup((*tmp_tok)->word);
+		if (argv[i] == NULL)
+			return (NULL); // argv全部をフリーする。
 		i++;
 		tmp_tok = &(*tmp_tok)->next;
 	}

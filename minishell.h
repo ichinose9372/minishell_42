@@ -112,7 +112,7 @@ void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
 
 // テスト用
-void	print_token();
+void	print_token(t_token **p_tok);
 
 // builtin
 int		builtin_pwd(t_token **p_tok);

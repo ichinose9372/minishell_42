@@ -34,9 +34,12 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	if (input_fd != 0)
 		dup2(input_fd, STDIN_FILENO);
 	dup2(file_fd, STDOUT_FILENO);
-	pid = fork();
-	if (pid == 0)
-		exec(tmp);
-	else if (pid > 0)
-		wait(NULL);
+	if (builtin_list(p_tok) == 1)
+	{
+		pid = fork();
+		if (pid == 0)
+			exec(tmp);
+		else if (pid > 0)
+			wait(NULL);
+	}
 }

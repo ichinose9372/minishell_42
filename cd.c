@@ -72,6 +72,7 @@ char	*next_move(char *path_name, char *word)
 {
 	char	*new_path;
 	char	*tmp;
+	char	*tmp2;
 
 
 	if (word[0] == '/')
@@ -82,8 +83,9 @@ char	*next_move(char *path_name, char *word)
 			tmp = ft_substr(word, 0, ft_strlen(word) - 1);
 		else
 			tmp = ft_strdup(word);
-		new_path = ft_strjoin(path_name, "/");
-		new_path = ft_strjoin(new_path, tmp);
+		tmp2 = ft_strjoin(path_name, "/");
+		new_path = ft_strjoin(tmp2, tmp);
+		free(tmp2);
 		free(tmp);
 	}
 	if (chdir(new_path) == -1)
@@ -111,6 +113,7 @@ int	builtin_cd(t_token **p_tok)
 			return (0);
 		}
 		remake_pwd(new_path);
+		free(new_path);
 		return (0);
 	}
 	if (ft_strncmp((*p_tok)->next->word, "..", 3) == 0)
