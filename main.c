@@ -2,16 +2,14 @@
 #include <stdlib.h>
 #include "minishell.h"
 
-t_env	**env;
-
-void	print_token()
+void	print_token(t_token **p_tok)
 {
-	t_env	**tmp;
+	t_token	**tmp;
 
-	tmp = global.env;
-	while (tmp)
+	tmp = p_tok;
+	while (*tmp)
 	{
-		printf("%p\t%s\t%s\t%p\n",(*tmp),(*tmp)->name, (*tmp)->value, (*tmp)->next);
+		printf("%s\t%p\n", (*tmp)->word, (*tmp)->next);
 		tmp = &(*tmp)->next;
 	}
 }
