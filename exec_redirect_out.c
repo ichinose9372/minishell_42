@@ -29,6 +29,7 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	int		file_fd;
 	pid_t	pid;
 	int		builtin;
+	char	**path;
 
 	tmp = p_tok;
 	file_fd = ft_open(p_tok);
@@ -40,11 +41,16 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	builtin = builtin_list(p_tok);
 	if (builtin == 1)
 	{
+		path = token_path(p_tok);
 		pid = fork();
 		if (pid == 0)
-			exec(tmp);
+			exec(path);
 		else if (pid > 0)
+		{
 			wait(NULL);
+			all_free(path);
+		}
+
 	}
 	else if (builtin == -1)
 	{

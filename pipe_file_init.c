@@ -31,7 +31,6 @@ int	file_open_wrt(char	*argv)
 int	file_open_wrt_add(char	*argv)
 {
 	int	fd;
-
 	fd = open(argv, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
 	{

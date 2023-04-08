@@ -17,13 +17,8 @@ int	builtin_list(t_token **p_tok)
 	return (1);
 }
 
-void	exec(t_token **p_tok)
+void	exec(char	**path)
 {
-	char	**path;
-
-	path = token_path(p_tok);
-	if (path == NULL)
-		exit(g_global.status);
 	execve(path[0], path, environ);
 	perror("exec");
 	exit (1);

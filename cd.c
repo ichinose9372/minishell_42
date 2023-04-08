@@ -127,6 +127,8 @@ int	builtin_cd(t_token **p_tok)
 	else if ((*p_tok)->next->word)
 	{
 		new_path = next_move(path_name, (*p_tok)->next->word);
+		if (new_path == NULL)
+			return (0);
 		remake_pwd(new_path);
 		free(new_path);
 	}

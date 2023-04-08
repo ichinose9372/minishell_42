@@ -25,7 +25,10 @@ static char	*make_str(char	*stop)
 		// free(str3);
 		str3 = ft_strjoin(tmp, str2);
 		if (str3 == NULL)
+		{
+			free(str2);
 			return (NULL);
+		}
 		free(tmp);
 		free(str);
 		free(str2);
@@ -58,8 +61,12 @@ void	exec_heardocu(t_token **p_tok)
 	pid_t	pid;
 	t_pipe	pipe_data;
 	char	*str;
+	char	**path;
 
+	path = token_path(p_tok);
 	g_global.heredoc_flag = 0;
+	str = NULL;
+
 	// str = NULL;
 	pid = fork();
 	if (pid < 0)
@@ -67,21 +74,22 @@ void	exec_heardocu(t_token **p_tok)
 	else if (pid == 0)
 	{
 		signal_heredocu();
-		pipe(pipe_data.pipe_fd);
+		if (pipe(pipe_data.pipe_fd) == -1)
+			exit (EXIT_FAILURE);
 		str = heredocu(p_tok, str);
 		if (str == NULL)
-		{
 			exit(EXIT_FAILURE);
-			exit (1);
-		}
 		if (g_global.heredoc_flag == 1)
 			exit(0);
 		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 		dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
 		close(pipe_data.pipe_fd[READ]);
 		close(pipe_data.pipe_fd[WRITE]);
-		exec(p_tok);
+		exec(path);
 	}
 	else
+	{
 		wait(NULL);
+		all_free(path);
+	}
 }
