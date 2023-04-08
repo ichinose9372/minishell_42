@@ -67,7 +67,6 @@ void	exec_heardocu(t_token **p_tok)
 	g_global.heredoc_flag = 0;
 	str = NULL;
 
-	// str = NULL;
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
