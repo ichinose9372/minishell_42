@@ -77,6 +77,7 @@ t_token	*tokenizer(char *str, t_token *tok)
 				if (seartch_quote(str, start, &end))
 				{
 					ft_putendl_fd("quote error", STDOUT_FILENO);
+					g_global.status = 1;
 					return (NULL);
 				}
 			}
