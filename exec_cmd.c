@@ -20,10 +20,14 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 {
 	pid_t	pid;
 	int		status;
+	char	**path;
 
 	signal_cmd();
 	if (builtin_list(p_tok) == 1)
 	{
+		path = token_path(p_tok);
+		if (path == NULL)
+			return ;
 		pid = fork();
 		if (pid < 0)
 			exit(EXIT_FAILURE);
@@ -33,7 +37,7 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 				dup2(input_fd, STDIN_FILENO);
 			if (output_fd != 1)
 				dup2(output_fd, STDOUT_FILENO);
-			exec(p_tok);
+			exec(path);
 			exit(EXIT_FAILURE);
 		}
 		else
@@ -41,6 +45,7 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 			wait(&status);
 			if (WIFEXITED(status))
 				g_global.status = WEXITSTATUS(status);
+			all_free(path);
 		}
 	}
 }

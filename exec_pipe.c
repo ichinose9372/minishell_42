@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd)
+void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd, char **path)
 {
 	if (input_fd != STDIN_FILENO)
 		dup2(input_fd, STDIN_FILENO);
@@ -8,7 +8,7 @@ void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd)
 	dup2(pipe_data->pipe_fd[WRITE], STDOUT_FILENO);
 	close(pipe_data->pipe_fd[WRITE]);
 	if (builtin_list(p_tok) == 1)
-		exec(p_tok);
+		exec(path);
 	exit (EXIT_SUCCESS);
 }
 
@@ -25,18 +25,21 @@ void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 {
 	t_pipe	pipe_data;
 	pid_t	pid;
+	char	**path;
 
 	signal_cmd();
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
+	path = token_path(p_tok);
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
-		chiled1(p_tok, &pipe_data, input_fd);
+		chiled1(p_tok, &pipe_data, input_fd, path);
 	else if (pid > 0)
 	{
 		waitpid(pid, NULL, 0);
+		all_free(path);
 		chiled2(p_tok, &pipe_data, output_fd);
 		close(pipe_data.pipe_fd[READ]);
 	}
