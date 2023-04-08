@@ -12,7 +12,7 @@ static char	*make_str(char	*stop)
 	str3 = malloc(sizeof(char));
 	if (str3 == NULL)
 		exit(EXIT_FAILURE);
-	str3 = "";
+	// str3 = "";
 	while (g_global.heredoc_flag == 0)
 	{
 		str = readline("> ");
@@ -22,7 +22,7 @@ static char	*make_str(char	*stop)
 		if (str2 == NULL)
 			return (NULL);
 		tmp = str3;
-		free(str3);
+		// free(str3);
 		str3 = ft_strjoin(tmp, str2);
 		if (str3 == NULL)
 		{
@@ -65,8 +65,12 @@ void	exec_heardocu(t_token **p_tok)
 
 	path = token_path(p_tok);
 	g_global.heredoc_flag = 0;
+<<<<<<< HEAD
 	str = NULL;
 
+=======
+	// str = NULL;
+>>>>>>> 2f48f5d5d382c3a51a92518ae0bc3a52fba698a1
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);

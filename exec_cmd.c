@@ -20,10 +20,15 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 {
 	pid_t	pid;
 	int		status;
+<<<<<<< HEAD
 	char	**path;
+=======
+	int		builtin;
+>>>>>>> 2f48f5d5d382c3a51a92518ae0bc3a52fba698a1
 
 	signal_cmd();
-	if (builtin_list(p_tok) == 1)
+	builtin = builtin_list(p_tok);
+	if (builtin == 1)
 	{
 		path = token_path(p_tok);
 		if (path == NULL)
@@ -48,6 +53,13 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 			all_free(path);
 		}
 	}
+	else if (builtin == -1)
+	{
+		ft_putendl_fd("builtin error", 1);
+		g_global.status = 1;
+	}
+	else if (builtin == 0)
+		g_global.status = 0;
 }
 
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)

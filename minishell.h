@@ -63,7 +63,7 @@ extern t_global	g_global;
 
 //init
 void	init_minishell(void);
-void	minishell_2(t_token **p_tok, char *str);
+int		minishell_2(t_token **p_tok, char *str);
 void	minishell(void);
 
 // env

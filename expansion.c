@@ -56,7 +56,7 @@ char	*new_getenv(char *name)
 	while (tmp)
 	{
 		if (!ft_strncmp(name, tmp->name, len + 1))
-			return (ft_strdup(tmp->value));
+			return (tmp->value);
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -85,6 +85,7 @@ size_t	variable_expansion(char **dest, char *src)
 		return (cnt + 1);
 	name = new_strdup(&src[1], cnt - 1);
 	tmp = ft_strjoin(*dest, new_getenv(name));
+	free(name);
 	free(*dest);
 	*dest = tmp;
 	return (cnt);

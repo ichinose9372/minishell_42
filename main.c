@@ -14,7 +14,7 @@ void	print_token(t_token **p_tok)
 	}
 }
 
-void	minishell_2(t_token **p_tok, char *str)
+int	minishell_2(t_token **p_tok, char *str)
 {
 	t_token	*tok;
 
@@ -23,8 +23,13 @@ void	minishell_2(t_token **p_tok, char *str)
 		exit(EXIT_FAILURE);
 	tok->word = NULL;
 	tok = tokenizer(str, tok);
+	if (tok == NULL)
+		return (0);
 	if (tok->word == NULL)
-		return ;
+	{
+		free(tok);
+		return (1);
+	}
 	expansion(tok, p_tok);
 	if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
 		builtin_cd(p_tok);
@@ -32,6 +37,7 @@ void	minishell_2(t_token **p_tok, char *str)
 		builtin_exit(p_tok);
 	else
 		exec_cmd(p_tok, 0, 1);
+	return (0);
 }
 
 void	minishell(void)
@@ -45,18 +51,24 @@ void	minishell(void)
 	{
 		p_tok = malloc(sizeof(t_token *));
 		if (p_tok == NULL)
+<<<<<<< HEAD
 			exit(1);
+=======
+			exit(EXIT_FAILURE);
+>>>>>>> 2f48f5d5d382c3a51a92518ae0bc3a52fba698a1
 		str = readline("mini_shell$ ");
 		signal(SIGINT, SIG_IGN);
 		if (str == NULL)
-			exit(1);
+			exit(EXIT_SUCCESS);
 		else if (*str == '\0')
 			free(p_tok);
 		else
 		{
 			add_history(str);
-			minishell_2(p_tok, str);
-			all_free_token(p_tok);
+			if (minishell_2(p_tok, str) == 1)
+				free(p_tok);
+			else
+				all_free_token(p_tok);
 		}
 		free(str);
 		dup2(g_global.fd_in, STDIN_FILENO);

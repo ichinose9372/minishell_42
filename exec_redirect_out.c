@@ -28,7 +28,11 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	t_token	**tmp;
 	int		file_fd;
 	pid_t	pid;
+<<<<<<< HEAD
 	char	**path;
+=======
+	int		builtin;
+>>>>>>> 2f48f5d5d382c3a51a92518ae0bc3a52fba698a1
 
 	tmp = p_tok;
 	file_fd = ft_open(p_tok);
@@ -37,7 +41,8 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	if (input_fd != 0)
 		dup2(input_fd, STDIN_FILENO);
 	dup2(file_fd, STDOUT_FILENO);
-	if (builtin_list(p_tok) == 1)
+	builtin = builtin_list(p_tok);
+	if (builtin == 1)
 	{
 		path = token_path(p_tok);
 		pid = fork();
@@ -50,4 +55,11 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 		}
 
 	}
+	else if (builtin == -1)
+	{
+		ft_putendl_fd("builtin error", 1);
+		g_global.status = 1;
+	}
+	else if (builtin == 0)
+		g_global.status = 0;
 }

@@ -6,8 +6,10 @@ char	*my_getcwd(char *buf, size_t length)
 	t_env	**tmp;
 
 	tmp = g_global.env;
-	while (ft_strncmp((*tmp)->name, "PWD", 4) != 0)
+	while (*tmp && ft_strncmp((*tmp)->name, "PWD", 4) != 0)
 		tmp = &(*tmp)->next;
+	if (*tmp == NULL)
+		return (NULL);
 	size = 0;
 	while (size < length - 1 && (*tmp)->value[size])
 	{
