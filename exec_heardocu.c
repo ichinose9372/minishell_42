@@ -12,17 +12,18 @@ static char	*make_str(char	*stop)
 	str3 = malloc(sizeof(char));
 	if (str3 == NULL)
 		exit(EXIT_FAILURE);
-	// str3 = "";
 	while (g_global.heredoc_flag == 0)
 	{
 		str = readline("> ");
 		if (str == NULL || ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
+		{
+			free(str);
 			break ;
+		}
 		str2 = ft_strjoin(str, linefeed);
 		if (str2 == NULL)
 			return (NULL);
 		tmp = str3;
-		// free(str3);
 		str3 = ft_strjoin(tmp, str2);
 		if (str3 == NULL)
 		{
@@ -51,7 +52,9 @@ static char	*heredocu(t_token **p_tok, char	*str)
 		if ((*tmp)->next->next == NULL)
 			break ;
 		else
+		{
 			tmp = &(*tmp)->next;
+		}
 	}
 	return (str);
 }
