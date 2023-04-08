@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void remake_token(t_token **p_tok)
+void	remake_token(t_token **p_tok)
 {
 	t_token	*tmp;
 	t_token	*third;
