@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-t_global	global;
+t_global	g_global;
 
 void	init_minishell(void)
 {
 	extern char	**environ;
 
-	global.env = make_env();
-	global.status = 0;
-	global.fd_in = dup(STDIN_FILENO);
-	global.fd_out = dup(STDOUT_FILENO);
+	g_global.env = make_env();
+	g_global.status = 0;
+	g_global.fd_in = dup(STDIN_FILENO);
+	g_global.fd_out = dup(STDOUT_FILENO);
 }

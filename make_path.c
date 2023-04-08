@@ -7,7 +7,7 @@ char	**envp_make_path(void)
 	char	**env_split;
 
 	serch = "PATH";
-	tmp = &(*global.env);
+	tmp = &(*g_global.env);
 	while (ft_strncmp((*tmp)->name, serch, 4) != 0)
 		tmp = &(*tmp)->next;
 	env_split = ft_split((*tmp)->value, ':');

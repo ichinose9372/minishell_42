@@ -7,7 +7,7 @@ static void	del_env(t_env **tmp, t_env *prev)
 	del = *tmp;
 	tmp = &(*tmp)->next;
 	if (prev == NULL)
-		global.env = tmp;
+		g_global.env = tmp;
 	prev->next = *tmp;
 	free(del->name);
 	free(del->value);
@@ -19,7 +19,7 @@ int	builtin_unset(t_token **p_tok)
 	t_env	**tmp;
 	t_env	*prev;
 
-	tmp = global.env;
+	tmp = g_global.env;
 	prev = NULL;
 	if ((*p_tok)->next == NULL)
 		exit(EXIT_FAILURE);

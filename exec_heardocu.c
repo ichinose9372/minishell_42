@@ -13,7 +13,7 @@ static char	*make_str(char	*stop)
 	if (str3 == NULL)
 		exit(EXIT_FAILURE);
 	str3 = "";
-	while (global.heredoc_flag == 0)
+	while (g_global.heredoc_flag == 0)
 	{
 		str = readline("> ");
 		if (str == NULL || ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
@@ -59,7 +59,7 @@ void	exec_heardocu(t_token **p_tok)
 	t_pipe	pipe_data;
 	char	*str;
 
-	global.heredoc_flag = 0;
+	g_global.heredoc_flag = 0;
 	str = NULL;
 	pid = fork();
 	if (pid < 0)
@@ -74,7 +74,7 @@ void	exec_heardocu(t_token **p_tok)
 			exit(EXIT_FAILURE);
 			exit (1);
 		}
-		if (global.heredoc_flag == 1)
+		if (g_global.heredoc_flag == 1)
 			exit(0);
 		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 		dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);

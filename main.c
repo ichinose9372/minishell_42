@@ -45,8 +45,7 @@ void	minishell(void)
 	{
 		p_tok = malloc(sizeof(t_token *));
 		if (p_tok == NULL)
-			exit(1);
-		signal_one();
+			exit(1); 
 		str = readline("mini_shell$ ");
 		signal(SIGINT, SIG_IGN);
 		if (str == NULL)
@@ -60,8 +59,8 @@ void	minishell(void)
 			all_free_token(p_tok);
 		}
 		free(str);
-		dup2(global.fd_in, STDIN_FILENO);
-		dup2(global.fd_out, STDOUT_FILENO);
+		dup2(g_global.fd_in, STDIN_FILENO);
+		dup2(g_global.fd_out, STDOUT_FILENO);
 	}
 	exit(0);
 }
