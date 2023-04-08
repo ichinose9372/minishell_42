@@ -60,7 +60,7 @@ int	print_export(char **str)
 	cnt = 0;
 	while (str[cnt])
 	{
-		tmp = global.env;
+		tmp = g_global.env;
 		while (ft_strcmp(str[cnt], (*tmp)->name) != 0)
 			tmp = &(*tmp)->next;
 		s = "declare -x ";
@@ -104,7 +104,7 @@ void	add_env(t_token **p_tok)
 	t_env	*new_env;
 	t_env	*tmp;
 
-	tmp = *global.env;
+	tmp = *g_global.env;
 	str = ft_strdup((*p_tok)->next->word);
 	split_env = ft_split(str, '=');
 	if (split_env[2] || split_env == NULL)
@@ -125,7 +125,7 @@ int	builtin_export(t_token **p_tok)
 	t_env	**tmp;
 	size_t	size;
 
-	tmp = global.env;
+	tmp = g_global.env;
 	size = count_env(tmp);
 	if ((*p_tok)->next == NULL || operater_cmp((*p_tok)->next->word, 0) != 0)
 		put_export(tmp, size);

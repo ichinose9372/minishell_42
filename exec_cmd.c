@@ -40,7 +40,7 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 		{
 			wait(&status);
 			if (WIFEXITED(status))
-				global.status = WEXITSTATUS(status);
+				g_global.status = WEXITSTATUS(status);
 		}
 	}
 }
