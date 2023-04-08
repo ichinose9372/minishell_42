@@ -46,12 +46,6 @@ void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd)
 		p_tok = &(*p_tok)->next;
 	p_tok = &(*p_tok)->next;
 	exec_cmd(p_tok, pipe_data->pipe_fd[READ], output_fd);
-
-
-
-
-
-	
 }
 
 void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
