@@ -31,6 +31,8 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 
 	tmp = p_tok;
 	file_fd = ft_open(p_tok);
+	if (file_fd == 0)
+		return ;
 	if (input_fd != 0)
 		dup2(input_fd, STDIN_FILENO);
 	dup2(file_fd, STDOUT_FILENO);
