@@ -12,6 +12,11 @@ t_token	*new_tok_pipe(char *str)
 
 void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd)
 {
+
+
+
+
+	
 	t_token	**new_tok;
 	t_token	*tmp;
 
