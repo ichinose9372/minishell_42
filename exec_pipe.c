@@ -10,12 +10,6 @@ void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd)
 	if (builtin_list(p_tok) == 1)
 		exec(p_tok);
 	exit (EXIT_SUCCESS);
-
-
-
-
-
-
 }
 
 void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd)
@@ -25,12 +19,6 @@ void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd)
 		p_tok = &(*p_tok)->next;
 	p_tok = &(*p_tok)->next;
 	exec_cmd(p_tok, pipe_data->pipe_fd[READ], output_fd);
-
-
-
-
-
-
 }
 
 void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
@@ -52,12 +40,4 @@ void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 		chiled2(p_tok, &pipe_data, output_fd);
 		close(pipe_data.pipe_fd[READ]);
 	}
-
-
-
-
-
-
-
-	
 }
