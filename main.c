@@ -51,11 +51,7 @@ void	minishell(void)
 	{
 		p_tok = malloc(sizeof(t_token *));
 		if (p_tok == NULL)
-<<<<<<< HEAD
-			exit(1);
-=======
 			exit(EXIT_FAILURE);
->>>>>>> 2f48f5d5d382c3a51a92518ae0bc3a52fba698a1
 		str = readline("mini_shell$ ");
 		signal(SIGINT, SIG_IGN);
 		if (str == NULL)

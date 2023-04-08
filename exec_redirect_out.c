@@ -28,11 +28,8 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	t_token	**tmp;
 	int		file_fd;
 	pid_t	pid;
-<<<<<<< HEAD
-	char	**path;
-=======
 	int		builtin;
->>>>>>> 2f48f5d5d382c3a51a92518ae0bc3a52fba698a1
+	char	**path;
 
 	tmp = p_tok;
 	file_fd = ft_open(p_tok);

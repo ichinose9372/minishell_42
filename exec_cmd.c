@@ -20,11 +20,8 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 {
 	pid_t	pid;
 	int		status;
-<<<<<<< HEAD
 	char	**path;
-=======
 	int		builtin;
->>>>>>> 2f48f5d5d382c3a51a92518ae0bc3a52fba698a1
 
 	signal_cmd();
 	builtin = builtin_list(p_tok);

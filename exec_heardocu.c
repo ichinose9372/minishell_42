@@ -65,12 +65,9 @@ void	exec_heardocu(t_token **p_tok)
 
 	path = token_path(p_tok);
 	g_global.heredoc_flag = 0;
-<<<<<<< HEAD
 	str = NULL;
 
-=======
 	// str = NULL;
->>>>>>> 2f48f5d5d382c3a51a92518ae0bc3a52fba698a1
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
