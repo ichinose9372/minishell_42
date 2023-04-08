@@ -55,7 +55,6 @@ typedef struct s_global
 	int		heredoc_flag;
 	int		fd_in;
 	int		fd_out;
-	t_token	*top_tok;
 }	t_global;
 
 // extern t_en	**env;
