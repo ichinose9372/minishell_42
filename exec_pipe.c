@@ -37,6 +37,12 @@ void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd)
 		exec_cmd(new_tok, input_fd, pipe_data->pipe_fd[WRITE]);
 	}
 	exit (EXIT_SUCCESS);
+
+
+
+
+
+
 }
 
 void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd)
@@ -67,4 +73,12 @@ void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 		chiled2(p_tok, &pipe_data, output_fd);
 		close(pipe_data.pipe_fd[READ]);
 	}
+
+
+
+
+
+
+
+
 }
