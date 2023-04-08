@@ -25,13 +25,11 @@ int	ft_open(t_token **p_tok)
 
 void	exec_redirect_out(t_token **p_tok, int input_fd)
 {
-	t_token	**tmp;
 	int		file_fd;
 	pid_t	pid;
 	int		builtin;
 	char	**path;
 
-	tmp = p_tok;
 	file_fd = ft_open(p_tok);
 	if (file_fd == 0)
 		return ;
