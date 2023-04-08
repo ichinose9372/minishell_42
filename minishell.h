@@ -59,7 +59,7 @@ typedef struct s_global
 
 // extern t_en	**env;
 
-extern t_global	global;
+extern t_global	g_global;
 
 //init
 void	init_minishell(void);
@@ -105,7 +105,7 @@ void	exec_colon(t_token **p_tok);
 int		file_open_wrt(char *argv);
 int		file_open_rd(char	*argv);
 int		file_open_wrt_add(char *argv);
-int 	ft_open(t_token **p_tok);
+int		ft_open(t_token **p_tok);
 
 	// free
 void	all_free(char **env_split);
