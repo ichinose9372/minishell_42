@@ -26,6 +26,7 @@ void	all_free_token(t_token **p_tok)
 {
 	t_token	*tmp;
 
+
 	while (*p_tok)
 	{
 		tmp = (*p_tok)->next;

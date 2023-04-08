@@ -20,9 +20,11 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 {
 	pid_t	pid;
 	int		status;
+	int		builtin;
 
 	signal_cmd();
-	if (builtin_list(p_tok) == 1)
+	builtin = builtin_list(p_tok);
+	if (builtin == 1)
 	{
 		pid = fork();
 		if (pid < 0)
@@ -43,6 +45,13 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 				g_global.status = WEXITSTATUS(status);
 		}
 	}
+	else if (builtin == -1)
+	{
+		ft_putendl_fd("builtin error", 1);
+		g_global.status = 1;
+	}
+	else if (builtin == 0)
+		g_global.status = 0;
 }
 
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
