@@ -4,7 +4,7 @@ int	builtin_env(t_token **p_tok)
 {
 	t_env	**tmp;
 
-	tmp = &(*global.env);
+	tmp = &(*g_global.env);
 	(void)p_tok;
 	while (*tmp != NULL)
 	{

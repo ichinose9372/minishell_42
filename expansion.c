@@ -51,7 +51,7 @@ char	*new_getenv(char *name)
 	t_env	*tmp;
 	size_t	len;
 
-	tmp = *global.env;
+	tmp = *g_global.env;
 	len = ft_strlen(name);
 	while (tmp)
 	{
@@ -78,7 +78,7 @@ size_t	variable_expansion(char **dest, char *src)
 	}
 	else if (src[cnt] == '?')
 	{
-		*dest = ft_itoa(global.status);
+		*dest = ft_itoa(g_global.status);
 		return (cnt + 1);
 	}
 	if (!check_variable(src, &cnt))

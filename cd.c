@@ -5,7 +5,7 @@ char	*my_getcwd(char *buf, size_t length)
 	size_t	size;
 	t_env	**tmp;
 
-	tmp = global.env;
+	tmp = g_global.env;
 	while (ft_strncmp((*tmp)->name, "PWD", 4) != 0)
 		tmp = &(*tmp)->next;
 	size = 0;
@@ -23,7 +23,7 @@ char	*home_path(void)
 	char	*home;
 	t_env	**tmp;
 
-	tmp = global.env;
+	tmp = g_global.env;
 	while (ft_strncmp((*tmp)->name, "HOME", 5) != 0)
 		tmp = &(*tmp)->next;
 	home = ft_strdup((*tmp)->value);
@@ -37,7 +37,7 @@ void	remake_pwd(char	*new_path)
 	t_env	**tmp;
 	size_t	size;
 
-	tmp = global.env;
+	tmp = g_global.env;
 	while (ft_strncmp((*tmp)->name, "PWD", 4) != 0)
 		tmp = &(*tmp)->next;
 	size = 0;

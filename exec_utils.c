@@ -23,7 +23,7 @@ void	exec(t_token **p_tok)
 
 	path = token_path(p_tok);
 	if (path == NULL)
-		exit(global.status);
+		exit(g_global.status);
 	execve(path[0], path, environ);
 	perror("exec");
 	exit (1);
