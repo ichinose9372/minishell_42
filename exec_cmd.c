@@ -16,20 +16,6 @@ int	check_operation(t_token **p_tok)
 	return (ret);
 }
 
-int	check_pipe(t_token **p_tok)
-{
-	t_token **tmp;
-
-	tmp = p_tok;
-	while (*tmp)
-	{
-		if ((*tmp)->kind == 1)
-			return (1);
-		*tmp = (*tmp)->next;
-	}
-	return (0);
-}
-
 void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 {
 	pid_t	pid;
@@ -61,11 +47,9 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 {
-	global.top_tok = *p_tok;
-	// printf("p_tok %s\n", (*global.top_tok)->word);
 	if (p_tok == NULL)
 		return ;
-	if (check_pipe(p_tok) == 1)
+	if (check_operation(p_tok) == 1)
 		exec_pipe(p_tok, input_fd, output_fd);
 	else if (check_operation(p_tok) == 0)
 		exec_no_operat(p_tok, input_fd, output_fd);
