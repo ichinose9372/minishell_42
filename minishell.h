@@ -98,7 +98,7 @@ void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd);
 void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd);
 void	exec_no_oparat(t_token **p_tok, int input_fd, int output_fd);
 void	exec_redirect_out(t_token **p_tok, int input_fd);
-void	exec_redirect_inp(t_token **p_tok, int output_fd);
+void	exec_redirect_inp(t_token **p_tok);
 void	exec_heardocu(t_token **p_tok);
 void	exec_colon(t_token **p_tok);
 
@@ -115,7 +115,7 @@ void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
 
 // テスト用
-void	print_token();
+void	print_token(t_token **p_tok);
 
 // builtin
 int		builtin_pwd(t_token **p_tok);

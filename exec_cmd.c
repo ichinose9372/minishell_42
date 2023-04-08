@@ -72,7 +72,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	else if (check_operation(p_tok) == 2 || check_operation(p_tok) == 4)
 		exec_redirect_out(p_tok, input_fd);
 	else if (check_operation(p_tok) == 3)
-		exec_redirect_inp(p_tok, output_fd);
+		exec_redirect_inp(p_tok);
 	else if (check_operation(p_tok) == 5)
 		exec_heardocu(p_tok);
 }

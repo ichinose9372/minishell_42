@@ -1,12 +1,42 @@
 #include "minishell.h"
 
-void	exec_redirect_inp(t_token **p_tok, int output_fd)
+void remake_token(t_token **p_tok)
 {
-	t_token	**tmp;
-	int		file_fd;
-	pid_t	pid;
+	t_token	*tmp;
+	t_token	*third;
+	t_token	**p_tmp;
 
-	tmp = p_tok;
+	if ((*p_tok)->next->kind == 3)
+	{
+		tmp = *p_tok;
+		p_tok = &(*p_tok)->next;
+		third = (*p_tok)->next;
+		tmp->next = third->next;
+		third->next = tmp;
+	}
+	else
+	{
+		p_tmp = p_tok;
+		while ((*p_tok)->kind == 0)
+			p_tok = &(*p_tok)->next;
+		third = (*p_tok)->next->next;
+		tmp = (*p_tok)->next;
+		while ((*p_tmp)->kind == 0)
+		{
+			tmp->next = (*p_tmp);
+			tmp = tmp->next;
+			p_tmp = &(*p_tmp)->next;
+		}
+		tmp->next = third;
+	}
+
+}
+
+void	exec_redirect_inp(t_token **p_tok)
+{
+	int		file_fd;
+	t_token	**tmp;
+
 	if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
 	{
 		file_fd = file_open_rd((*p_tok)->next->word);
@@ -15,25 +45,11 @@ void	exec_redirect_inp(t_token **p_tok, int output_fd)
 	}
 	else
 	{
-		while (ft_strncmp((*p_tok)->word, "<", 1) != 0)
-			p_tok = &(*p_tok)->next;
-		p_tok = &(*p_tok)->next;
-		file_fd = file_open_rd((*p_tok)->word);
-		if (output_fd != 1)
-			dup2(output_fd, STDOUT_FILENO);
-		dup2(file_fd, STDIN_FILENO);
-		printf("%d\n", file_fd);
-		printf("[%d] [%d]\n", STDIN_FILENO, STDOUT_FILENO);
-		if (builtin_list(p_tok) == 1)
-		{
-			pid = fork();
-			if (pid == 0)
-				exec(tmp);
-			else if (pid != 0)
-			{
-				wait(NULL);
-				close(file_fd);
-			}
-		}
+		tmp = p_tok;
+		while ((*tmp)->kind == 0)
+			tmp = &(*tmp)->next;
+		file_fd = file_open_rd((*tmp)->next->word);
+		remake_token(p_tok);
+		exec_cmd(p_tok, file_fd, STDOUT_FILENO);
 	}
 }

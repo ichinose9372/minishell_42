@@ -20,6 +20,7 @@ int	builtin_list(t_token **p_tok)
 void	exec(t_token **p_tok)
 {
 	char	**path;
+
 	path = token_path(p_tok);
 	if (path == NULL)
 		exit(global.status);

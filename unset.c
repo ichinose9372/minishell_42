@@ -2,7 +2,7 @@
 
 static void	del_env(t_env **tmp, t_env *prev)
 {
-	t_env *del;
+	t_env	*del;
 
 	del = *tmp;
 	tmp = &(*tmp)->next;

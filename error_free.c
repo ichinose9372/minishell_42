@@ -41,3 +41,5 @@ void	all_free_and_tmp(char *tmp, char **env_split)
 	all_free(env_split);
 	free(tmp);
 }
+
+
