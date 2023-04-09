@@ -7,7 +7,7 @@ t_env	*new_env(char *str)
 	size_t	tmp;
 
 	cnt = 0;
-	node = (t_env *)malloc(sizeof(t_env));
+	node = (t_env *)malloc_error(sizeof(t_env));
 	while (str[cnt] != '=')
 		cnt++;
 	node->name = new_strdup(str, cnt);
@@ -27,7 +27,7 @@ t_env	**make_env(void)
 	size_t	cnt;
 
 	cnt = 0;
-	ret = (t_env **)malloc(sizeof(t_env *));
+	ret = (t_env **)malloc_error(sizeof(t_env *));
 	tmp = new_env(environ[cnt++]);
 	*ret = tmp;
 	while (environ[cnt])
