@@ -9,9 +9,8 @@ static char	*make_str(char	*stop)
 	char	*tmp;
 
 	linefeed = "\n";
-	str3 = malloc(sizeof(char));
-	if (str3 == NULL)
-		exit(EXIT_FAILURE);
+	tmp = NULL;
+	str3 = NULL;
 	while (g_global.heredoc_flag == 0)
 	{
 		str = readline("> ");
@@ -23,28 +22,29 @@ static char	*make_str(char	*stop)
 		str2 = ft_strjoin(str, linefeed);
 		if (str2 == NULL)
 			return (NULL);
-		tmp = str3;
-		str3 = ft_strjoin(tmp, str2);
-		if (str3 == NULL)
+		tmp = ft_strjoin(str3, str2);
+		if (tmp == NULL)
 		{
 			free(str2);
 			return (NULL);
 		}
-		free(tmp);
+		free(str3);
 		free(str);
 		free(str2);
 	}
-	return (str3);
+	return (tmp);
 }
 
-static char	*heredocu(t_token **p_tok, char	*str)
+static char	*heredocu(t_token **p_tok)
 {
 	t_token	**tmp;
+	char	*str;
 
+	str = NULL;
 	tmp = p_tok;
 	while (1)
 	{
-		while (ft_strncmp((*tmp)->word, "<<", 2) != 0)
+		while ((*tmp)->kind == 0)
 			tmp = &(*tmp)->next;
 		str = make_str((*tmp)->next->word);
 		if (str == NULL)
@@ -53,6 +53,7 @@ static char	*heredocu(t_token **p_tok, char	*str)
 			break ;
 		else
 		{
+			free(str);
 			tmp = &(*tmp)->next;
 		}
 	}
@@ -68,30 +69,31 @@ void	exec_heardocu(t_token **p_tok)
 
 	path = token_path(p_tok);
 	g_global.heredoc_flag = 0;
-	str = NULL;
-
+	signal_heredocu();
+	if (pipe(pipe_data.pipe_fd) == -1)
+		exit (EXIT_FAILURE);
+	str = heredocu(p_tok);
+	if (str == NULL)
+		return ;
+	if (g_global.heredoc_flag == 1)
+	{
+		all_free(path);
+		free(str);
+		return ;
+	}
+	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
+	dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
+	close(pipe_data.pipe_fd[READ]);
+	close(pipe_data.pipe_fd[WRITE]);
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
-	{
-		signal_heredocu();
-		if (pipe(pipe_data.pipe_fd) == -1)
-			exit (EXIT_FAILURE);
-		str = heredocu(p_tok, str);
-		if (str == NULL)
-			exit(EXIT_FAILURE);
-		if (g_global.heredoc_flag == 1)
-			exit(0);
-		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
-		dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
-		close(pipe_data.pipe_fd[READ]);
-		close(pipe_data.pipe_fd[WRITE]);
 		exec(path);
-	}
 	else
 	{
 		wait(NULL);
+		free(str);
 		all_free(path);
 	}
 }
