@@ -38,10 +38,10 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	if (input_fd != 0)
 		dup2(input_fd, STDIN_FILENO);
 	dup2(file_fd, STDOUT_FILENO);
-	builtin = builtin_list(p_tok);
+	builtin = builtin_list(tmp);
 	if (builtin == 1)
 	{
-		path = token_path(p_tok);
+		path = token_path(tmp);
 		pid = fork();
 		if (pid == 0)
 			exec(path);
@@ -49,8 +49,17 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 		{
 			wait(NULL);
 			all_free(path);
+			while ((*p_tok)->kind == 0)
+				p_tok = &(*p_tok)->next;
+			p_tok = &(*p_tok)->next;
+			if ((*p_tok)->next->next != NULL)
+			{
+				dup2(g_global.fd_in, STDIN_FILENO);
+				dup2(g_global.fd_out, STDOUT_FILENO);
+				p_tok = &(*p_tok)->next->next;
+				exec_cmd(p_tok, 1, 0);
+			}
 		}
-
 	}
 	else if (builtin == -1)
 	{

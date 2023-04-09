@@ -3,12 +3,10 @@
 static char	*make_str(char	*stop)
 {
 	char	*str;
-	char	*linefeed;
 	char	*str2;
 	char	*str3;
 	char	*tmp;
 
-	linefeed = "\n";
 	tmp = NULL;
 	str3 = NULL;
 	while (g_global.heredoc_flag == 0)
@@ -19,18 +17,14 @@ static char	*make_str(char	*stop)
 			free(str);
 			break ;
 		}
-		str2 = ft_strjoin(str, linefeed);
+		str2 = ft_strjoin(str, "\n");
 		if (str2 == NULL)
 			return (NULL);
 		tmp = ft_strjoin(str3, str2);
-		if (tmp == NULL)
-		{
-			free(str2);
-			return (NULL);
-		}
-		free(str3);
-		free(str);
 		free(str2);
+		free(str);
+		free(str3);
+		str3 = tmp;
 	}
 	return (tmp);
 }
@@ -81,18 +75,24 @@ void	exec_heardocu(t_token **p_tok)
 		free(str);
 		return ;
 	}
-	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
-	dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
-	close(pipe_data.pipe_fd[READ]);
-	close(pipe_data.pipe_fd[WRITE]);
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
+	{
+		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
+		dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
+		close(pipe_data.pipe_fd[READ]);
+		close(pipe_data.pipe_fd[WRITE]);
+		// dup2(g_global.fd_out, STDOUT_FILENO);
+		dup2(g_global.fd_in, STDIN_FILENO);
 		exec(path);
+	}
 	else
 	{
 		wait(NULL);
+		dup2(g_global.fd_out, STDOUT_FILENO);
+		dup2(g_global.fd_in, STDIN_FILENO);
 		free(str);
 		all_free(path);
 	}

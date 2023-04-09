@@ -41,6 +41,5 @@ void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 		all_free(path);
 		chiled2(p_tok, &pipe_data, output_fd);
 		close(pipe_data.pipe_fd[READ]);
-		waitpid(pid, NULL, 0);
 	}
 }

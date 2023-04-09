@@ -16,8 +16,6 @@ extern char	**environ;
 # define WRITE	1
 # define PATH_SIZE	512
 
-
-
 typedef enum e_token_kind
 {
 	WORD,
