@@ -1,41 +1,40 @@
 #include "minishell.h"
 
-void	remake_token(t_token **p_tok)
+t_token	*remake_token(t_token *tok)
 {
-	t_token	*tmp;
+	t_token	*cmd;
 	t_token	*third;
-	t_token	**p_tmp;
+	t_token	*tmp;
 
-	if ((*p_tok)->next->kind == 3)
+	if (tok->next->kind == 3)
 	{
-		tmp = *p_tok;
-		p_tok = &(*p_tok)->next;
-		third = (*p_tok)->next;
-		tmp->next = third->next;
-		third->next = tmp;
+		cmd = tok;
+		tok = tok->next;
+		third = tok->next;
+		cmd->next = third->next;
+		third->next = cmd;
 	}
 	else
 	{
-		p_tmp = p_tok;
-		while ((*p_tok)->kind == 0)
-			p_tok = &(*p_tok)->next;
-		third = (*p_tok)->next->next;
-		tmp = (*p_tok)->next;
-		while ((*p_tmp)->kind == 0)
+		tmp = tok;
+		while (tok->kind == 0)
+			tok = tok->next;
+		third = tok->next->next;
+		cmd = tok->next;
+		while (tmp->kind == 0)
 		{
-			tmp->next = (*p_tmp);
+			cmd->next = tmp;
+			cmd = cmd->next;
 			tmp = tmp->next;
-			p_tmp = &(*p_tmp)->next;
 		}
-		tmp->next = third;
+		cmd->next = third;
 	}
-
+	return (tok);
 }
 
 void	exec_redirect_inp(t_token **p_tok)
 {
 	int		file_fd;
-	t_token	**tmp;
 
 	if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
 	{
@@ -45,11 +44,8 @@ void	exec_redirect_inp(t_token **p_tok)
 	}
 	else
 	{
-		tmp = p_tok;
-		while ((*tmp)->kind == 0)
-			tmp = &(*tmp)->next;
-		file_fd = file_open_rd((*tmp)->next->word);
-		remake_token(p_tok);
-		exec_cmd(p_tok, file_fd, STDOUT_FILENO);
+		*p_tok = remake_token(*p_tok);
+		print_token(p_tok);
+		exec_cmd(p_tok, STDIN_FILENO, STDOUT_FILENO);
 	}
 }
