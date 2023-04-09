@@ -99,11 +99,30 @@ char	*next_move(char *path_name, char *word)
 	return (new_path);
 }
 
+int	serch_home()
+{
+	t_env	*tmp;
+
+	tmp = *g_global.env;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->name, "HOME", 5) == 0)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 int	builtin_cd(t_token **p_tok)
 {
 	char	path_name[PATH_SIZE];
 	char	*new_path;
 
+	if (serch_home())
+	{
+		ft_putendl_fd("cd: HOME not set", 1);
+		return (0);
+	}
 	if (!my_getcwd(path_name, PATH_SIZE))
 		return (1);
 	if ((*p_tok)->next == NULL)

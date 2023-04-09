@@ -16,8 +16,6 @@ extern char	**environ;
 # define WRITE	1
 # define PATH_SIZE	512
 
-
-
 typedef enum e_token_kind
 {
 	WORD,
@@ -134,4 +132,7 @@ int		builtin_unset(t_token **p_tok);
 void	signal_one(void);
 void	signal_heredocu();
 void	signal_cmd();
+
+// utils
+void	*malloc_error(size_t size);
 #endif

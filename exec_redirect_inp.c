@@ -45,7 +45,6 @@ void	exec_redirect_inp(t_token **p_tok)
 	else
 	{
 		*p_tok = remake_token(*p_tok);
-		print_token(p_tok);
 		exec_cmd(p_tok, STDIN_FILENO, STDOUT_FILENO);
 	}
 }

@@ -42,8 +42,8 @@ void	make_token(t_token **tok, char *str, int start, int end)
 	if ((*tok)->word == NULL)
 	{
 		(*tok)->word = new_strdup(&str[start], end - start);
-		if (!(*tok)->word)
-			exit(0);
+		// if (!(*tok)->word)
+		// 	exit(0);
 	}
 	else
 	{

@@ -78,14 +78,12 @@ int	print_export(char **str)
 	return (0);
 }
 
-bool	put_export(t_env **tmp, size_t size)
+void	put_export(t_env **tmp, size_t size)
 {
 	char	**str;
 	size_t	cnt;
 
-	str = (char **)malloc(sizeof(char *) * size);
-	if (!str)
-		return (false);
+	str = (char **)malloc_error(sizeof(char *) * size);
 	cnt = 0;
 	while (*tmp)
 	{
@@ -94,30 +92,66 @@ bool	put_export(t_env **tmp, size_t size)
 	}
 	sort_name(str, size);
 	print_export(str);
-	return (true);
+	free(str);
+}
+
+int	env_overwrite(char *str, size_t cnt)
+{
+	t_env	*tmp;
+
+	tmp = *g_global.env;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->name, str, cnt) == 0)
+			break ;
+		tmp = tmp->next;
+	}
+	if (tmp == NULL || (tmp->name[cnt] != '=' && tmp->name[cnt] != '\0'))
+		return (0);
+	if (str[cnt] =='\0')
+		return (1);
+	free(tmp->value);
+	tmp->value = ft_strdup(&str[cnt + 1]);
+	return (1);
 }
 
 void	add_env(t_token **p_tok)
 {
 	char	*str;
-	char	**split_env;
 	t_env	*new_env;
 	t_env	*tmp;
+	size_t	cnt;
 
 	tmp = *g_global.env;
+	if (!ft_isalpha((*p_tok)->next->word[0]) || (*p_tok)->next->word[0] != '-')
+		return ;
 	str = ft_strdup((*p_tok)->next->word);
-	split_env = ft_split(str, '=');
-	if (split_env[2] || split_env == NULL)
-		exit(EXIT_FAILURE);
-	new_env = malloc(sizeof(t_env));
-	if (new_env == NULL)
-		exit(EXIT_FAILURE);
+	cnt = 0;
+	while (str[cnt])
+	{
+		if (str[cnt] == '=')
+			break ;
+		cnt++;
+	}
+	// split_env = ft_split(str, '=');
+	// if (split_env[2] || split_env == NULL)
+	// 	exit(EXIT_FAILURE);
+	if (env_overwrite(str, cnt))
+	{
+		free(str);
+		return ;
+	}
+	new_env = (t_env *)malloc_error(sizeof(t_env));
+	new_env->name = new_strdup(str, cnt);
+	if (str[cnt] == '=')
+		new_env->value = new_strdup(&str[cnt + 1], ft_strlen(str) - cnt + 1);
+	else if (str[cnt] == '\0')
+		new_env->value = NULL;
 	new_env->next = NULL;
-	new_env->name = ft_strdup(split_env[0]);
-	new_env->value = ft_strdup(split_env[1]);
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = new_env;
+	free(str);
 }
 
 int	builtin_export(t_token **p_tok)
