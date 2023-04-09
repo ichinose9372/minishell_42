@@ -69,9 +69,9 @@ void	exec_heardocu(t_token **p_tok)
 
 	path = token_path(p_tok);
 	g_global.heredoc_flag = 0;
-	signal_heredocu();
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
+	signal_heredocu();
 	str = heredocu(p_tok);
 	if (str == NULL)
 		return ;
@@ -79,6 +79,7 @@ void	exec_heardocu(t_token **p_tok)
 	{
 		all_free(path);
 		free(str);
+		g_global.heredoc_flag = 0;
 		return ;
 	}
 	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));

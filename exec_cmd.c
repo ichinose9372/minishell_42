@@ -73,4 +73,5 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		exec_redirect_inp(p_tok);
 	else if (check_operation(p_tok) == 5)
 		exec_heardocu(p_tok);
+	return ;
 }
