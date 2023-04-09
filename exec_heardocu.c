@@ -75,25 +75,22 @@ void	exec_heardocu(t_token **p_tok)
 		free(str);
 		return ;
 	}
+	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
+	dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
+	close(pipe_data.pipe_fd[READ]);
+	close(pipe_data.pipe_fd[WRITE]);
 	pid = fork();
 	if (pid < 0)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
-	{
-		write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
-		dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
-		close(pipe_data.pipe_fd[READ]);
-		close(pipe_data.pipe_fd[WRITE]);
-		// dup2(g_global.fd_out, STDOUT_FILENO);
-		dup2(g_global.fd_in, STDIN_FILENO);
 		exec(path);
-	}
 	else
 	{
-		wait(NULL);
-		dup2(g_global.fd_out, STDOUT_FILENO);
-		dup2(g_global.fd_in, STDIN_FILENO);
+		close(pipe_data.pipe_fd[WRITE]);
 		free(str);
+		waitpid(pid, NULL, 0);
+		close(pipe_data.pipe_fd[READ]);
+		dup2(g_global.fd_in, STDIN_FILENO);
 		all_free(path);
 	}
 }

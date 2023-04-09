@@ -36,10 +36,10 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	if (input_fd != 0)
 		dup2(input_fd, STDIN_FILENO);
 	dup2(file_fd, STDOUT_FILENO);
-	builtin = builtin_list(tmp);
+	builtin = builtin_list(p_tok);
 	if (builtin == 1)
 	{
-		path = token_path(tmp);
+		path = token_path(p_tok);
 		pid = fork();
 		if (pid == 0)
 			exec(path);
