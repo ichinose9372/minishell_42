@@ -18,9 +18,7 @@ int	minishell_2(t_token **p_tok, char *str)
 {
 	t_token	*tok;
 
-	tok = malloc(sizeof(t_token));
-	if (tok == NULL)
-		exit(EXIT_FAILURE);
+	tok = malloc_error(sizeof(t_token));
 	tok->word = NULL;
 	tok = tokenizer(str, tok);
 	if (tok == NULL)
@@ -49,9 +47,8 @@ void	minishell(void)
 	rl_outstream = stderr;
 	while (1)
 	{
-		p_tok = malloc(sizeof(t_token *));
-		if (p_tok == NULL)
-			exit(EXIT_FAILURE);
+		p_tok = (t_token **)malloc_error(sizeof(t_token *));
+		signal_one();
 		str = readline("mini_shell$ ");
 		signal(SIGINT, SIG_IGN);
 		if (str == NULL)
