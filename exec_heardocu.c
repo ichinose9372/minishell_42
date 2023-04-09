@@ -75,7 +75,7 @@ void	exec_heardocu(t_token **p_tok)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
 	{
-		signal_heredocu();
+		// signal_heredocu();
 		if (pipe(pipe_data.pipe_fd) == -1)
 			exit (EXIT_FAILURE);
 		str = heredocu(p_tok, str);
