@@ -70,6 +70,7 @@ char	**token_path(t_token **p_tok)
 	int		i;
 	int		size;
 	t_token	**tmp_tok;
+	char	*tmp;
 
 	tmp_tok = p_tok;
 	size = 0;
@@ -102,7 +103,9 @@ char	**token_path(t_token **p_tok)
 		return (argv);
 	else
 	{
+		tmp = argv[0];
 		argv[0] = make_path(argv[0]);
+		free(tmp);
 		if (argv[0] == NULL)
 			return (NULL);
 		return (argv);
