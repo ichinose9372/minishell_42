@@ -55,8 +55,6 @@ typedef struct s_global
 	int		fd_out;
 }	t_global;
 
-// extern t_en	**env;
-
 extern t_global	g_global;
 
 //init
@@ -72,7 +70,7 @@ t_env	**make_env(void);
 t_token	*tokenizer(char *str, t_token *tok);
 int		space_check(char *str, int start);
 int		operater_check(char *str, int *start, int *end, t_token **tok);
-int		seartch_quote(char *str, int start, int *end);
+int	seartch_quote(char *str, int start, int *end, t_token *tmp);
 void	make_token(t_token **tok, char *str, int start, int end);
 char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
@@ -108,6 +106,7 @@ int		ft_open(t_token **p_tok);
 	// free
 void	all_free(char **env_split);
 void	all_free_token(t_token **p_tok);
+void	free_token(t_token *tok);
 void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
 

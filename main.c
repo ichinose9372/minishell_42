@@ -43,7 +43,6 @@ void	minishell(void)
 	char	*str;
 	t_token	**p_tok;
 
-	make_env();
 	rl_outstream = stderr;
 	while (1)
 	{
@@ -72,6 +71,7 @@ void	minishell(void)
 
 int	main(void)
 {
+	// printf("test\n");
 	init_minishell();
 	minishell();
 }

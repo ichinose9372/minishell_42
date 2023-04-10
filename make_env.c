@@ -28,6 +28,14 @@ t_env	**make_env(void)
 
 	cnt = 0;
 	ret = (t_env **)malloc_error(sizeof(t_env *));
+	if (!*environ)
+	{
+		*ret = (t_env *)malloc_error(sizeof(t_env));
+		(*ret)->name = ft_calloc(1, 1);
+		(*ret)->value = NULL;
+		(*ret)->next = NULL;
+		return (ret);
+	}
 	tmp = new_env(environ[cnt++]);
 	*ret = tmp;
 	while (environ[cnt])

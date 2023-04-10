@@ -38,6 +38,16 @@ void	all_free_token(t_token **p_tok)
 	p_tok = NULL;
 }
 
+void	free_token(t_token *tok)
+{
+	while (tok)
+	{
+		free(tok->word);
+		free(tok);
+		tok = tok->next;
+	}
+}
+
 void	all_free_and_tmp(char *tmp, char **env_split)
 {
 	all_free(env_split);

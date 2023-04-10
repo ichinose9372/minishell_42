@@ -15,8 +15,6 @@ char	*new_strjoin(char const *s1, char const *s2, size_t s2_len)
 		return (NULL);
 	len = ft_strlen(s1) + s2_len;
 	str = (char *)malloc_error(len + 1);
-	if (str == NULL)
-		return (NULL);
 	i = 0;
 	while (s1[i])
 	{
@@ -25,9 +23,7 @@ char	*new_strjoin(char const *s1, char const *s2, size_t s2_len)
 	}
 	j = 0;
 	while (j < s2_len)
-	{
 		str[i++] = s2[j++];
-	}
 	str[i] = '\0';
 	return (str);
 }

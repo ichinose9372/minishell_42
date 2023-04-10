@@ -24,7 +24,7 @@ size_t	count_env(t_env **tmp)
 		size++;
 		tmp = &(*tmp)->next;
 	}
-	return (size - 1);
+	return (size);
 }
 
 void	sort_name(char **str, size_t size)
@@ -33,8 +33,8 @@ void	sort_name(char **str, size_t size)
 	size_t	j;
 	char	*tmp;
 
-	i = 0;
-	while (str[i + 1])
+	i = 1;
+	while (i < size - 1)
 	{
 		j = 0;
 		while (j < size - i)
@@ -53,23 +53,24 @@ void	sort_name(char **str, size_t size)
 
 int	print_export(char **str)
 {
-	t_env	**tmp;
+	t_env	*tmp;
 	size_t	cnt;
 	char	*s;
 
-	cnt = 0;
+	cnt = 1;
 	while (str[cnt])
 	{
-		tmp = g_global.env;
-		while (ft_strcmp(str[cnt], (*tmp)->name) != 0)
-			tmp = &(*tmp)->next;
+		tmp = *g_global.env;
+		printf("str:%s\n", str[cnt]);
+		while (ft_strcmp(str[cnt], tmp->name) != 0)
+			tmp = tmp->next;
 		s = "declare -x ";
 		ft_putstr_fd(s, STDOUT_FILENO);
-		ft_putstr_fd((*tmp)->name, STDOUT_FILENO);
-		if ((*tmp)->value)
+		ft_putstr_fd(tmp->name, STDOUT_FILENO);
+		if (tmp->value)
 		{
 			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd((*tmp)->value, STDOUT_FILENO);
+			ft_putstr_fd(tmp->value, STDOUT_FILENO);
 			ft_putchar_fd('\"', STDOUT_FILENO);
 		}
 		ft_putchar_fd('\n', STDOUT_FILENO);
@@ -78,18 +79,22 @@ int	print_export(char **str)
 	return (0);
 }
 
-void	put_export(t_env **tmp, size_t size)
+void	put_export(size_t size)
 {
 	char	**str;
 	size_t	cnt;
+	t_env	*tmp;
 
-	str = (char **)malloc_error(sizeof(char *) * size);
+	tmp = *g_global.env;
+	str = (char **)malloc_error(sizeof(char *) * size + 1);
 	cnt = 0;
-	while (*tmp)
+	while (tmp)
 	{
-		str[cnt++] = (*tmp)->name;
-		tmp = &(*tmp)->next;
+		str[cnt] = tmp->name;
+		tmp = tmp->next;
+		cnt++;
 	}
+	str[cnt] = NULL;
 	sort_name(str, size);
 	print_export(str);
 	free(str);
@@ -133,9 +138,6 @@ void	add_env(t_token **p_tok)
 			break ;
 		cnt++;
 	}
-	// split_env = ft_split(str, '=');
-	// if (split_env[2] || split_env == NULL)
-	// 	exit(EXIT_FAILURE);
 	if (env_overwrite(str, cnt))
 	{
 		free(str);
@@ -163,8 +165,8 @@ int	builtin_export(t_token **p_tok)
 	env_tmp = g_global.env;
 	tmp = *p_tok;
 	size = count_env(env_tmp);
-	if (tmp->next == NULL || operater_cmp(tmp->next->word, 0) != 0)
-		put_export(env_tmp, size);
+	if ((tmp->next == NULL || operater_cmp(tmp->next->word, 0) != 0))
+		put_export(size);
 	while (tmp->next && tmp->next->kind == WORD)
 	{
 		add_env(&tmp);

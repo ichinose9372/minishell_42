@@ -52,7 +52,6 @@ static char	*heredocu(t_token **p_tok)
 			tmp = &(*tmp)->next;
 		}
 	}
-	printf("{%p}\n", str);
 	return (str);
 }
 
@@ -74,7 +73,6 @@ void	exec_heardocu(t_token **p_tok)
 	if (g_global.heredoc_flag == 1)
 	{
 		all_free(path);
-		// free(str);
 		g_global.heredoc_flag = 0;
 		return ;
 	}
