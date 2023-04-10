@@ -69,7 +69,7 @@ size_t	variable_expansion(char **dest, char *src)
 	char	*name;
 
 	cnt = 1;
-	if (src[cnt] == '\0' || src[cnt] == '\"' || src[cnt] == '\"')
+	if (src[cnt] == '\0' || src[cnt] == '\'' || src[cnt] == '\"')
 	{
 		tmp = new_strjoin(*dest, src, 1);
 		free(*dest);
@@ -131,7 +131,6 @@ size_t	single_expansion(char **dest, char *src)
 	*dest = tmp;
 	return (cnt + 2);
 }
-
 
 size_t	char_expansion(char **dest, char *src)
 {

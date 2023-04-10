@@ -72,7 +72,6 @@ void	minishell(void)
 
 int	main(void)
 {
-
 	init_minishell();
 	minishell();
 }

@@ -25,13 +25,11 @@ int	ft_open(t_token **p_tok)
 
 void	exec_redirect_out(t_token **p_tok, int input_fd)
 {
-	t_token	**tmp;
 	int		file_fd;
 	pid_t	pid;
 	int		builtin;
 	char	**path;
 
-	tmp = p_tok;
 	file_fd = ft_open(p_tok);
 	if (file_fd == 0)
 		return ;
@@ -49,8 +47,17 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 		{
 			wait(NULL);
 			all_free(path);
+			while ((*p_tok)->kind == 0)
+				p_tok = &(*p_tok)->next;
+			p_tok = &(*p_tok)->next;
+			if ((*p_tok)->next->next != NULL)
+			{
+				dup2(g_global.fd_in, STDIN_FILENO);
+				dup2(g_global.fd_out, STDOUT_FILENO);
+				p_tok = &(*p_tok)->next->next;
+				exec_cmd(p_tok, 1, 0);
+			}
 		}
-
 	}
 	else if (builtin == -1)
 	{
