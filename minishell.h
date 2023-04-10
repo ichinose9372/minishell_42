@@ -81,6 +81,10 @@ void	token_kind(t_token *tok);
 
 // expantion
 void	expansion(t_token *tok, t_token **p_tok);
+size_t	variable_expansion(char **dest, char *src);
+char	*new_strjoin(char const *s1, char const *s2, size_t s2_len);
+bool	check_variable(char *src, size_t *cnt);
+char	*new_getenv(char *name);
 
 // exec
 char	**envp_make_path(void);
