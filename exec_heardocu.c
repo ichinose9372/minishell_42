@@ -3,12 +3,10 @@
 static char	*make_str(char	*stop)
 {
 	char	*str;
-	char	*linefeed;
 	char	*str2;
 	char	*str3;
 	char	*tmp;
 
-	linefeed = "\n";
 	tmp = NULL;
 	str3 = NULL;
 	while (g_global.heredoc_flag == 0)
@@ -19,18 +17,14 @@ static char	*make_str(char	*stop)
 			free(str);
 			break ;
 		}
-		str2 = ft_strjoin(str, linefeed);
+		str2 = ft_strjoin(str, "\n");
 		if (str2 == NULL)
 			return (NULL);
 		tmp = ft_strjoin(str3, str2);
-		if (tmp == NULL)
-		{
-			free(str2);
-			return (NULL);
-		}
-		free(str3);
-		free(str);
 		free(str2);
+		free(str);
+		free(str3);
+		str3 = tmp;
 	}
 	return (tmp);
 }
@@ -92,8 +86,11 @@ void	exec_heardocu(t_token **p_tok)
 		exec(path);
 	else
 	{
-		wait(NULL);
+		close(pipe_data.pipe_fd[WRITE]);
 		free(str);
+		waitpid(pid, NULL, 0);
+		close(pipe_data.pipe_fd[READ]);
+		dup2(g_global.fd_in, STDIN_FILENO);
 		all_free(path);
 	}
 }

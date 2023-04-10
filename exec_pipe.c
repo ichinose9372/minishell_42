@@ -18,7 +18,14 @@ void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd)
 	while (ft_strncmp((*p_tok)->word, "|", 2) != 0)
 		p_tok = &(*p_tok)->next;
 	p_tok = &(*p_tok)->next;
-	exec_cmd(p_tok, pipe_data->pipe_fd[READ], output_fd);
+	if ((*p_tok)->next->kind == 5)
+	{
+		close(pipe_data->pipe_fd[READ]);
+		close(pipe_data->pipe_fd[READ]);
+		exec_cmd(p_tok, 0, 1);
+	}
+	else
+		exec_cmd(p_tok, pipe_data->pipe_fd[READ], output_fd);
 }
 
 void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
@@ -41,6 +48,5 @@ void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 		all_free(path);
 		chiled2(p_tok, &pipe_data, output_fd);
 		close(pipe_data.pipe_fd[READ]);
-		waitpid(pid, NULL, 0);
 	}
 }

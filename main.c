@@ -47,7 +47,6 @@ void	minishell(void)
 	rl_outstream = stderr;
 	while (1)
 	{
-		printf("in minishell\n");
 		p_tok = (t_token **)malloc_error(sizeof(t_token *));
 		signal_one();
 		str = readline("mini_shell$ ");
@@ -73,7 +72,6 @@ void	minishell(void)
 
 int	main(void)
 {
-
 	init_minishell();
 	minishell();
 }
