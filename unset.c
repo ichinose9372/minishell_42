@@ -22,7 +22,7 @@ int	builtin_unset(t_token **p_tok)
 	tmp = g_global.env;
 	prev = NULL;
 	if ((*p_tok)->next == NULL)
-		exit(EXIT_FAILURE);
+		return (0);
 	while (*tmp)
 	{
 		if (ft_strncmp((*tmp)->name, (*p_tok)->next->word,

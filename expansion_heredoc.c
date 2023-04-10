@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*new_strjoin(char const *s1, char const *s2, size_t s2_len)
+char	*h_new_strjoin(char const *s1, char const *s2, size_t s2_len)
 {
 	size_t	len;
 	char	*str;
@@ -32,7 +32,7 @@ char	*new_strjoin(char const *s1, char const *s2, size_t s2_len)
 	return (str);
 }
 
-bool	check_variable(char *src, size_t *cnt)
+bool	h_check_variable(char *src, size_t *cnt)
 {
 	if (!ft_isalpha(src[*cnt]) && src[*cnt] != '_')
 		return (false);
@@ -46,7 +46,7 @@ bool	check_variable(char *src, size_t *cnt)
 	return (true);
 }
 
-char	*new_getenv(char *name)
+char	*h_new_getenv(char *name)
 {
 	t_env	*tmp;
 	size_t	len;
@@ -62,14 +62,14 @@ char	*new_getenv(char *name)
 	return (NULL);
 }
 
-size_t	variable_expansion(char **dest, char *src)
+size_t	h_variable_expansion(char **dest, char *src)
 {
 	size_t	cnt;
 	char	*tmp;
 	char	*name;
 
 	cnt = 1;
-	if (src[cnt] == '\0' || src[cnt] == '\'' || src[cnt] == '\"')
+	if (src[cnt] == '\0' || src[cnt] == ' ')
 	{
 		tmp = new_strjoin(*dest, src, 1);
 		free(*dest);
@@ -91,7 +91,7 @@ size_t	variable_expansion(char **dest, char *src)
 	return (cnt);
 }
 
-size_t	double_expansion(char **dest, char *src)
+size_t	h_double_expansion(char **dest, char *src)
 {
 	size_t	cnt;
 	size_t	last_cnt;
@@ -118,7 +118,7 @@ size_t	double_expansion(char **dest, char *src)
 	return (cnt + 2);
 }
 
-size_t	single_expansion(char **dest, char *src)
+size_t	h_single_expansion(char **dest, char *src)
 {
 	size_t	cnt;
 	char	*tmp;
@@ -132,7 +132,7 @@ size_t	single_expansion(char **dest, char *src)
 	return (cnt + 2);
 }
 
-size_t	char_expansion(char **dest, char *src)
+size_t	h_char_expansion(char **dest, char *src)
 {
 	char	*tmp;
 
@@ -142,31 +142,33 @@ size_t	char_expansion(char **dest, char *src)
 	return (1);
 }
 
-void	expansion(t_token *tok, t_token **p_tok)
+void	expansion_heredoc(char **top_str)
 {
-	char	*new_word;
+	char	*new_str;
+	char	*str;
 	size_t	cnt;
 
-	*p_tok = tok;
-	while (tok)
+	str = *top_str;
+	// printf("%p\n%p\n", str, *top_str);
+	cnt = 0;
+	new_str = NULL;
+	// printf("str]%s\ntop]%s\n", str, *top_str);
+	while (str[cnt])
 	{
-		new_word = NULL;
-		cnt = 0;
-		while (tok->word[cnt])
-		{
-			if (tok->word[cnt] == '\"')
-				cnt += double_expansion(&new_word, &tok->word[cnt + 1]);
-			else if (tok->word[cnt] == '\'')
-				cnt += single_expansion(&new_word, &tok->word[cnt + 1]);
-			else if (tok->word[cnt] == '$')
-				cnt += variable_expansion(&new_word, &tok->word[cnt]);
-			else
-				cnt += char_expansion(&new_word, &tok->word[cnt]);
-		}
-		free(tok->word);
-		if (!new_word)
-			new_word = ft_calloc(1, 1);
-		tok->word = new_word;
-		tok = tok->next;
+		// if (str[cnt] == '\"')
+		// 	cnt += h_double_expansion(&new_str, &str[cnt + 1]);
+		// else if (str[cnt] == '\'')
+			// cnt += h_single_expansion(&new_str, &str[cnt + 1]);
+		if (str[cnt] == '$')
+			cnt += h_variable_expansion(&new_str, &str[cnt]);
+		else
+			cnt += h_char_expansion(&new_str, &str[cnt]);
+		// printf("[%c]\n", str[cnt]);
+		// printf("cnt=%zu\n", cnt);
 	}
+	free(str);
+	if (!new_str)
+		new_str = ft_calloc(1, 1);
+	*top_str = new_str;
+	// printf("%s\n", str);
 }

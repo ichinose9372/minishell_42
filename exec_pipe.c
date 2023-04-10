@@ -38,6 +38,8 @@ void	exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
 	path = token_path(p_tok);
+	if (!path)
+		return ;
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);

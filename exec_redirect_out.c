@@ -40,6 +40,8 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	if (builtin == 1)
 	{
 		path = token_path(p_tok);
+		if (!path)
+			return ;
 		pid = fork();
 		if (pid == 0)
 			exec(path);

@@ -29,6 +29,7 @@ typedef enum e_token_kind
 typedef struct s_token
 {
 	char			*word;
+	char			*old_word;
 	t_token_kind	kind;
 	struct s_token	*next;
 }	t_token;
@@ -79,6 +80,13 @@ void	token_kind(t_token *tok);
 
 // expantion
 void	expansion(t_token *tok, t_token **p_tok);
+size_t	variable_expansion(char **dest, char *src);
+char	*new_strjoin(char const *s1, char const *s2, size_t s2_len);
+bool	check_variable(char *src, size_t *cnt);
+char	*new_getenv(char *name);
+size_t	double_expansion(char **dest, char *src);
+size_t	single_expansion(char **dest, char *src);
+size_t	char_expansion(char **dest, char *src);
 
 // exec
 char	**envp_make_path(void);
@@ -96,6 +104,9 @@ void	exec_redirect_out(t_token **p_tok, int input_fd);
 void	exec_redirect_inp(t_token **p_tok);
 void	exec_heardocu(t_token **p_tok);
 void	exec_colon(t_token **p_tok);
+
+// heredoc
+void	expansion_heredoc(char **str);
 
 	// file oparate
 int		file_open_wrt(char *argv);

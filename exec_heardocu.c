@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+char	*check_stop(t_token *stop)
+{
+	size_t	cnt;
+
+	cnt = 0;
+	if (stop->old_word[0] == '\"' || stop->old_word[0]== '\"')
+		cnt++;
+	if (stop->word[0] != stop->old_word[cnt])
+	{
+		if (cnt == 1)
+			return (new_strdup(&(stop->old_word[cnt]), ft_strlen(stop->old_word) - 2));
+		return (ft_strdup(stop->old_word));
+	}
+	return (ft_strdup(stop->word));
+}
+
 static char	*make_str(char	*stop)
 {
 	char	*str;
@@ -13,14 +29,15 @@ static char	*make_str(char	*stop)
 	while (g_global.heredoc_flag == 0)
 	{
 		str = readline("> ");
-		if (str == NULL || ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
+		if (!str)
+			break ;
+		if (ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
 		{
 			free(str);
 			break ;
 		}
+		expansion_heredoc(&str);
 		str2 = ft_strjoin(str, "\n");
-		if (str2 == NULL)
-			return (NULL);
 		tmp = ft_strjoin(str3, str2);
 		free(str2);
 		free(str);
@@ -34,6 +51,7 @@ static char	*heredocu(t_token **p_tok)
 {
 	t_token	**tmp;
 	char	*str;
+	char	*stop;
 
 	str = NULL;
 	tmp = p_tok;
@@ -41,7 +59,9 @@ static char	*heredocu(t_token **p_tok)
 	{
 		while ((*tmp)->kind == 0)
 			tmp = &(*tmp)->next;
-		str = make_str((*tmp)->next->word);
+		stop = check_stop((*tmp)->next);
+		str = make_str(stop);
+		free(stop);
 		if (str == NULL)
 			return (NULL);
 		if ((*tmp)->next->next == NULL)
@@ -63,6 +83,8 @@ void	exec_heardocu(t_token **p_tok)
 	char	**path;
 
 	path = token_path(p_tok);
+	if (!path)
+		return ;
 	g_global.heredoc_flag = 0;
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);

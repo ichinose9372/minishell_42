@@ -61,7 +61,6 @@ int	print_export(char **str)
 	while (str[cnt])
 	{
 		tmp = *g_global.env;
-		printf("str:%s\n", str[cnt]);
 		while (ft_strcmp(str[cnt], tmp->name) != 0)
 			tmp = tmp->next;
 		s = "declare -x ";

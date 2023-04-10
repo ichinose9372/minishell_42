@@ -56,6 +56,18 @@ void	make_token(t_token **tok, char *str, int start, int end)
 	(*tok)->next = NULL;
 }
 
+void	make_old_word(t_token *tok)
+{
+	t_token	*tmp;
+
+	tmp = tok;
+	while (tmp)
+	{
+		tmp->old_word = ft_strdup(tmp->word);
+		tmp = tmp->next;
+	}
+}
+
 t_token	*tokenizer(char *str, t_token *tok)
 {
 	t_token	*tmp;
@@ -82,5 +94,6 @@ t_token	*tokenizer(char *str, t_token *tok)
 		if (str[start] != '\0')
 			make_token(&tok, str, start, end);
 	}
+	make_old_word(tmp);
 	return (tmp);
 }

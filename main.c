@@ -9,7 +9,7 @@ void	print_token(t_token **p_tok)
 	tmp = p_tok;
 	while (*tmp)
 	{
-		printf("%s\t%p\n", (*tmp)->word, (*tmp)->next);
+		printf("[w=%s]\n[ow=%s]\n", (*tmp)->word, (*tmp)->old_word);
 		tmp = &(*tmp)->next;
 	}
 }
@@ -18,9 +18,12 @@ int	minishell_2(t_token **p_tok, char *str)
 {
 	t_token	*tok;
 
+	(void)p_tok;
 	tok = malloc_error(sizeof(t_token));
 	tok->word = NULL;
+	tok->old_word = NULL;
 	tok = tokenizer(str, tok);
+	// print_token(&tok);
 	if (tok == NULL)
 		return (0);
 	if (tok->word == NULL)
@@ -69,8 +72,14 @@ void	minishell(void)
 	exit(0);
 }
 
-int	main(void)
+int	main()
 {
+	// (void)argc;
+	// (void)argv;
+	// for (size_t i = 0; envp[i]; i++)
+	// {
+	// 	printf("%s\n", envp[i]);
+	// }
 	// printf("test\n");
 	init_minishell();
 	minishell();

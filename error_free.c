@@ -31,6 +31,7 @@ void	all_free_token(t_token **p_tok)
 	{
 		tmp = (*p_tok)->next;
 		free((*p_tok)->word);
+		free((*p_tok)->old_word);
 		free(*p_tok);
 		*p_tok = tmp;
 	}
