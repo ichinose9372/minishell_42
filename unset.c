@@ -19,20 +19,24 @@ int	builtin_unset(t_token **p_tok)
 	t_env	**tmp;
 	t_env	*prev;
 
-	tmp = g_global.env;
 	prev = NULL;
 	if ((*p_tok)->next == NULL)
 		return (0);
-	while (*tmp)
+	while ((*p_tok)->next && (*p_tok)->next->kind == 0)
 	{
-		if (ft_strncmp((*tmp)->name, (*p_tok)->next->word,
-				ft_strlen((*p_tok)->next->word)) == 0)
-			del_env(tmp, prev);
-		else
+		tmp = g_global.env;
+		while (*tmp)
 		{
-			prev = *tmp;
-			tmp = &(*tmp)->next;
+			if (ft_strncmp((*tmp)->name, (*p_tok)->next->word,
+					ft_strlen((*p_tok)->next->word) + 1) == 0)
+				del_env(tmp, prev);
+			else
+			{
+				prev = *tmp;
+				tmp = &(*tmp)->next;
+			}
 		}
+		*p_tok = (*p_tok)->next;
 	}
 	return (0);
 }

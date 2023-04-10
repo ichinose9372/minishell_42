@@ -119,6 +119,26 @@ int	env_overwrite(char *str, size_t cnt)
 	return (1);
 }
 
+int	elem_check(char *str)
+{
+	size_t	cnt;
+
+	cnt = 0;
+	while (str[cnt])
+	{
+		if ((cnt == 0 && !ft_isalpha(str[cnt]) && str[cnt] != '_') || \
+			(cnt != 0 && !ft_isalnum(str[cnt]) && str[cnt] != '_'))
+		{
+			ft_putstr_fd("export: `", STDOUT_FILENO);
+			ft_putstr_fd(str, STDOUT_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
+			return (1);
+		}
+		cnt++;
+	}
+	return (0);
+}
+
 void	add_env(t_token **p_tok)
 {
 	char	*str;
@@ -127,7 +147,7 @@ void	add_env(t_token **p_tok)
 	size_t	cnt;
 
 	tmp = *g_global.env;
-	if (!ft_isalpha((*p_tok)->next->word[0]) && (*p_tok)->next->word[0] != '_')
+	if (elem_check ((*p_tok)->next->word))
 		return ;
 	str = ft_strdup((*p_tok)->next->word);
 	cnt = 0;
