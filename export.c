@@ -123,7 +123,7 @@ void	add_env(t_token **p_tok)
 	size_t	cnt;
 
 	tmp = *g_global.env;
-	if (!ft_isalpha((*p_tok)->next->word[0]) || (*p_tok)->next->word[0] != '-')
+	if (!ft_isalpha((*p_tok)->next->word[0]) && (*p_tok)->next->word[0] != '_')
 		return ;
 	str = ft_strdup((*p_tok)->next->word);
 	cnt = 0;
@@ -156,16 +156,25 @@ void	add_env(t_token **p_tok)
 
 int	builtin_export(t_token **p_tok)
 {
-	t_env	**tmp;
+	t_env	**env_tmp;
 	size_t	size;
+	t_token	*tmp;
 
-	tmp = g_global.env;
-	size = count_env(tmp);
-	if ((*p_tok)->next == NULL || operater_cmp((*p_tok)->next->word, 0) != 0)
-		put_export(tmp, size);
-	else if ((*p_tok)->next->word && (*p_tok)->next->next == NULL)
-		add_env(p_tok);
-	else
-		printf("error\n");
+	env_tmp = g_global.env;
+	tmp = *p_tok;
+	size = count_env(env_tmp);
+	if (tmp->next == NULL || operater_cmp(tmp->next->word, 0) != 0)
+		put_export(env_tmp, size);
+	while (tmp->next && tmp->next->kind == WORD)
+	{
+		add_env(&tmp);
+		tmp = tmp->next;
+		if (tmp->next && !ft_isalpha(tmp->next->word[0]) && tmp->next->word[0] != '_')
+		{
+			ft_putstr_fd("export: `", STDOUT_FILENO);
+			ft_putstr_fd(tmp->next->word, STDOUT_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
+		}
+	}
 	return (0);
 }

@@ -8,10 +8,13 @@ int	builtin_env(t_token **p_tok)
 	(void)p_tok;
 	while (*tmp != NULL)
 	{
-		ft_putstr_fd((*tmp)->name, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd((*tmp)->value, 1);
-		ft_putstr_fd("\n", 1);
+		if ((*tmp)->value != NULL)
+		{
+			ft_putstr_fd((*tmp)->name, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd((*tmp)->value, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		tmp = &(*tmp)->next;
 	}
 	return (0);
