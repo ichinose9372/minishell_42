@@ -76,7 +76,10 @@ void	minishell(void)
 		str = readline("mini_shell$ ");
 		signal(SIGINT, SIG_IGN);
 		if (str == NULL)
+		{
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit(EXIT_SUCCESS);
+		}
 		else if (*str == '\0')
 			free(p_tok);
 		else

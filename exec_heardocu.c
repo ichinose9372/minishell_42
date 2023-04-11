@@ -91,7 +91,10 @@ void	exec_heardocu(t_token **p_tok)
 	signal_heredocu();
 	str = heredocu(p_tok);
 	if (str == NULL)
+	{
+		all_free(path);
 		return ;
+	}
 	if (g_global.heredoc_flag == 1)
 	{
 		all_free(path);
@@ -114,6 +117,7 @@ void	exec_heardocu(t_token **p_tok)
 		waitpid(pid, NULL, 0);
 		close(pipe_data.pipe_fd[READ]);
 		dup2(g_global.fd_in, STDIN_FILENO);
+		printf("%p\n", path);
 		all_free(path);
 	}
 }

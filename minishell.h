@@ -132,6 +132,7 @@ char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
 int		builtin_export(t_token **p_tok);
+int		elem_check(char *str, int i);
 int		builtin_env(t_token **p_tok);
 int		builtin_list(t_token **p_tok);
 int		builtin_exit(t_token **p_tok);
