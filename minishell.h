@@ -120,6 +120,7 @@ void	all_free_token(t_token **p_tok);
 void	free_token(t_token *tok);
 void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
+void	path_all_free(char **env_split);
 
 // テスト用
 void	print_token(t_token **p_tok);

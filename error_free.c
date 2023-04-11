@@ -22,6 +22,20 @@ void	all_free(char **env_split)
 	free(env_split);
 }
 
+void	path_all_free(char **env_split)
+{
+	int	i;
+
+	i = 1;
+	while (env_split[i])
+	{
+		free(env_split[i]);
+		i++;
+	}
+	free(env_split);
+}
+
+
 void	all_free_token(t_token **p_tok)
 {
 	t_token	*tmp;
@@ -43,7 +57,10 @@ void	free_token(t_token *tok)
 {
 	while (tok)
 	{
-		free(tok->word);
+		if (tok->word)
+			free(tok->word);
+		if (tok->old_word)
+			free(tok->old_word);
 		free(tok);
 		tok = tok->next;
 	}

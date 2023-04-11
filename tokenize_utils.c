@@ -23,6 +23,7 @@ t_token	*new_token(char *str, int start, int end)
 
 	tok = (t_token *)malloc_error(sizeof(t_token));
 	tok->word = new_strdup(&str[start], end - start);
+	tok->old_word = new_strdup(&str[start], end - start);
 	// if (!tok->word)
 	// 	exit(0);
 	tok->next = NULL;

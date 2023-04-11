@@ -30,7 +30,7 @@ int	builtin_echo(t_token **p_tok)
 	}
 	tmp = (*p_tok)->next;
 	flag = 0;
-	while (option_check(tmp))
+	while (tmp && option_check(tmp))
 	{
 		flag = 1;
 		tmp = tmp->next;

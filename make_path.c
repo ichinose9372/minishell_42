@@ -102,7 +102,9 @@ char	**token_path(t_token **p_tok)
 	}
 	argv[size] = NULL;
 	if (ft_strchr(argv[0], '/') != 0)
+	{
 		return (argv);
+	}
 	else
 	{
 		tmp = argv[0];
@@ -110,7 +112,7 @@ char	**token_path(t_token **p_tok)
 		free(tmp);
 		if (argv[0] == NULL)
 		{
-			free(argv);
+			path_all_free(argv);
 			return (NULL);
 		}
 		return (argv);

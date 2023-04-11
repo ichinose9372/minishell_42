@@ -31,7 +31,7 @@ int	builtin_unset(t_token **p_tok)
 	tok = *p_tok;
 	if (tok->next == NULL)
 		return (0);
-	while (tok->next && tok->next->kind == 0 && elem_check(tok->next->word, 1))
+	while (tok->next && tok->next->kind == 0 && !elem_check(tok->next->word, 1))
 	{
 		tmp = g_global.env;
 		while (*tmp)

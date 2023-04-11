@@ -194,12 +194,12 @@ int	builtin_export(t_token **p_tok)
 	{
 		add_env(&tmp);
 		tmp = tmp->next;
-		if (tmp->next && !ft_isalpha(tmp->next->word[0]) && tmp->next->word[0] != '_')
-		{
-			ft_putstr_fd("export: `", STDOUT_FILENO);
-			ft_putstr_fd(tmp->next->word, STDOUT_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
-		}
+		// if (tmp->next && !ft_isalpha(tmp->next->word[0]) && tmp->next->word[0] != '_')
+		// {
+		// 	ft_putstr_fd("export: `", STDOUT_FILENO);
+		// 	ft_putstr_fd(tmp->next->word, STDOUT_FILENO);
+		// 	ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
+		// }
 	}
 	return (0);
 }

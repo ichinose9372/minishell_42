@@ -43,10 +43,11 @@ int	minishell_2(t_token **p_tok, char *str)
 	tok = malloc_error(sizeof(t_token));
 	tok->word = NULL;
 	tok->old_word = NULL;
+	tok->next = NULL;
 	tok = tokenizer(str, tok);
 	if (tok == NULL)
-		return (0);
-	if (tok->word == NULL)
+		return (1);
+	if (tok == NULL || tok->word == NULL)
 	{
 		free(tok);
 		return (1);
