@@ -12,8 +12,6 @@ int	operater_cmp(char *str, int end)
 		return (1);
 	else if (ft_strncmp(&str[end], ">", 1) == 0)
 		return (1);
-	else if (ft_strncmp(&str[end], ";", 1) == 0)
-		return (1);
 	return (0);
 }
 

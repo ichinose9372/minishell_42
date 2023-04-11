@@ -84,14 +84,11 @@ t_token	*tokenizer(char *str, t_token *tok)
 		while (str[end] != '\0' && space_check(str, end))
 			end++;
 		start = end;
+		printf("%c %d %d\n", str[end], start, end);
 		while (str[end] != '\0' && !space_check(str, end))
 		{
-			printf("%c %d %d\n",str[end], start, end);
 			if (operater_check(str, &start, &end, &tok))
-			{
-				printf("test\n");
 				break ;
-			}
 			if ((str[end] == '\'' || str[end] == '\"') \
 				&& seartch_quote(str, start, &end, tmp))
 					return (NULL);

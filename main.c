@@ -45,8 +45,6 @@ int	minishell_2(t_token **p_tok, char *str)
 	tok->old_word = NULL;
 	tok->next = NULL;
 	tok = tokenizer(str, tok);
-	print_token(&tok);
-	return (0);
 	if (tok == NULL)
 		return (1);
 	if (tok == NULL || tok->word == NULL)
