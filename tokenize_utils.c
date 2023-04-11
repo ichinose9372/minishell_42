@@ -2,17 +2,17 @@
 
 int	operater_cmp(char *str, int end)
 {
-	if (ft_strncmp(&str[end], "|", 2) == 0)
+	if (ft_strncmp(&str[end], "|", 1) == 0)
 		return (1);
-	else if (ft_strncmp(&str[end], "<<", 3) == 0)
+	else if (ft_strncmp(&str[end], "<<", 2) == 0)
 		return (2);
-	else if (ft_strncmp(&str[end], ">>", 3) == 0)
+	else if (ft_strncmp(&str[end], ">>", 2) == 0)
 		return (2);
-	else if (ft_strncmp(&str[end], "<", 2) == 0)
+	else if (ft_strncmp(&str[end], "<", 1) == 0)
 		return (1);
-	else if (ft_strncmp(&str[end], ">", 2) == 0)
+	else if (ft_strncmp(&str[end], ">", 1) == 0)
 		return (1);
-	else if (ft_strncmp(&str[end], ";", 2) == 0)
+	else if (ft_strncmp(&str[end], ";", 1) == 0)
 		return (1);
 	return (0);
 }
