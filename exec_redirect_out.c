@@ -18,7 +18,7 @@ int	ft_open(t_token **p_tok)
 		while ((*p_tok)->kind != 2)
 			p_tok = &(*p_tok)->next;
 		p_tok = &(*p_tok)->next;
-		file_fd = file_open_wrt_add((*p_tok)->word);
+		file_fd = file_open_wrt((*p_tok)->word);
 	}
 	return (file_fd);
 }
@@ -61,7 +61,7 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 			while ((*p_tok)->kind == 0)
 				p_tok = &(*p_tok)->next;
 			p_tok = &(*p_tok)->next;
-			if ((*p_tok)->next->next != NULL)
+			if ((*p_tok)->next != NULL)
 			{
 				dup2(g_global.fd_in, STDIN_FILENO);
 				dup2(g_global.fd_out, STDOUT_FILENO);
