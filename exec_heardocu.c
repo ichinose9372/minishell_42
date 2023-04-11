@@ -64,7 +64,7 @@ static char	*heredocu(t_token **p_tok)
 		free(stop);
 		if (str == NULL)
 			return (NULL);
-		if ((*tmp)->next->next == NULL)
+		if ((*tmp)->next->next == NULL || (*tmp)->next->next->next == NULL)
 			break ;
 		else
 		{
@@ -81,10 +81,23 @@ void	exec_heardocu(t_token **p_tok)
 	t_pipe	pipe_data;
 	char	*str;
 	char	**path;
+	t_token **tmp;
 
-	path = token_path(p_tok);
-	if (!path)
-		return ;
+	if ((*p_tok)->next != NULL && (*p_tok)->next->kind == 5)
+	{
+		path = token_path(p_tok);
+		if (!path)
+			return ;
+	}
+	else
+	{
+		tmp = p_tok;
+		while ((*tmp)->next != NULL)
+			tmp = &(*tmp)->next;
+		path = token_path(tmp);
+		if (!path)
+			return;
+	}
 	g_global.heredoc_flag = 0;
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
