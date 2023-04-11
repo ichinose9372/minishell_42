@@ -21,10 +21,14 @@ int	builtin_exit(t_token **p_tok)
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	if ((*p_tok)->next == 0)
 		exit (0);
-	if ((*p_tok)->next->next != NULL)
+	if ((*p_tok)->next->next)
 	{
-		perror("exit");
-		return (1);
+		if ((*p_tok)->next->next->kind == 0)
+		{
+			ft_putendl_fd("exit: too many arguments", STDOUT_FILENO);
+			g_global.status = 1;
+		}
+		return (0);
 	}
 	if (check_digit((*p_tok)->next->word))
 	{

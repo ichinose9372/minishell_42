@@ -124,7 +124,7 @@ int	elem_check(char *str)
 	size_t	cnt;
 
 	cnt = 0;
-	while (str[cnt])
+	while (str[cnt] && str[cnt] != '=')
 	{
 		if ((cnt == 0 && !ft_isalpha(str[cnt]) && str[cnt] != '_') || \
 			(cnt != 0 && !ft_isalnum(str[cnt]) && str[cnt] != '_'))
