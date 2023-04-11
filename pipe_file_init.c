@@ -9,7 +9,6 @@ int	file_open_rd(char	*argv)
 	{
 		perror("Error");
 		g_global.status = 1;
-		return (0);
 	}
 	return (fd);
 }

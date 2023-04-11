@@ -78,6 +78,7 @@ size_t	variable_expansion(char **dest, char *src)
 	}
 	else if (src[cnt] == '?')
 	{
+		
 		*dest = ft_itoa(g_global.status);
 		return (cnt + 1);
 	}

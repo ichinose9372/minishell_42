@@ -35,7 +35,7 @@ int	builtin_echo(t_token **p_tok)
 		flag = 1;
 		tmp = tmp->next;
 	}
-	while (tmp && operater_cmp(tmp->word, 0) == 0)
+	while (tmp && tmp->kind == 0)
 	{
 		ft_putstr_fd(tmp->word, 1);
 		tmp = tmp->next;
