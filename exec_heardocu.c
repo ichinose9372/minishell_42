@@ -64,7 +64,7 @@ static char	*heredocu(t_token **p_tok)
 		free(stop);
 		if (str == NULL)
 			return (NULL);
-		if ((*tmp)->next->next == NULL || (*tmp)->next->next->next == NULL)
+		if ((*tmp)->next->next == NULL || (*tmp)->next->next->next == NULL || (*tmp)->next->next->kind != 0)
 			break ;
 		else
 		{
@@ -104,7 +104,10 @@ void	exec_heardocu(t_token **p_tok)
 	signal_heredocu();
 	str = heredocu(p_tok);
 	if (str == NULL)
+	{
+		all_free(path);
 		return ;
+	}
 	if (g_global.heredoc_flag == 1)
 	{
 		all_free(path);

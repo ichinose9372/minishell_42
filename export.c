@@ -119,6 +119,30 @@ int	env_overwrite(char *str, size_t cnt)
 	return (1);
 }
 
+int	elem_check(char *str, int i)
+{
+	size_t	cnt;
+
+	cnt = 0;
+	while (str[cnt] && ((i == 0 && str[cnt] != '=') || i == 1))
+	{
+		if ((cnt == 0 && !ft_isalpha(str[cnt]) && str[cnt] != '_') || \
+			(cnt != 0 && !ft_isalnum(str[cnt]) && str[cnt] != '_'))
+		{
+			if (i == 0)
+				ft_putstr_fd("export: `", STDOUT_FILENO);
+			else
+				ft_putstr_fd("unset: `", STDOUT_FILENO);
+			ft_putstr_fd(str, STDOUT_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
+			g_global.status = 1;
+			return (1);
+		}
+		cnt++;
+	}
+	return (0);
+}
+
 void	add_env(t_token **p_tok)
 {
 	char	*str;
@@ -127,7 +151,7 @@ void	add_env(t_token **p_tok)
 	size_t	cnt;
 
 	tmp = *g_global.env;
-	if (!ft_isalpha((*p_tok)->next->word[0]) && (*p_tok)->next->word[0] != '_')
+	if (elem_check((*p_tok)->next->word, 0))
 		return ;
 	str = ft_strdup((*p_tok)->next->word);
 	cnt = 0;
@@ -170,12 +194,12 @@ int	builtin_export(t_token **p_tok)
 	{
 		add_env(&tmp);
 		tmp = tmp->next;
-		if (tmp->next && !ft_isalpha(tmp->next->word[0]) && tmp->next->word[0] != '_')
-		{
-			ft_putstr_fd("export: `", STDOUT_FILENO);
-			ft_putstr_fd(tmp->next->word, STDOUT_FILENO);
-			ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
-		}
+		// if (tmp->next && !ft_isalpha(tmp->next->word[0]) && tmp->next->word[0] != '_')
+		// {
+		// 	ft_putstr_fd("export: `", STDOUT_FILENO);
+		// 	ft_putstr_fd(tmp->next->word, STDOUT_FILENO);
+		// 	ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
+		// }
 	}
 	return (0);
 }

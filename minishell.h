@@ -120,6 +120,7 @@ void	all_free_token(t_token **p_tok);
 void	free_token(t_token *tok);
 void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
+void	path_all_free(char **env_split);
 
 // テスト用
 void	print_token(t_token **p_tok);
@@ -132,6 +133,7 @@ char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
 int		builtin_export(t_token **p_tok);
+int		elem_check(char *str, int i);
 int		builtin_env(t_token **p_tok);
 int		builtin_list(t_token **p_tok);
 int		builtin_exit(t_token **p_tok);

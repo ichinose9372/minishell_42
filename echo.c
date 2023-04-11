@@ -30,12 +30,12 @@ int	builtin_echo(t_token **p_tok)
 	}
 	tmp = (*p_tok)->next;
 	flag = 0;
-	while (option_check(tmp))
+	while (tmp && option_check(tmp))
 	{
 		flag = 1;
 		tmp = tmp->next;
 	}
-	while (tmp && operater_cmp(tmp->word, 0) == 0)
+	while (tmp && tmp->kind == 0)
 	{
 		ft_putstr_fd(tmp->word, 1);
 		tmp = tmp->next;

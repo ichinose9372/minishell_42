@@ -27,7 +27,6 @@ int	seartch_quote(char *str, int start, int *end, t_token *tmp)
 {
 	char	c;
 
-	(void)tmp;
 	(void) start;
 	c = str[*end];
 	*end += 1;
@@ -35,7 +34,7 @@ int	seartch_quote(char *str, int start, int *end, t_token *tmp)
 		*end += 1;
 	if (str[*end] == '\0')
 	{
-		ft_putendl_fd("quote error", STDOUT_FILENO);
+		ft_putendl_fd("quote error", STDERR_FILENO);
 		g_global.status = 1;
 		free_token(tmp);
 		return (1);
@@ -46,7 +45,10 @@ int	seartch_quote(char *str, int start, int *end, t_token *tmp)
 void	make_token(t_token **tok, char *str, int start, int end)
 {
 	if ((*tok)->word == NULL)
+	{
 		(*tok)->word = new_strdup(&str[start], end - start);
+		(*tok)->old_word = new_strdup(&str[start], end - start);
+	}
 	else
 	{
 		(*tok)->next = new_token(str, start, end);
@@ -82,18 +84,20 @@ t_token	*tokenizer(char *str, t_token *tok)
 		while (str[end] != '\0' && space_check(str, end))
 			end++;
 		start = end;
+		// printf("%c %d %d\n", str[end], start, end);
 		while (str[end] != '\0' && !space_check(str, end))
 		{
 			if (operater_check(str, &start, &end, &tok))
 				break ;
 			if ((str[end] == '\'' || str[end] == '\"') \
 				&& seartch_quote(str, start, &end, tmp))
-				return (NULL);
+					return (NULL);
 			end++;
 		}
 		if (str[start] != '\0')
 			make_token(&tok, str, start, end);
 	}
-	make_old_word(tmp);
+	// if (tmp->word != NULL)
+		// make_old_word(tmp);
 	return (tmp);
 }

@@ -39,6 +39,8 @@ void	exec_redirect_inp(t_token **p_tok)
 	if (ft_strncmp((*p_tok)->word, "<", 1) == 0)
 	{
 		file_fd = file_open_rd((*p_tok)->next->word);
+		if (file_fd < 0)
+			return ;
 		p_tok = &(*p_tok)->next->next;
 		exec_cmd(p_tok, file_fd, STDOUT_FILENO);
 	}

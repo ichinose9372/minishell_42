@@ -16,6 +16,7 @@ t_env	*new_env(char *str)
 	while (str[cnt])
 		cnt++;
 	node->value = new_strdup(&str[tmp], cnt - tmp);
+	node->next = NULL;
 	return (node);
 }
 
