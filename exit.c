@@ -17,7 +17,7 @@ static int	check_llong(long num, char c, int minus)
 		return (1);
 	if (LLONG_MIN / 10 > -num && c && minus)
 		return (-1);
-	if (LLONG_MIN / 10 == -num && LLONG_MIN % 10 >= -(c - '0') && minus)
+	if (LLONG_MIN / 10 == -num && LLONG_MIN % 10  > -(c - '0') && minus)
 		return (-1);
 	return (0);
 }
@@ -76,7 +76,7 @@ int	builtin_exit(t_token **p_tok)
 
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	if ((*p_tok)->next == 0)
-		exit (0);
+		exit (g_global.status);
 	if ((*p_tok)->next->next)
 	{
 		if ((*p_tok)->next->next->kind == 0)

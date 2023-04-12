@@ -21,6 +21,27 @@ static void	del_env(t_env **tmp, t_env *prev)
 	free(del);
 }
 
+int	unset_elem_check(char *str)
+{
+	size_t	cnt;
+
+	cnt = 0;
+	while (str[cnt])
+	{
+		if ((cnt == 0 && !ft_isalpha(str[cnt]) && str[cnt] != '_') || \
+			(cnt != 0 && !ft_isalnum(str[cnt]) && str[cnt] != '_'))
+		{
+			ft_putstr_fd("unset: `", STDOUT_FILENO);
+			ft_putstr_fd(str, STDOUT_FILENO);
+			ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
+			g_global.status = 1;
+			return (0);
+		}
+		cnt++;
+	}
+	return (1);
+}
+
 int	builtin_unset(t_token **p_tok)
 {
 	t_env	**tmp;
@@ -31,7 +52,7 @@ int	builtin_unset(t_token **p_tok)
 	tok = *p_tok;
 	if (tok->next == NULL)
 		return (0);
-	while (tok->next && tok->next->kind == 0 && !elem_check(tok->next->word, 1))
+	while (tok->next && tok->next->kind == 0 && unset_elem_check(tok->next->word))
 	{
 		tmp = g_global.env;
 		while (*tmp)
