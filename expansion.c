@@ -78,7 +78,9 @@ size_t	variable_expansion(char **dest, char *src)
 	}
 	else if (src[cnt] == '?')
 	{
-		*dest = ft_itoa(g_global.status);
+		tmp = ft_strjoin(*dest, ft_itoa(g_global.status));
+		free(*dest);
+		*dest = tmp;
 		return (cnt + 1);
 	}
 	if (!check_variable(src, &cnt))
@@ -162,6 +164,7 @@ void	expansion(t_token *tok, t_token **p_tok)
 				cnt += variable_expansion(&new_word, &tok->word[cnt]);
 			else
 				cnt += char_expansion(&new_word, &tok->word[cnt]);
+			printf("[%s]\n", new_word);
 		}
 		free(tok->word);
 		if (!new_word)
