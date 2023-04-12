@@ -76,62 +76,105 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 // 	return ;
 // }
 
-void	sec_cmd(t_token **p_tok, char **args, int *in, int *out)
+void	execute(char **args)
 {
-	int	i;
+	int		status;
+	// int		builtin;
+	pid_t	pid;
 
-	i = 0;
-	while ((*p_tok)->kind != PIPE || (*p_tok) == NULL)
+	signal_cmd();
+	pid = fork();
+	if (pid < 0)
+		exit(EXIT_FAILURE);
+	else if (pid == 0)
+	{
+		exec(args);
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			g_global.status = WEXITSTATUS(status);
+	}
+		// builtin = builtin_list(p_tok);
+		// if (builtin == 1)
+		// {
+
+		// }
+		// else if (builtin == -1)
+		// {
+		// 	ft_putendl_fd("builtin error", 1);
+		// 	g_global.status = 1;
+		// }
+		// else if (builtin == 0)
+		// 	g_global.status = 0;
+}
+
+t_token	*sec_cmd(t_token **p_tok, int *in, int *out)
+{
+	while ((*p_tok) && (*p_tok)->kind != PIPE)
 	{
 		if ((*p_tok)->kind == INPUT)
 		{
-			*p_tok = (*p_tok)->next;
-			 in = openする。
+			p_tok = &(*p_tok)->next;
+			*in = file_open_rd((*p_tok)->word);
 		}
 		else if ((*p_tok)->kind == OUTPUT)
 		{
-			*p_tok =  (*p_tok)->next;
-			out = openする。
+			p_tok = &(*p_tok)->next;
+			*out = file_open_wrt((*p_tok)->word);
 		}
 		else if ((*p_tok)->kind == ADD)
 		{
-			*p_tok =  (*p_tok)->next;
-			out = openする。
+			p_tok = &(*p_tok)->next;
+			*out = file_open_wrt_add((*p_tok)->word);
 		}
 		else if ((*p_tok)->kind == HEREDOC)
 		{
-			*p_tok = ((*p_tok)->next;
-			pipefd = heredoucu(); pipeのfdの[read] がinputになる。
+			p_tok = &(*p_tok)->next;
+			*in = heredoc_cmd(p_tok);
+			// pipefd = heredoucu(); pipeのfdの[read] がinputになる。
 		}
 		else
-			args[i++] = ft_strdup((*p_tok)->word);
-		*p_tok = *p_tok->next;
+			p_tok = &(*p_tok)->next;
 	}
+	return (*p_tok);
 }
 
- void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
- {
+void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
+{
 	char	**args;
 	int		in;
 	int		out;
+	t_pipe	pipe_data;
+	(void)input_fd;
+	(void)output_fd;
 
+	args = NULL;
+	in = 0;
+	out = 1;
 	while ((*p_tok))
 	{
-		if ((*p_tok)->kind != PIPE)
+		if ((*p_tok)->kind == PIPE)
 		{
-			dup2(pipe[read], STDIN_FILENO);
+			dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
 			dup2(g_global.fd_out, STDOUT_FILENO);
 		}
-		sec_cmd(p_tok, args, &in, &out); //p_tok進める。　argsを作る。　inと　outのfdを書き換える
-		if ((*p_tok)->kind != PIPE)
-	 	{
-			pipi()
-			dup2(pipe[write], STDOUT_FILENO);
+		args = token_path(p_tok);
+		*p_tok = sec_cmd(p_tok, &in, &out);
+		printf("in %d\t%d\n", in, out);
+		if (*p_tok && (*p_tok)->kind == PIPE)
+		{
+			if (pipe(pipe_data.pipe_fd) == -1)
+				exit(EXIT_FAILURE);
+			dup2(pipe_data.pipe_fd[WRITE], STDOUT_FILENO);
 		}
 		else
-			dup2(out ,STDOUT_FILENO);
-		dup2(in ,STDIN_FILENO);
-		execute(args);//
+			dup2(out, STDOUT_FILENO);
+		dup2(in, STDIN_FILENO);
+		execute(args);
 		all_free(args);
+		printf("%s\n", (*p_tok)->word);
 	}
- }
+}
