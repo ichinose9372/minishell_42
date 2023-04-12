@@ -1,5 +1,58 @@
 #include "minishell.h"
 
+int	ft_isspace(char c)
+{
+	c = (unsigned char)c;
+	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
+		|| c == ' ')
+		return (1);
+	return (0);
+}
+
+static long long	check_nb(long long number, int type, char c)
+{
+	if ((number * 10 + (c - '0')) / 10 != number)
+	{
+		if (type == -1)
+			return ((long)LLONG_MIN);
+		else
+			return ((long)LLONG_MAX);
+	}
+	return (0);
+}
+
+long	exit_atoi(char *nptr)
+{
+	int			type;
+	long long	number;
+	size_t		cnt;
+
+	type = 1;
+	number = 0;
+	cnt = 0;
+	while ((nptr[cnt] >= '\t' && nptr[cnt] == '\r') || nptr[cnt] == ' ')
+		cnt++;
+	if (nptr[cnt] == '+' || nptr[cnt] == '-')
+	{
+		if (nptr[cnt] == '-')
+			type *= -1;
+		cnt++;
+	}
+	while (ft_isdigit(nptr[cnt]))
+	{
+		number *= 10;
+		number += nptr[cnt++] - '0';
+		if (check_nb(number, nptr[cnt], type))
+		{
+			ft_putstr_fd("exit: ", STDOUT_FILENO);
+			ft_putstr_fd(nptr, STDOUT_FILENO);
+			ft_putendl_fd(": numeric argument required", STDOUT_FILENO);
+			exit (255);
+		}
+	}
+	return (number * type);
+}
+
 int		check_digit(char *str)
 {
 	char	*tmp;
@@ -16,7 +69,7 @@ int		check_digit(char *str)
 
 int	builtin_exit(t_token **p_tok)
 {
-	int		status;
+	long long	status;
 
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	if ((*p_tok)->next == 0)
@@ -32,11 +85,21 @@ int	builtin_exit(t_token **p_tok)
 	}
 	if (check_digit((*p_tok)->next->word))
 	{
-		status = ft_atoi((*p_tok)->next->word);
+		status = exit_atoi((*p_tok)->next->word);
 		if (status < 256)
 			exit (status);
 		else if (status > 255)
-			exit (status - 256);
+		{
+			status = status - 256 * (status / 256);
+			printf("[%lld]\n", status);
+			exit (status);
+		}
 	}
+	else
+		{
+			ft_putstr_fd("exit: ", STDOUT_FILENO);
+			ft_putstr_fd((*p_tok)->next->word, STDOUT_FILENO);
+			ft_putendl_fd(" numeric argument required", STDOUT_FILENO);
+		}
 	exit(255);
 }

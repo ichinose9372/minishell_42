@@ -1,7 +1,6 @@
 >
 >>
 Makefile
-a
 cd.c
 echo.c
 env.c
@@ -25,7 +24,6 @@ minishell
 minishell.h
 obj
 out
-out2
 pipe_file_init.c
 pwd.c
 signal.c

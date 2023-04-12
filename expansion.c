@@ -164,7 +164,6 @@ void	expansion(t_token *tok, t_token **p_tok)
 				cnt += variable_expansion(&new_word, &tok->word[cnt]);
 			else
 				cnt += char_expansion(&new_word, &tok->word[cnt]);
-			printf("[%s]\n", new_word);
 		}
 		free(tok->word);
 		if (!new_word)
