@@ -19,6 +19,11 @@ int	syntax_check(t_token **p_tok)
 	t_token	*tmp;
 
 	tmp = *p_tok;
+	if (tmp->kind == PIPE)
+	{
+		ft_putendl_fd("syntax error", STDOUT_FILENO);
+		return (1);
+	}
 	while (tmp)
 	{
 		if (tmp->kind != WORD)
@@ -53,7 +58,6 @@ int	minishell_2(t_token **p_tok, char *str)
 		return (1);
 	}
 	expansion(tok, p_tok);
-	// print_token(p_tok);
 	if (syntax_check(p_tok))
 		return (0);
 	if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
