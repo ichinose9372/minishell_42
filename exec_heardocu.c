@@ -16,6 +16,20 @@ char	*check_stop(t_token *stop)
 	return (ft_strdup(stop->word));
 }
 
+int	check_next(t_token **p_tok)
+{
+	t_token	**tmp;
+
+	tmp = p_tok;
+	while (*tmp)
+	{
+		if ((*tmp)->kind == 2 || (*tmp)->kind == 1)
+			return (1);
+		tmp =&(*tmp)->next;
+	}
+	return (0);
+}
+
 static char	*make_str(char	*stop)
 {
 	char	*str;
@@ -79,6 +93,7 @@ void	exec_heardocu(t_token **p_tok)
 {
 	pid_t	pid;
 	t_pipe	pipe_data;
+	t_pipe	pipe_hd;
 	char	*str;
 	char	**path;
 	t_token **tmp;
@@ -96,7 +111,7 @@ void	exec_heardocu(t_token **p_tok)
 			tmp = &(*tmp)->next;
 		path = token_path(tmp);
 		if (!path)
-			return;
+			return ;
 	}
 	g_global.heredoc_flag = 0;
 	if (pipe(pipe_data.pipe_fd) == -1)
@@ -114,6 +129,13 @@ void	exec_heardocu(t_token **p_tok)
 		g_global.heredoc_flag = 0;
 		return ;
 	}
+	if (check_next(p_tok))
+	{
+		if (pipe(pipe_hd.pipe_fd) == -1)
+			exit (EXIT_FAILURE);
+		dup2(pipe_hd.pipe_fd[WRITE], STDOUT_FILENO);
+		close(pipe_hd.pipe_fd[WRITE]);
+	}
 	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 	dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
 	close(pipe_data.pipe_fd[READ]);
@@ -125,11 +147,15 @@ void	exec_heardocu(t_token **p_tok)
 		exec(path);
 	else
 	{
-		close(pipe_data.pipe_fd[WRITE]);
 		free(str);
 		waitpid(pid, NULL, 0);
-		close(pipe_data.pipe_fd[READ]);
 		dup2(g_global.fd_in, STDIN_FILENO);
-		all_free(path);
+		if (check_next(p_tok))
+		{
+			close(pipe_hd.pipe_fd[WRITE]);
+			exec_cmd(&(*p_tok)->next->next->next, pipe_hd.pipe_fd[READ], STDOUT_FILENO);
+		}
+		else
+			all_free(path);
 	}
 }

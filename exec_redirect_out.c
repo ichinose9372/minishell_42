@@ -10,6 +10,11 @@ int	ft_open(t_token **p_tok)
 	{
 		while ((*p_tok)->kind != 4)
 			p_tok = &(*p_tok)->next;
+		if ((*p_tok)->next == NULL)
+		{
+			perror("open");
+			exit(1);
+		}
 		p_tok = &(*p_tok)->next;
 		file_fd = file_open_wrt_add((*p_tok)->word);
 	}
@@ -17,6 +22,11 @@ int	ft_open(t_token **p_tok)
 	{
 		while ((*p_tok)->kind != 2)
 			p_tok = &(*p_tok)->next;
+		if ((*p_tok)->next == NULL)
+		{
+			perror("open");
+			exit(1);
+		}
 		p_tok = &(*p_tok)->next;
 		file_fd = file_open_wrt((*p_tok)->word);
 	}
@@ -30,7 +40,7 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	int		builtin;
 	char	**path;
 	t_token	**tmp;
-
+	char	buf[1];
 
 	tmp = p_tok;
 	while ((*tmp)->next != NULL)
@@ -48,25 +58,37 @@ void	exec_redirect_out(t_token **p_tok, int input_fd)
 	builtin = builtin_list(p_tok);
 	if (builtin == 1)
 	{
-		path = token_path(p_tok);
-		if (!path)
-			return ;
-		pid = fork();
-		if (pid == 0)
-			exec(path);
-		else if (pid > 0)
+		if ((*p_tok)->kind != 0 && (*p_tok)->kind == 2)
 		{
-			wait(NULL);
-			all_free(path);
-			while ((*p_tok)->kind == 0)
-				p_tok = &(*p_tok)->next;
-			p_tok = &(*p_tok)->next;
-			if ((*p_tok)->next != NULL)
+			while (read(STDIN_FILENO, &buf, 1) > 0)
+				write(file_fd, &buf, 1);
+			close(STDIN_FILENO);
+			close(file_fd);
+			if ((*p_tok)->next->next != NULL)
+				exec_cmd(&(*p_tok)->next->next, 0, 1);
+		}
+		else
+		{
+			path = token_path(p_tok);
+			if (!path)
+				return ;
+			pid = fork();
+			if (pid == 0)
+				exec(path);
+			else if (pid > 0)
 			{
-				dup2(g_global.fd_in, STDIN_FILENO);
-				dup2(g_global.fd_out, STDOUT_FILENO);
-				p_tok = &(*p_tok)->next->next;
-				exec_cmd(p_tok, 1, 0);
+				wait(NULL);
+				all_free(path);
+				while ((*p_tok)->kind == 0)
+					p_tok = &(*p_tok)->next;
+				p_tok = &(*p_tok)->next;
+				if ((*p_tok)->next != NULL)
+				{
+					dup2(g_global.fd_in, STDIN_FILENO);
+					dup2(g_global.fd_out, STDOUT_FILENO);
+					p_tok = &(*p_tok)->next->next;
+					exec_cmd(p_tok, 1, 0);
+				}
 			}
 		}
 	}
