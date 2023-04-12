@@ -59,19 +59,79 @@ void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
 		g_global.status = 0;
 }
 
-void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
+// void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
+// {
+// 	if (p_tok == NULL)
+// 		return ;
+// 	if (check_operation(p_tok) == 1)
+// 		exec_pipe(p_tok, input_fd, output_fd);
+// 	else if (check_operation(p_tok) == 0)
+// 		exec_no_operat(p_tok, input_fd, output_fd);
+// 	else if (check_operation(p_tok) == 2 || check_operation(p_tok) == 4)
+// 		exec_redirect_out(p_tok, input_fd);
+// 	else if (check_operation(p_tok) == 3)
+// 		exec_redirect_inp(p_tok);
+// 	else if (check_operation(p_tok) == 5)
+// 		exec_heardocu(p_tok);
+// 	return ;
+// }
+
+void	sec_cmd(t_token **p_tok, char **args, int *in, int *out)
 {
-	if (p_tok == NULL)
-		return ;
-	if (check_operation(p_tok) == 1)
-		exec_pipe(p_tok, input_fd, output_fd);
-	else if (check_operation(p_tok) == 0)
-		exec_no_operat(p_tok, input_fd, output_fd);
-	else if (check_operation(p_tok) == 2 || check_operation(p_tok) == 4)
-		exec_redirect_out(p_tok, input_fd);
-	else if (check_operation(p_tok) == 3)
-		exec_redirect_inp(p_tok);
-	else if (check_operation(p_tok) == 5)
-		exec_heardocu(p_tok);
-	return ;
+	int	i;
+
+	i = 0;
+	while ((*p_tok)->kind != PIPE || (*p_tok) == NULL)
+	{
+		if ((*p_tok)->kind == INPUT)
+		{
+			*p_tok = (*p_tok)->next;
+			 in = openする。
+		}
+		else if ((*p_tok)->kind == OUTPUT)
+		{
+			*p_tok =  (*p_tok)->next;
+			out = openする。
+		}
+		else if ((*p_tok)->kind == ADD)
+		{
+			*p_tok =  (*p_tok)->next;
+			out = openする。
+		}
+		else if ((*p_tok)->kind == HEREDOC)
+		{
+			*p_tok = ((*p_tok)->next;
+			pipefd = heredoucu(); pipeのfdの[read] がinputになる。
+		}
+		else
+			args[i++] = ft_strdup((*p_tok)->word);
+		*p_tok = *p_tok->next;
+	}
 }
+
+ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
+ {
+	char	**args;
+	int		in;
+	int		out;
+
+	while ((*p_tok))
+	{
+		if ((*p_tok)->kind != PIPE)
+		{
+			dup2(pipe[read], STDIN_FILENO);
+			dup2(g_global.fd_out, STDOUT_FILENO);
+		}
+		sec_cmd(p_tok, args, &in, &out); //p_tok進める。　argsを作る。　inと　outのfdを書き換える
+		if ((*p_tok)->kind != PIPE)
+	 	{
+			pipi()
+			dup2(pipe[write], STDOUT_FILENO);
+		}
+		else
+			dup2(out ,STDOUT_FILENO);
+		dup2(in ,STDIN_FILENO);
+		execute(args);//
+		all_free(args);
+	}
+ }

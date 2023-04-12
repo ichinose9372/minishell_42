@@ -74,7 +74,7 @@ void	minishell(void)
 	{
 		p_tok = (t_token **)malloc_error(sizeof(t_token *));
 		signal_one();
-		str = readline("mini_shell$ ");
+		str = readline("minishell$ ");
 		signal(SIGINT, SIG_IGN);
 		if (str == NULL)
 		{
