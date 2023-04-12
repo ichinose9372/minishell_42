@@ -96,7 +96,7 @@ void	exec_heardocu(t_token **p_tok)
 			tmp = &(*tmp)->next;
 		path = token_path(tmp);
 		if (!path)
-			return;
+			return ;
 	}
 	g_global.heredoc_flag = 0;
 	if (pipe(pipe_data.pipe_fd) == -1)
