@@ -9,17 +9,30 @@ int	ft_isspace(char c)
 	return (0);
 }
 
-static long long	check_nb(long long number, int type, char c)
+static int	check_llong(long num, char c, int minus)
 {
-	if ((number * 10 + (c - '0')) / 10 != number)
-	{
-		if (type == -1)
-			return ((long)LLONG_MIN);
-		else
-			return ((long)LLONG_MAX);
-	}
+	if (LLONG_MAX / 10 < num && c && !minus)
+		return (1);
+	if (LLONG_MAX / 10 == num && LLONG_MAX % 10 <= c - '0' && !minus)
+		return (1);
+	if (LLONG_MIN / 10 > -num && c && minus)
+		return (-1);
+	if (LLONG_MIN / 10 == -num && LLONG_MIN % 10 >= -(c - '0') && minus)
+		return (-1);
 	return (0);
 }
+
+// static long long	check_nb(long long number, int type, char c)
+// {
+// 	if ((number * 10 + (c - '0')) / 10 != number)
+// 	{
+// 		if (type == -1)
+// 			return ((long)LLONG_MIN);
+// 		else
+// 			return ((long)LLONG_MAX);
+// 	}
+// 	return (0);
+// }
 
 long	exit_atoi(char *nptr)
 {
@@ -38,12 +51,13 @@ long	exit_atoi(char *nptr)
 			type *= -1;
 		cnt++;
 	}
-	while (ft_isdigit(nptr[cnt]))
+	while ('0' <= nptr[cnt] && nptr[cnt] <= '9')
 	{
 		number *= 10;
 		number += nptr[cnt++] - '0';
-		if (check_nb(number, nptr[cnt], type))
+		if (check_llong(number, nptr[cnt], type))
 		{
+			printf("test2\n");
 			ft_putstr_fd("exit: ", STDOUT_FILENO);
 			ft_putstr_fd(nptr, STDOUT_FILENO);
 			ft_putendl_fd(": numeric argument required", STDOUT_FILENO);
@@ -58,9 +72,11 @@ int		check_digit(char *str)
 	char	*tmp;
 
 	tmp = str;
+	if (*tmp == '-')
+		tmp++;
 	while (*tmp)
 	{
-		if (!(ft_isdigit((int)*tmp)))
+		if (!ft_isdigit((int)*tmp))
 			return (0);
 		tmp++;
 	}
@@ -96,10 +112,11 @@ int	builtin_exit(t_token **p_tok)
 		}
 	}
 	else
-		{
-			ft_putstr_fd("exit: ", STDOUT_FILENO);
-			ft_putstr_fd((*p_tok)->next->word, STDOUT_FILENO);
-			ft_putendl_fd(" numeric argument required", STDOUT_FILENO);
-		}
+	{
+		printf("test\n");
+		ft_putstr_fd("exit: ", STDOUT_FILENO);
+		ft_putstr_fd((*p_tok)->next->word, STDOUT_FILENO);
+		ft_putendl_fd(" numeric argument required", STDOUT_FILENO);
+	}
 	exit(255);
 }
