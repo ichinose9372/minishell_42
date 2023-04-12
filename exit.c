@@ -22,18 +22,6 @@ static int	check_llong(long num, char c, int minus)
 	return (0);
 }
 
-// static long long	check_nb(long long number, int type, char c)
-// {
-// 	if ((number * 10 + (c - '0')) / 10 != number)
-// 	{
-// 		if (type == -1)
-// 			return ((long)LLONG_MIN);
-// 		else
-// 			return ((long)LLONG_MAX);
-// 	}
-// 	return (0);
-// }
-
 long	exit_atoi(char *nptr)
 {
 	int			type;
@@ -57,7 +45,6 @@ long	exit_atoi(char *nptr)
 		number += nptr[cnt++] - '0';
 		if (check_llong(number, nptr[cnt], type))
 		{
-			printf("test2\n");
 			ft_putstr_fd("exit: ", STDOUT_FILENO);
 			ft_putstr_fd(nptr, STDOUT_FILENO);
 			ft_putendl_fd(": numeric argument required", STDOUT_FILENO);
@@ -113,7 +100,6 @@ int	builtin_exit(t_token **p_tok)
 	}
 	else
 	{
-		printf("test\n");
 		ft_putstr_fd("exit: ", STDOUT_FILENO);
 		ft_putstr_fd((*p_tok)->next->word, STDOUT_FILENO);
 		ft_putendl_fd(" numeric argument required", STDOUT_FILENO);
