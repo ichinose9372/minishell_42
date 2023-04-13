@@ -42,23 +42,23 @@ int	unset_elem_check(char *str)
 	return (1);
 }
 
-int	builtin_unset(t_token **p_tok)
+int	builtin_unset(char **args)
 {
 	t_env	**tmp;
 	t_env	*prev;
-	t_token	*tok;
+	size_t	cnt;
 
 	prev = NULL;
-	tok = *p_tok;
-	if (tok->next == NULL)
+	cnt = 1;
+	if (args[cnt] == NULL)
 		return (0);
-	while (tok->next && tok->next->kind == 0 && unset_elem_check(tok->next->word))
+	while (args[cnt] && unset_elem_check(args[cnt]))
 	{
 		tmp = g_global.env;
 		while (*tmp)
 		{
-			if (ft_strncmp((*tmp)->name, tok->next->word,
-					ft_strlen(tok->next->word) + 1) == 0)
+			if (ft_strncmp((*tmp)->name, args[cnt],
+					ft_strlen(args[cnt]) + 1) == 0)
 				{
 					del_env(tmp, prev);
 					break ;
@@ -69,7 +69,7 @@ int	builtin_unset(t_token **p_tok)
 				tmp = &(*tmp)->next;
 			}
 		}
-		tok = (tok)->next;
+		cnt++;
 	}
 	return (0);
 }

@@ -70,25 +70,24 @@ int		check_digit(char *str)
 	return (1);
 }
 
-int	builtin_exit(t_token **p_tok)
+int	builtin_exit(char **args)
 {
 	long long	status;
+	size_t		cnt;
 
+	cnt = 1;
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	if ((*p_tok)->next == 0)
+	if (args[cnt] == NULL)
 		exit (g_global.status);
-	if ((*p_tok)->next->next)
+	if (args[cnt + 1])
 	{
-		if ((*p_tok)->next->next->kind == 0)
-		{
-			ft_putendl_fd("exit: too many arguments", STDOUT_FILENO);
-			g_global.status = 1;
-		}
+		ft_putendl_fd("exit: too many arguments", STDOUT_FILENO);
+		g_global.status = 1;
 		return (0);
 	}
-	if (check_digit((*p_tok)->next->word))
+	if (check_digit(args[cnt]))
 	{
-		status = exit_atoi((*p_tok)->next->word);
+		status = exit_atoi(args[cnt]);
 		if (status < 256)
 			exit (status);
 		else if (status > 255)
@@ -100,7 +99,7 @@ int	builtin_exit(t_token **p_tok)
 	else
 	{
 		ft_putstr_fd("exit: ", STDOUT_FILENO);
-		ft_putstr_fd((*p_tok)->next->word, STDOUT_FILENO);
+		ft_putstr_fd(args[cnt], STDOUT_FILENO);
 		ft_putendl_fd(" numeric argument required", STDOUT_FILENO);
 	}
 	exit(255);

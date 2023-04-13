@@ -137,8 +137,8 @@ int		builtin_export(char **args);
 int		elem_check(char *str, int i);
 int		builtin_env(char **args);
 int		builtin_list(char **args);
-int		builtin_exit(t_token **p_tok);
-int		builtin_unset(t_token **p_tok);
+int		builtin_exit(char **args);
+int		builtin_unset(char **args);
 
 
 // signal

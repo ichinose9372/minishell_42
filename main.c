@@ -60,12 +60,12 @@ int	minishell_2(t_token **p_tok, char *str)
 	expansion(tok, p_tok);
 	if (syntax_check(p_tok))
 		return (0);
-	if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
-		builtin_cd(p_tok);
-	else if (ft_strncmp((*p_tok)->word, "exit", 5) == 0)
-		builtin_exit(p_tok);
-	else
-		exec_cmd(p_tok, 0, 1);
+	// if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
+	// 	builtin_cd(p_tok);
+	// else if (ft_strncmp((*p_tok)->word, "exit", 5) == 0)
+	// 	builtin_exit(p_tok);
+	// else
+	exec_cmd(p_tok, 0, 1);
 	return (0);
 }
 
