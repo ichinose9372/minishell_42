@@ -20,7 +20,6 @@ int	option_check(char *str)
 
 int	builtin_echo(char **args)
 {
-	t_token	*tmp;
 	int		flag;
 	size_t	cnt;
 
@@ -30,7 +29,6 @@ int	builtin_echo(char **args)
 		ft_putchar_fd('\n', 1);
 		return (0);
 	}
-	// tmp = (*p_tok)->next;
 	flag = 0;
 	while (args[cnt] && option_check(args[cnt]))
 	{

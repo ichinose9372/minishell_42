@@ -14,15 +14,15 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-size_t	count_env(t_env **tmp)
+size_t	count_env(t_env *tmp)
 {
 	int	size;
 
 	size = 0;
-	while (*tmp)
+	while (tmp)
 	{
 		size++;
-		tmp = &(*tmp)->next;
+		tmp = tmp->next;
 	}
 	return (size);
 }
@@ -168,17 +168,14 @@ int	env_join(char *str, size_t cnt)
 	return (1);
 }
 
-void	add_env(t_token **p_tok)
+void	add_env(char *str)
 {
-	char	*str;
 	t_env	*new_env;
 	t_env	*tmp;
 	size_t	cnt;
 
-	tmp = *g_global.env;
-	if (export_elem_check((*p_tok)->next->word))
+	if (export_elem_check(str))
 		return ;
-	str = ft_strdup((*p_tok)->next->word);
 	cnt = 0;
 	while (str[cnt])
 	{
@@ -203,27 +200,24 @@ void	add_env(t_token **p_tok)
 	else if (str[cnt] == '\0')
 		new_env->value = NULL;
 	new_env->next = NULL;
+	tmp = *g_global.env;
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = new_env;
-	free(str);
 }
 
-int	builtin_export(t_token **p_tok)
+int	builtin_export(char **args)
 {
-	t_env	**env_tmp;
+	t_env	*env_tmp;
 	size_t	size;
-	t_token	*tmp;
+	size_t	cnt;
 
-	env_tmp = g_global.env;
-	tmp = *p_tok;
+	env_tmp = *g_global.env;
+	cnt = 1;
 	size = count_env(env_tmp);
-	if ((tmp->next == NULL || operater_cmp(tmp->next->word, 0) != 0))
+	if (args[cnt] == NULL)
 		put_export(size);
-	while (tmp->next && tmp->next->kind == WORD)
-	{
-		add_env(&tmp);
-		tmp = tmp->next;
-	}
+	while (args[cnt])
+		add_env(args[cnt++]);
 	return (0);
 }

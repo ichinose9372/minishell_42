@@ -16,20 +16,6 @@ char	*check_stop(t_token *stop)
 	return (ft_strdup(stop->word));
 }
 
-int	check_next(t_token **p_tok)
-{
-	t_token	**tmp;
-
-	tmp = p_tok;
-	while (*tmp)
-	{
-		if ((*tmp)->kind == 2 || (*tmp)->kind == 1)
-			return (1);
-		tmp =&(*tmp)->next;
-	}
-	return (0);
-}
-
 static char	*make_str(char	*stop)
 {
 	char	*str;
@@ -67,11 +53,13 @@ static char	*heredocu(t_token **p_tok)
 	char	*str;
 	char	*stop;
 
-	str = NULL;
+	printf("%s\n", (*p_tok)->word);
 	tmp = p_tok;
+	printf("next = %s\n", (*tmp)->next->word);
 	while (g_global.heredoc_flag == 0)
 	{
 		stop = check_stop((*tmp)->next);
+		printf("ttttteeeeesssssttttt\n");
 		str = make_str(stop);
 		free(stop);
 		if (str == NULL)
@@ -96,6 +84,7 @@ int	heredoc_cmd(t_token **p_tok)
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
 	signal_heredocu();
+	printf("test\n");
 	str = heredocu(p_tok);
 	if (str == NULL)
 		return (-1);
@@ -108,5 +97,5 @@ int	heredoc_cmd(t_token **p_tok)
 		exit (EXIT_FAILURE);
 	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 	close(pipe_data.pipe_fd[WRITE]);
-	return (STDIN_FILENO);
+	return (pipe_data.pipe_fd[READ]);
 }

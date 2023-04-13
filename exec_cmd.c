@@ -16,6 +16,17 @@ int	check_operation(t_token **p_tok)
 	return (ret);
 }
 
+bool	pipe_check(t_token **p_tok)
+{
+	while ((*p_tok))
+	{
+		if ((*p_tok)->kind == PIPE)
+			return (true);
+		p_tok = &(*p_tok)->next;
+	}
+	return (false);
+}
+
 int		count(t_token *p_tok)
 {
 	t_token	*tmp;
@@ -41,7 +52,6 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 
 	i = count(p_tok);
 	str = malloc(sizeof(char *) * (i + 1));
-
 	i = 0;
 	while ((p_tok) && (p_tok)->kind != PIPE)
 	{
@@ -74,7 +84,6 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		p_tok = (p_tok)->next;
 	}
 	str[i] = NULL;
-	str[0] = make_path(str[0]);
 	return (str);
 }
 
@@ -110,13 +119,16 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	char	**args;
 	t_pipe	pipe_data;
 	pid_t	pid;
+	int		flag;
 
 	args = NULL;
+	flag = 0;
 	signal_cmd();
 	if (!(*p_tok))
 		return ;
 	if (pipe_check(p_tok))
 	{
+		flag = 1;
 		if (pipe(pipe_data.pipe_fd) == -1)
 		{
 			printf("!!! faled !!!\n");
@@ -125,6 +137,11 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		output_fd = pipe_data.pipe_fd[WRITE];
 	}
 	args = sec_cmd(*p_tok, &input_fd, &output_fd);
+	if (!flag)
+	{
+		if (builtin_list(args) == 0)
+			return ;
+	}
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);

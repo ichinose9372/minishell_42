@@ -2,6 +2,7 @@
 
 int	builtin_list(char **args)
 {
+	printf("%s\n", args[0]);
 	if (ft_strncmp(args[0], "pwd", 4) == 0)
 		return (builtin_pwd(args));
 	else if (ft_strncmp(args[0], "echo", 5) == 0)
@@ -10,10 +11,10 @@ int	builtin_list(char **args)
 		return (builtin_env(args));
 	else if (ft_strncmp(args[0], "export", 7) == 0)
 		return (builtin_export(args));
-	else if (ft_strncmp(args[0], "unset", 6) == 0)
-		return (builtin_unset(args));
-	else if (ft_strncmp(args[0], "exit", 5) == 0)
-		return (builtin_exit(args));
+	// else if (ft_strncmp(args[0], "unset", 6) == 0)
+		// return (builtin_unset(args));
+	// else if (ft_strncmp(args[0], "exit", 5) == 0)
+		// return (builtin_exit(args));
 	return (1);
 }
 
