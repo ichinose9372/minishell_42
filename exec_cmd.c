@@ -16,6 +16,17 @@ int	check_operation(t_token **p_tok)
 	return (ret);
 }
 
+bool	pipe_check(t_token **p_tok)
+{
+	while ((*p_tok))
+	{
+		if ((*p_tok)->kind == PIPE)
+			return (true);
+		p_tok = &(*p_tok)->next;
+	}
+	return (false);
+}
+
 int		count(t_token *p_tok)
 {
 	t_token	*tmp;
@@ -41,7 +52,6 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 
 	i = count(p_tok);
 	str = malloc(sizeof(char *) * (i + 1));
-
 	i = 0;
 	while ((p_tok) && (p_tok)->kind != PIPE)
 	{
