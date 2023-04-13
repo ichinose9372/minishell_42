@@ -71,7 +71,7 @@ int	heredoc_cmd(t_token *p_tok)
 	if (g_global.heredoc_flag == 1)
 	{
 		g_global.heredoc_flag = 0;
-		return (-1);
+		return (-2);
 	}
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);

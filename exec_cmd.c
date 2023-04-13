@@ -50,6 +50,7 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 	char	**str;
 	int		i;
 
+	signal_cmd();
 	i = count(p_tok);
 	str = malloc(sizeof(char *) * (i + 1));
 	i = 0;
@@ -74,6 +75,8 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		{
 			p_tok = (p_tok)->next;
 			*in = heredoc_cmd(p_tok);
+			if ((*in == -1 && !p_tok->next) || *in == -2)
+				return (NULL);
 		}
 		else
 		{
@@ -119,6 +122,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	t_pipe	pipe_data;
 	pid_t	pid;
 	int		flag;
+	int		status;
 
 	args = NULL;
 	flag = 0;
@@ -136,6 +140,8 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		output_fd = pipe_data.pipe_fd[WRITE];
 	}
 	args = sec_cmd(*p_tok, &input_fd, &output_fd);
+	if (!args)
+		return ;
 	if (!flag && builtin_check(args))
 	{
 		if (input_fd != STDIN_FILENO)
@@ -149,7 +155,12 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 			close(output_fd);
 		}
 		if (builtin_list(args) == 0)
+		{
+			g_global.status = 0;
 			return ;
+		}
+		else
+			g_global.status = 1;
 	}
 	pid = fork();
 	if (pid == -1)
@@ -169,8 +180,13 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		if ((*p_tok))
 			p_tok = &(*p_tok)->next;
 		exec_cmd(p_tok, pipe_data.pipe_fd[READ], g_global.fd_out);
-		close(pipe_data.pipe_fd[READ]);
-		close(pipe_data.pipe_fd[WRITE]);
+		if (flag)
+		{
+			close(pipe_data.pipe_fd[READ]);
+			close(pipe_data.pipe_fd[WRITE]);
+		}
+		if (WIFEXITED(status))
+				g_global.status = WEXITSTATUS(status);
 		wait(NULL);
 	}
 }

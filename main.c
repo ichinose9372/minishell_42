@@ -63,7 +63,6 @@ int	minishell_2(t_token **p_tok, char *str)
 	// 	builtin_exit(p_tok);
 	// else
 	exec_cmd(p_tok, 0, 1);
-	printf("test\n");
 	return (0);
 }
 
