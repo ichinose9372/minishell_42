@@ -163,7 +163,6 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		}
 		args = token_path(p_tok);
 		*p_tok = sec_cmd(p_tok, &in, &out);
-		printf("in %d\t%d\n", in, out);
 		if (*p_tok && (*p_tok)->kind == PIPE)
 		{
 			if (pipe(pipe_data.pipe_fd) == -1)
@@ -175,6 +174,5 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		dup2(in, STDIN_FILENO);
 		execute(args);
 		all_free(args);
-		printf("%s\n", (*p_tok)->word);
 	}
 }
