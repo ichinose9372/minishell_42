@@ -16,165 +16,123 @@ int	check_operation(t_token **p_tok)
 	return (ret);
 }
 
-void	exec_no_operat(t_token **p_tok, int input_fd, int output_fd)
+int		count(t_token *p_tok)
 {
-	pid_t	pid;
-	int		status;
-	char	**path;
-	int		builtin;
+	t_token	*tmp;
+	int		i;
 
-	signal_cmd();
-	builtin = builtin_list(p_tok);
-	if (builtin == 1)
+	i = 0;
+	tmp = p_tok;
+	while (tmp)
 	{
-		path = token_path(p_tok);
-		if (path == NULL)
-			return ;
-		pid = fork();
-		if (pid < 0)
-			exit(EXIT_FAILURE);
-		else if (pid == 0)
-		{
-			if (input_fd != 0)
-				dup2(input_fd, STDIN_FILENO);
-			if (output_fd != 1)
-				dup2(output_fd, STDOUT_FILENO);
-			exec(path);
-			exit(EXIT_FAILURE);
-		}
+		if (tmp->kind != WORD)
+			tmp = tmp->next;
 		else
-		{
-			wait(&status);
-			if (WIFEXITED(status))
-				g_global.status = WEXITSTATUS(status);
-			all_free(path);
-		}
+			i++;
+		tmp = tmp->next;
 	}
-	else if (builtin == -1)
-	{
-		ft_putendl_fd("builtin error", 1);
-		g_global.status = 1;
-	}
-	else if (builtin == 0)
-		g_global.status = 0;
+	return (i);
 }
 
-// void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
-// {
-// 	if (p_tok == NULL)
-// 		return ;
-// 	if (check_operation(p_tok) == 1)
-// 		exec_pipe(p_tok, input_fd, output_fd);
-// 	else if (check_operation(p_tok) == 0)
-// 		exec_no_operat(p_tok, input_fd, output_fd);
-// 	else if (check_operation(p_tok) == 2 || check_operation(p_tok) == 4)
-// 		exec_redirect_out(p_tok, input_fd);
-// 	else if (check_operation(p_tok) == 3)
-// 		exec_redirect_inp(p_tok);
-// 	else if (check_operation(p_tok) == 5)
-// 		exec_heardocu(p_tok);
-// 	return ;
-// }
-
-void	execute(char **args)
+char	**sec_cmd(t_token *p_tok, int *in, int *out)
 {
-	int		status;
-	// int		builtin;
-	pid_t	pid;
+	char	**str;
+	int		i;
 
-	signal_cmd();
-	pid = fork();
-	if (pid < 0)
-		exit(EXIT_FAILURE);
-	else if (pid == 0)
-	{
-		exec(args);
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		wait(&status);
-		if (WIFEXITED(status))
-			g_global.status = WEXITSTATUS(status);
-	}
-		// builtin = builtin_list(p_tok);
-		// if (builtin == 1)
-		// {
+	i = count(p_tok);
+	str = malloc(sizeof(char *) * (i + 1));
 
-		// }
-		// else if (builtin == -1)
-		// {
-		// 	ft_putendl_fd("builtin error", 1);
-		// 	g_global.status = 1;
-		// }
-		// else if (builtin == 0)
-		// 	g_global.status = 0;
-}
-
-t_token	*sec_cmd(t_token **p_tok, int *in, int *out)
-{
-	while ((*p_tok) && (*p_tok)->kind != PIPE)
+	i = 0;
+	while ((p_tok) && (p_tok)->kind != PIPE)
 	{
-		if ((*p_tok)->kind == INPUT)
+		if ((p_tok)->kind == INPUT)
 		{
-			p_tok = &(*p_tok)->next;
-			*in = file_open_rd((*p_tok)->word);
+			p_tok = (p_tok)->next;
+			*in = file_open_rd((p_tok)->word);
 		}
-		else if ((*p_tok)->kind == OUTPUT)
+		else if ((p_tok)->kind == OUTPUT)
 		{
-			p_tok = &(*p_tok)->next;
-			*out = file_open_wrt((*p_tok)->word);
+			p_tok = (p_tok)->next;
+			*out = file_open_wrt((p_tok)->word);
 		}
-		else if ((*p_tok)->kind == ADD)
+		else if ((p_tok)->kind == ADD)
 		{
-			p_tok = &(*p_tok)->next;
-			*out = file_open_wrt_add((*p_tok)->word);
+			p_tok = (p_tok)->next;
+			*out = file_open_wrt_add((p_tok)->word);
 		}
-		else if ((*p_tok)->kind == HEREDOC)
+		else if ((p_tok)->kind == HEREDOC)
 		{
-			p_tok = &(*p_tok)->next;
-			*in = heredoc_cmd(p_tok);
+			p_tok = (p_tok)->next;
+			*in = heredoc_cmd(&p_tok);
 			// pipefd = heredoucu(); pipeのfdの[read] がinputになる。
 		}
 		else
-			p_tok = &(*p_tok)->next;
+		{
+			str[i] = ft_strdup(p_tok->word);
+			i++;
+		}
+		p_tok = (p_tok)->next;
 	}
-	return (*p_tok);
+	str[i] = NULL;
+	str[0] = make_path(str[0]);
+	return (str);
+}
+
+void	exe_chiled(char	**args, int input_fd, int output_fd)
+{
+	if (input_fd != STDIN_FILENO)
+	{
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
+	}
+	if (output_fd != STDOUT_FILENO)
+	{
+		dup2(output_fd, STDOUT_FILENO);
+		close(output_fd);
+	}
+	//builtin
+	exec(args);
+	exit(EXIT_SUCCESS);
 }
 
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 {
 	char	**args;
-	int		in;
-	int		out;
 	t_pipe	pipe_data;
-	(void)input_fd;
-	(void)output_fd;
+	pid_t	pid;
 
 	args = NULL;
-	in = 0;
-	out = 1;
-	while ((*p_tok))
+	signal_cmd();
+	if (!(*p_tok))
+		return ;
+	if (pipe_check(p_tok))
 	{
-		if ((*p_tok)->kind == PIPE)
+		if (pipe(pipe_data.pipe_fd) == -1)
 		{
-			dup2(pipe_data.pipe_fd[READ], STDIN_FILENO);
-			dup2(g_global.fd_out, STDOUT_FILENO);
+			printf("!!! faled !!!\n");
+			exit(EXIT_FAILURE);
 		}
-		args = token_path(p_tok);
-		*p_tok = sec_cmd(p_tok, &in, &out);
-		printf("in %d\t%d\n", in, out);
-		if (*p_tok && (*p_tok)->kind == PIPE)
-		{
-			if (pipe(pipe_data.pipe_fd) == -1)
-				exit(EXIT_FAILURE);
-			dup2(pipe_data.pipe_fd[WRITE], STDOUT_FILENO);
-		}
-		else
-			dup2(out, STDOUT_FILENO);
-		dup2(in, STDIN_FILENO);
-		execute(args);
-		all_free(args);
-		printf("%s\n", (*p_tok)->word);
+		output_fd = pipe_data.pipe_fd[WRITE];
+	}
+	args = sec_cmd(*p_tok, &input_fd, &output_fd);
+	pid = fork();
+	if (pid == -1)
+		exit(EXIT_FAILURE);
+	if (pid == 0)
+	{
+		close(pipe_data.pipe_fd[READ]);
+		exe_chiled(args, input_fd, output_fd);
+	}
+	else if (pid > 0)
+	{
+		close(pipe_data.pipe_fd[WRITE]);
+		while ((*p_tok) && (*p_tok)->kind != PIPE)
+			p_tok = &(*p_tok)->next;
+		if ((*p_tok))
+			p_tok = &(*p_tok)->next;
+		exec_cmd(p_tok, pipe_data.pipe_fd[READ], g_global.fd_out);
+		close(pipe_data.pipe_fd[READ]);
+		close(pipe_data.pipe_fd[WRITE]);
+		wait(NULL);
 	}
 }

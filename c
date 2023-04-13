@@ -1,3 +1,5 @@
+args = /bin/cat
+args = /bin/cat
 Makefile
 a
 b

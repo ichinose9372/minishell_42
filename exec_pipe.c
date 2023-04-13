@@ -28,15 +28,14 @@ void chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd)
 	else
 	{
 		close(pipe_data->pipe_fd[READ]);
-		close(pipe_data->pipe_fd[READ]);
 		exec_cmd(p_tok, 0, 1);
 	}
 }
 
 void exec_pipe(t_token **p_tok, int input_fd, int output_fd)
 {
-	t_pipe pipe_data;
-	pid_t pid;
+	t_pipe	pipe_data;
+	pid_t	pid;
 
 	signal_cmd();
 	if (pipe(pipe_data.pipe_fd) == -1)
