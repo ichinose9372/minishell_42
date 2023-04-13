@@ -10,7 +10,8 @@ char	*check_stop(t_token *stop)
 	if (stop->word[0] != stop->old_word[cnt])
 	{
 		if (cnt == 1)
-			return (new_strdup(&(stop->old_word[cnt]), ft_strlen(stop->old_word) - 2));
+			return (new_strdup(&(stop->old_word[cnt]),
+					ft_strlen(stop->old_word) - 2));
 		return (ft_strdup(stop->old_word));
 	}
 	return (ft_strdup(stop->word));
@@ -34,7 +35,7 @@ static char	*make_str(char	*stop)
 		if (ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
 		{
 			free(str);
-			break ;
+			return (tmp);
 		}
 		expansion_heredoc(&str);
 		str2 = ft_strjoin(str, "\n");
@@ -47,35 +48,31 @@ static char	*make_str(char	*stop)
 	return (tmp);
 }
 
-static char	*heredocu(t_token **p_tok)
+static char	*heredocu(t_token *p_tok)
 {
-	t_token	**tmp;
 	char	*str;
 	char	*stop;
 
-	printf("%s\n", (*p_tok)->word);
-	tmp = p_tok;
-	printf("next = %s\n", (*tmp)->next->word);
 	while (g_global.heredoc_flag == 0)
 	{
-		stop = check_stop((*tmp)->next);
-		printf("ttttteeeeesssssttttt\n");
+		printf("%s\n", (p_tok)->word);
+		stop = check_stop(p_tok);
 		str = make_str(stop);
 		free(stop);
 		if (str == NULL)
 			return (NULL);
-		if ((*tmp)->next->next == NULL || (*tmp)->next->next->next == NULL || (*tmp)->next->next->kind != 0)
+		if (p_tok->next == NULL || p_tok->next->next == NULL || p_tok->next->next->kind != WORD)
 			break ;
 		else
 		{
 			free(str);
-			tmp = &(*tmp)->next;
+			p_tok = p_tok->next->next;
 		}
 	}
 	return (str);
 }
 
-int	heredoc_cmd(t_token **p_tok)
+int	heredoc_cmd(t_token *p_tok)
 {
 	t_pipe	pipe_data;
 	char	*str;
@@ -84,7 +81,6 @@ int	heredoc_cmd(t_token **p_tok)
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
 	signal_heredocu();
-	printf("test\n");
 	str = heredocu(p_tok);
 	if (str == NULL)
 		return (-1);
@@ -93,8 +89,6 @@ int	heredoc_cmd(t_token **p_tok)
 		g_global.heredoc_flag = 0;
 		return (-1);
 	}
-	if (pipe(pipe_data.pipe_fd) == -1)
-		exit (EXIT_FAILURE);
 	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 	close(pipe_data.pipe_fd[WRITE]);
 	return (pipe_data.pipe_fd[READ]);

@@ -104,7 +104,7 @@ void	exec_redirect_out(t_token **p_tok, int input_fd);
 void	exec_redirect_inp(t_token **p_tok);
 void	exec_heardocu(t_token **p_tok);
 void	exec_colon(t_token **p_tok);
-int		heredoc_cmd(t_token **p_tok);
+int		heredoc_cmd(t_token *p_tok);
 
 	// heredoc
 	void expansion_heredoc(char **str);

@@ -73,7 +73,7 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		else if ((p_tok)->kind == HEREDOC)
 		{
 			p_tok = (p_tok)->next;
-			*in = heredoc_cmd(&p_tok);
+			*in = heredoc_cmd(p_tok);
 			// pipefd = heredoucu(); pipeのfdの[read] がinputになる。
 		}
 		else
@@ -83,6 +83,7 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		}
 		p_tok = (p_tok)->next;
 	}
+	printf("%s\n", str[0]);
 	str[i] = NULL;
 	str[0] = make_path(str[0]);
 	return (str);
