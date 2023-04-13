@@ -147,7 +147,8 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
 	{
-		// close(pipe_data.pipe_fd[READ]);
+		if (flag)
+			close(pipe_data.pipe_fd[READ]);
 		exe_chiled(args, input_fd, output_fd);
 	}
 	else if (pid > 0)
