@@ -11,18 +11,18 @@ int	ft_isspace(char c)
 
 static int	check_llong(long num, char c, int minus)
 {
-	if (LLONG_MAX / 10 < num && c && !minus)
+	if (LLONG_MAX / 10 < num && c && minus == 1)
 		return (1);
-	if (LLONG_MAX / 10 == num && LLONG_MAX % 10 <= c - '0' && !minus)
+	if (LLONG_MAX / 10 == num && LLONG_MAX % 10 < c - '0' && minus == 1)
 		return (1);
-	if (LLONG_MIN / 10 > -num && c && minus)
-		return (-1);
-	if (LLONG_MIN / 10 == -num && LLONG_MIN % 10  > -(c - '0') && minus)
-		return (-1);
+	if (LLONG_MIN / 10 > -num && c && minus == -1)
+		return (1);
+	if (LLONG_MIN / 10 == -num && LLONG_MIN % 10 > -(c - '0') && minus == -1)
+		return (1);
 	return (0);
 }
 
-long	exit_atoi(char *nptr)
+long long	exit_atoi(char *nptr)
 {
 	int			type;
 	long long	number;
@@ -94,7 +94,6 @@ int	builtin_exit(t_token **p_tok)
 		else if (status > 255)
 		{
 			status = status - 256 * (status / 256);
-			printf("[%lld]\n", status);
 			exit (status);
 		}
 	}
