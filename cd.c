@@ -76,7 +76,6 @@ char	*next_move(char *path_name, char *word)
 	char	*tmp;
 	char	*tmp2;
 
-
 	if (word[0] == '/')
 		new_path = ft_strdup(word);
 	else

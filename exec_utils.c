@@ -1,19 +1,19 @@
 #include "minishell.h"
 
-int	builtin_list(t_token **p_tok)
+int	builtin_list(char **args)
 {
-	if (ft_strncmp((*p_tok)->word, "pwd", 3) == 0)
-		return (builtin_pwd(p_tok));
-	else if (ft_strncmp((*p_tok)->word, "echo", 4) == 0)
-		return (builtin_echo(p_tok));
-	else if (ft_strncmp((*p_tok)->word, "env", 3) == 0)
-		return (builtin_env(p_tok));
-	else if (ft_strncmp((*p_tok)->word, "export", 6) == 0)
-		return (builtin_export(p_tok));
-	else if (ft_strncmp((*p_tok)->word, "unset", 5) == 0)
-		return (builtin_unset(p_tok));
-	else if (ft_strncmp((*p_tok)->word, "exit", 4) == 0)
-		return (builtin_exit(p_tok));
+	if (ft_strncmp(args[0], "pwd", 4) == 0)
+		return (builtin_pwd(args));
+	else if (ft_strncmp(args[0], "echo", 5) == 0)
+		return (builtin_echo(args));
+	else if (ft_strncmp(args[0], "env", 4) == 0)
+		return (builtin_env(args));
+	else if (ft_strncmp(args[0], "export", 7) == 0)
+		return (builtin_export(args));
+	else if (ft_strncmp(args[0], "unset", 6) == 0)
+		return (builtin_unset(args));
+	else if (ft_strncmp(args[0], "exit", 5) == 0)
+		return (builtin_exit(args));
 	return (1);
 }
 
