@@ -26,16 +26,13 @@ int	syntax_check(t_token **p_tok)
 	}
 	while (tmp)
 	{
-		if (tmp->kind != WORD)
-			break ;
+		if ((tmp->kind != WORD && tmp->next && tmp->next->kind == tmp->kind) || \
+			(tmp->kind != WORD && !tmp->next))
+			{
+				ft_putendl_fd("syntax error", STDOUT_FILENO);
+				return (1);
+			}
 		tmp = tmp->next;
-	}
-	if (!tmp)
-		return (0);
-	if ((tmp->kind != WORD && !tmp->next) || (tmp->next->kind != WORD))
-	{
-		ft_putendl_fd("syntax error", STDOUT_FILENO);
-		return (1);
 	}
 	return (0);
 }

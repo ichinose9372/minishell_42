@@ -37,7 +37,6 @@ static char	*make_str(char	*stop)
 			free(str);
 			return (tmp);
 		}
-		expansion_heredoc(&str);
 		str2 = ft_strjoin(str, "\n");
 		tmp = ft_strjoin(str3, str2);
 		free(str2);
@@ -53,22 +52,9 @@ static char	*heredocu(t_token *p_tok)
 	char	*str;
 	char	*stop;
 
-	while (g_global.heredoc_flag == 0)
-	{
-		printf("%s\n", (p_tok)->word);
-		stop = check_stop(p_tok);
-		str = make_str(stop);
-		free(stop);
-		if (str == NULL)
-			return (NULL);
-		if (p_tok->next == NULL || p_tok->next->next == NULL || p_tok->next->next->kind != WORD)
-			break ;
-		else
-		{
-			free(str);
-			p_tok = p_tok->next->next;
-		}
-	}
+	stop = check_stop(p_tok);
+	str = make_str(stop);
+	free(stop);
 	return (str);
 }
 
@@ -78,8 +64,6 @@ int	heredoc_cmd(t_token *p_tok)
 	char	*str;
 
 	g_global.heredoc_flag = 0;
-	if (pipe(pipe_data.pipe_fd) == -1)
-		exit (EXIT_FAILURE);
 	signal_heredocu();
 	str = heredocu(p_tok);
 	if (str == NULL)
@@ -89,6 +73,8 @@ int	heredoc_cmd(t_token *p_tok)
 		g_global.heredoc_flag = 0;
 		return (-1);
 	}
+	if (pipe(pipe_data.pipe_fd) == -1)
+		exit (EXIT_FAILURE);
 	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
 	close(pipe_data.pipe_fd[WRITE]);
 	return (pipe_data.pipe_fd[READ]);

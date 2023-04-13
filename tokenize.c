@@ -96,7 +96,5 @@ t_token	*tokenizer(char *str, t_token *tok)
 		if (str[start] != '\0')
 			make_token(&tok, str, start, end);
 	}
-	// if (tmp->word != NULL)
-		// make_old_word(tmp);
 	return (tmp);
 }

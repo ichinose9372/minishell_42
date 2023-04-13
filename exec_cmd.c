@@ -69,12 +69,12 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		{
 			p_tok = (p_tok)->next;
 			*out = file_open_wrt_add((p_tok)->word);
+			printf("out=%d\n", *out);
 		}
 		else if ((p_tok)->kind == HEREDOC)
 		{
 			p_tok = (p_tok)->next;
 			*in = heredoc_cmd(p_tok);
-			// pipefd = heredoucu(); pipeのfdの[read] がinputになる。
 		}
 		else
 		{
@@ -83,7 +83,6 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		}
 		p_tok = (p_tok)->next;
 	}
-	printf("%s\n", str[0]);
 	str[i] = NULL;
 	return (str);
 }
@@ -148,7 +147,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
 	{
-		close(pipe_data.pipe_fd[READ]);
+		// close(pipe_data.pipe_fd[READ]);
 		exe_chiled(args, input_fd, output_fd);
 	}
 	else if (pid > 0)
