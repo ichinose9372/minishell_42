@@ -105,6 +105,7 @@ void	exec_redirect_inp(t_token **p_tok);
 void	exec_heardocu(t_token **p_tok);
 void	exec_colon(t_token **p_tok);
 int		heredoc_cmd(t_token *p_tok);
+int		builtin_check(char **args);
 
 	// heredoc
 	void expansion_heredoc(char **str);

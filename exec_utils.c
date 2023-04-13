@@ -17,6 +17,23 @@ int	builtin_list(char **args)
 	return (1);
 }
 
+int	builtin_check(char **args)
+{
+	if (ft_strncmp(args[0], "pwd", 4) == 0)
+		return (1);
+	else if (ft_strncmp(args[0], "echo", 5) == 0)
+		return (1);
+	else if (ft_strncmp(args[0], "env", 4) == 0)
+		return (1);
+	else if (ft_strncmp(args[0], "export", 7) == 0)
+		return (1);
+	else if (ft_strncmp(args[0], "unset", 6) == 0)
+		return (1);
+	else if (ft_strncmp(args[0], "exit", 5) == 0)
+		return (1);
+	return (0);
+}
+
 char	**convet_environ()
 {
 	int		cnt;

@@ -69,7 +69,6 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		{
 			p_tok = (p_tok)->next;
 			*out = file_open_wrt_add((p_tok)->word);
-			printf("out=%d\n", *out);
 		}
 		else if ((p_tok)->kind == HEREDOC)
 		{
@@ -137,8 +136,18 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		output_fd = pipe_data.pipe_fd[WRITE];
 	}
 	args = sec_cmd(*p_tok, &input_fd, &output_fd);
-	if (!flag)
+	if (!flag && builtin_check(args))
 	{
+		if (input_fd != STDIN_FILENO)
+		{
+			dup2(input_fd, STDIN_FILENO);
+			close(input_fd);
+		}
+		if (output_fd != STDOUT_FILENO)
+		{
+			dup2(output_fd, STDOUT_FILENO);
+			close(output_fd);
+		}
 		if (builtin_list(args) == 0)
 			return ;
 	}
@@ -153,7 +162,8 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	}
 	else if (pid > 0)
 	{
-		close(pipe_data.pipe_fd[WRITE]);
+		if (flag)
+			close(pipe_data.pipe_fd[WRITE]);
 		while ((*p_tok) && (*p_tok)->kind != PIPE)
 			p_tok = &(*p_tok)->next;
 		if ((*p_tok))
