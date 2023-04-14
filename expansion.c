@@ -62,6 +62,18 @@ char	*new_getenv(char *name)
 	return (NULL);
 }
 
+char	*variable_join(char *src, char *dest, size_t cnt)
+{
+	char	*name;
+	char	*tmp;
+
+	name = new_strdup(&src[1], cnt - 1);
+	tmp = ft_strjoin(dest, new_getenv(name));
+	free(name);
+	free(dest);
+	return (tmp);
+}
+
 size_t	variable_expansion(char **dest, char *src)
 {
 	size_t	cnt;
@@ -78,7 +90,9 @@ size_t	variable_expansion(char **dest, char *src)
 	}
 	else if (src[cnt] == '?')
 	{
-		*dest = ft_itoa(g_global.status);
+		tmp = ft_strjoin(*dest, ft_itoa(g_global.status));
+		free(*dest);
+		*dest = tmp;
 		return (cnt + 1);
 	}
 	if (!check_variable(src, &cnt))

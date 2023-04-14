@@ -10,6 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <sys/stat.h>
 
 extern char	**environ;
 # define READ	0
@@ -104,7 +105,8 @@ void	exec_redirect_out(t_token **p_tok, int input_fd);
 void	exec_redirect_inp(t_token **p_tok);
 void	exec_heardocu(t_token **p_tok);
 void	exec_colon(t_token **p_tok);
-int		heredoc_cmd(t_token **p_tok);
+int		heredoc_cmd(t_token *p_tok);
+int		builtin_check(char **args);
 
 	// heredoc
 	void expansion_heredoc(char **str);
@@ -127,18 +129,18 @@ void	path_all_free(char **env_split);
 void	print_token(t_token **p_tok);
 
 // builtin
-int		builtin_pwd(t_token **p_tok);
-int		builtin_echo(t_token **p_tok);
+int		builtin_pwd(char **args);
+int		builtin_echo(char **args);
 int		builtin_cd(t_token **p_tok);
 char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
-int		builtin_export(t_token **p_tok);
+int		builtin_export(char **args);
 int		elem_check(char *str, int i);
-int		builtin_env(t_token **p_tok);
-int		builtin_list(t_token **p_tok);
-int		builtin_exit(t_token **p_tok);
-int		builtin_unset(t_token **p_tok);
+int		builtin_env(char **args);
+int		builtin_list(char **args);
+int		builtin_exit(char **args);
+int		builtin_unset(char **args);
 
 
 // signal

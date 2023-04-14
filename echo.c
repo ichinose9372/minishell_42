@@ -1,15 +1,15 @@
 #include "minishell.h"
 
-int	option_check(t_token *tmp)
+int	option_check(char *str)
 {
 	int	cnt;
 
 	cnt = 1;
-	if (ft_strncmp(tmp->word, "-n", 2) == 0)
+	if (ft_strncmp(str, "-n", 2) == 0)
 	{
-		while (tmp->word[cnt])
+		while (str[cnt])
 		{
-			if (tmp->word[cnt] != 'n')
+			if (str[cnt] != 'n')
 				return (0);
 			cnt++;
 		}
@@ -18,28 +18,28 @@ int	option_check(t_token *tmp)
 	return (0);
 }
 
-int	builtin_echo(t_token **p_tok)
+int	builtin_echo(char **args)
 {
-	t_token	*tmp;
 	int		flag;
+	size_t	cnt;
 
-	if ((*p_tok)->next == NULL)
+	cnt = 0;
+	if (args[cnt++] == NULL)
 	{
 		ft_putchar_fd('\n', 1);
 		return (0);
 	}
-	tmp = (*p_tok)->next;
 	flag = 0;
-	while (tmp && option_check(tmp))
+	while (args[cnt] && option_check(args[cnt]))
 	{
 		flag = 1;
-		tmp = tmp->next;
+		cnt++;
 	}
-	while (tmp && tmp->kind == 0)
+	while (args[cnt])
 	{
-		ft_putstr_fd(tmp->word, 1);
-		tmp = tmp->next;
-		if (tmp && operater_cmp(tmp->word, 0) == 0)
+		ft_putstr_fd(args[cnt], STDOUT_FILENO);
+		cnt++;
+		if (args[cnt])
 			ft_putchar_fd(' ', 1);
 	}
 	if (flag == 0)
