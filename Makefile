@@ -30,6 +30,7 @@ SRCS	=	main.c\
 			exec_heardocu.c\
 			signal.c\
 			utils.c\
+			expansion_heredoc.c\
 
 HEAD_FILE	=	minishell.h
 

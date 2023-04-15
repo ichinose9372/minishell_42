@@ -2,17 +2,15 @@
 
 int	operater_cmp(char *str, int end)
 {
-	if (ft_strncmp(&str[end], "|", 2) == 0)
+	if (ft_strncmp(&str[end], "|", 1) == 0)
 		return (1);
-	else if (ft_strncmp(&str[end], "<<", 3) == 0)
+	else if (ft_strncmp(&str[end], "<<", 2) == 0)
 		return (2);
-	else if (ft_strncmp(&str[end], ">>", 3) == 0)
+	else if (ft_strncmp(&str[end], ">>", 2) == 0)
 		return (2);
-	else if (ft_strncmp(&str[end], "<", 2) == 0)
+	else if (ft_strncmp(&str[end], "<", 1) == 0)
 		return (1);
-	else if (ft_strncmp(&str[end], ">", 2) == 0)
-		return (1);
-	else if (ft_strncmp(&str[end], ";", 2) == 0)
+	else if (ft_strncmp(&str[end], ">", 1) == 0)
 		return (1);
 	return (0);
 }
@@ -23,8 +21,9 @@ t_token	*new_token(char *str, int start, int end)
 
 	tok = (t_token *)malloc_error(sizeof(t_token));
 	tok->word = new_strdup(&str[start], end - start);
-	// if (!tok->word)
-	// 	exit(0);
+	tok->old_word = new_strdup(&str[start], end - start);
+	if (!tok->word)
+		exit(0);
 	tok->next = NULL;
 	return (tok);
 }

@@ -7,6 +7,7 @@ void	handler_one_c(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_global.status = 1;
 }
 
 void	signal_one()

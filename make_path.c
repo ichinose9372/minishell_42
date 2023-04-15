@@ -2,15 +2,17 @@
 
 char	**envp_make_path(void)
 {
-	t_env	**tmp;
+	t_env	*tmp;
 	char	*serch;
 	char	**env_split;
 
 	serch = "PATH";
-	tmp = &(*g_global.env);
-	while (ft_strncmp((*tmp)->name, serch, 4) != 0)
-		tmp = &(*tmp)->next;
-	env_split = ft_split((*tmp)->value, ':');
+	tmp = *g_global.env;
+	while (tmp && ft_strncmp(tmp->name, serch, 4) != 0)
+		tmp = tmp->next;
+	if (!tmp)
+		return (NULL);
+	env_split = ft_split(tmp->value, ':');
 	if (env_split == NULL)
 		return (NULL);
 	return (env_split);
@@ -74,7 +76,7 @@ char	**token_path(t_token **p_tok)
 
 	tmp_tok = p_tok;
 	size = 0;
-	while ((*tmp_tok))
+	while (*tmp_tok)
 	{
 		if (ft_strncmp((*tmp_tok)->word, "|", 1) == 0
 			|| ft_strncmp((*tmp_tok)->word, ">", 1) == 0
@@ -100,14 +102,19 @@ char	**token_path(t_token **p_tok)
 	}
 	argv[size] = NULL;
 	if (ft_strchr(argv[0], '/') != 0)
+	{
 		return (argv);
+	}
 	else
 	{
 		tmp = argv[0];
 		argv[0] = make_path(argv[0]);
 		free(tmp);
 		if (argv[0] == NULL)
+		{
+			path_all_free(argv);
 			return (NULL);
+		}
 		return (argv);
 	}
 }

@@ -23,7 +23,7 @@ int	operater_check(char *str, int *start, int *end, t_token **tok)
 	return (0);
 }
 
-int	seartch_quote(char *str, int start, int *end)
+int	seartch_quote(char *str, int start, int *end, t_token *tmp)
 {
 	char	c;
 
@@ -33,7 +33,12 @@ int	seartch_quote(char *str, int start, int *end)
 	while (str[*end] != '\0' && str[*end] != c)
 		*end += 1;
 	if (str[*end] == '\0')
+	{
+		ft_putendl_fd("quote error", STDERR_FILENO);
+		g_global.status = 1;
+		free_token(tmp);
 		return (1);
+	}
 	return (0);
 }
 
@@ -42,8 +47,7 @@ void	make_token(t_token **tok, char *str, int start, int end)
 	if ((*tok)->word == NULL)
 	{
 		(*tok)->word = new_strdup(&str[start], end - start);
-		// if (!(*tok)->word)
-		// 	exit(0);
+		(*tok)->old_word = new_strdup(&str[start], end - start);
 	}
 	else
 	{
@@ -52,6 +56,18 @@ void	make_token(t_token **tok, char *str, int start, int end)
 	}
 	token_kind(*tok);
 	(*tok)->next = NULL;
+}
+
+void	make_old_word(t_token *tok)
+{
+	t_token	*tmp;
+
+	tmp = tok;
+	while (tmp)
+	{
+		tmp->old_word = ft_strdup(tmp->word);
+		tmp = tmp->next;
+	}
 }
 
 t_token	*tokenizer(char *str, t_token *tok)
@@ -72,15 +88,9 @@ t_token	*tokenizer(char *str, t_token *tok)
 		{
 			if (operater_check(str, &start, &end, &tok))
 				break ;
-			if (str[end] == '\'' || str[end] == '\"')
-			{
-				if (seartch_quote(str, start, &end))
-				{
-					ft_putendl_fd("quote error", STDOUT_FILENO);
-					g_global.status = 1;
+			if ((str[end] == '\'' || str[end] == '\"') \
+				&& seartch_quote(str, start, &end, tmp))
 					return (NULL);
-				}
-			}
 			end++;
 		}
 		if (str[start] != '\0')

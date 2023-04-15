@@ -16,6 +16,7 @@ t_env	*new_env(char *str)
 	while (str[cnt])
 		cnt++;
 	node->value = new_strdup(&str[tmp], cnt - tmp);
+	node->next = NULL;
 	return (node);
 }
 
@@ -28,6 +29,14 @@ t_env	**make_env(void)
 
 	cnt = 0;
 	ret = (t_env **)malloc_error(sizeof(t_env *));
+	if (!*environ)
+	{
+		*ret = (t_env *)malloc_error(sizeof(t_env));
+		(*ret)->name = ft_calloc(1, 1);
+		(*ret)->value = NULL;
+		(*ret)->next = NULL;
+		return (ret);
+	}
 	tmp = new_env(environ[cnt++]);
 	*ret = tmp;
 	while (environ[cnt])

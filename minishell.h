@@ -29,6 +29,7 @@ typedef enum e_token_kind
 typedef struct s_token
 {
 	char			*word;
+	char			*old_word;
 	t_token_kind	kind;
 	struct s_token	*next;
 }	t_token;
@@ -55,8 +56,6 @@ typedef struct s_global
 	int		fd_out;
 }	t_global;
 
-// extern t_en	**env;
-
 extern t_global	g_global;
 
 //init
@@ -72,7 +71,7 @@ t_env	**make_env(void);
 t_token	*tokenizer(char *str, t_token *tok);
 int		space_check(char *str, int start);
 int		operater_check(char *str, int *start, int *end, t_token **tok);
-int		seartch_quote(char *str, int start, int *end);
+int	seartch_quote(char *str, int start, int *end, t_token *tmp);
 void	make_token(t_token **tok, char *str, int start, int end);
 char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
@@ -81,6 +80,13 @@ void	token_kind(t_token *tok);
 
 // expantion
 void	expansion(t_token *tok, t_token **p_tok);
+size_t	variable_expansion(char **dest, char *src);
+char	*new_strjoin(char const *s1, char const *s2, size_t s2_len);
+bool	check_variable(char *src, size_t *cnt);
+char	*new_getenv(char *name);
+size_t	double_expansion(char **dest, char *src);
+size_t	single_expansion(char **dest, char *src);
+size_t	char_expansion(char **dest, char *src);
 
 // exec
 char	**envp_make_path(void);
@@ -91,15 +97,20 @@ int		check_operation(t_token **p_tok);
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
 void	exec_pipe(t_token **p_tok, int input_fd, int output_fd);
 void	exec(char	**path);
-void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd, char **path);
+void	chiled1(t_token **p_tok, t_pipe *pipe_data, int input_fd);
 void	chiled2(t_token **p_tok, t_pipe *pipe_data, int output_fd);
 void	exec_no_oparat(t_token **p_tok, int input_fd, int output_fd);
 void	exec_redirect_out(t_token **p_tok, int input_fd);
 void	exec_redirect_inp(t_token **p_tok);
 void	exec_heardocu(t_token **p_tok);
 void	exec_colon(t_token **p_tok);
+int		heredoc_cmd(t_token *p_tok);
+int		builtin_check(char **args);
 
-	// file oparate
+	// heredoc
+	void expansion_heredoc(char **str);
+
+// file oparate
 int		file_open_wrt(char *argv);
 int		file_open_rd(char	*argv);
 int		file_open_wrt_add(char *argv);
@@ -108,24 +119,27 @@ int		ft_open(t_token **p_tok);
 	// free
 void	all_free(char **env_split);
 void	all_free_token(t_token **p_tok);
+void	free_token(t_token *tok);
 void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
+void	path_all_free(char **env_split);
 
 // テスト用
 void	print_token(t_token **p_tok);
 
 // builtin
-int		builtin_pwd(t_token **p_tok);
-int		builtin_echo(t_token **p_tok);
+int		builtin_pwd(char **args);
+int		builtin_echo(char **args);
 int		builtin_cd(t_token **p_tok);
 char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
-int		builtin_export(t_token **p_tok);
-int		builtin_env(t_token **p_tok);
-int		builtin_list(t_token **p_tok);
-int		builtin_exit(t_token **p_tok);
-int		builtin_unset(t_token **p_tok);
+int		builtin_export(char **args);
+int		elem_check(char *str, int i);
+int		builtin_env(char **args);
+int		builtin_list(char **args);
+int		builtin_exit(char **args);
+int		builtin_unset(char **args);
 
 
 // signal

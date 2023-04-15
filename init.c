@@ -4,8 +4,6 @@ t_global	g_global;
 
 void	init_minishell(void)
 {
-	extern char	**environ;
-
 	g_global.env = make_env();
 	g_global.status = 0;
 	g_global.fd_in = dup(STDIN_FILENO);
