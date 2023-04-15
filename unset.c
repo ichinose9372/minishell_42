@@ -59,10 +59,10 @@ int	builtin_unset(char **args)
 		{
 			if (ft_strncmp((*tmp)->name, args[cnt],
 					ft_strlen(args[cnt]) + 1) == 0)
-				{
-					del_env(tmp, prev);
-					break ;
-				}
+			{
+				del_env(tmp, prev);
+				break ;
+			}
 			else
 			{
 				prev = *tmp;

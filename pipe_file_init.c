@@ -32,7 +32,7 @@ int	file_open_wrt(char	*argv)
 
 	if (acces_check_file(argv))
 		return (-1);
-	fd = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd < 0)
 	{
 		perror("Error");
@@ -48,7 +48,7 @@ int	file_open_wrt_add(char	*argv)
 
 	if (acces_check_file(argv))
 		return (-1);
-	fd = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd < 0)
 	{
 		perror("Error");

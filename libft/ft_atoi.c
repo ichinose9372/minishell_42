@@ -6,13 +6,13 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 11:52:04 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/01 12:14:44 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:00:37 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
 
-int	ft_isspace(char c)
+static int	ft_isspace(char c)
 {
 	c = (unsigned char)c;
 	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'

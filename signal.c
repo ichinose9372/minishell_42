@@ -10,7 +10,7 @@ void	handler_one_c(int sig)
 	g_global.status = 1;
 }
 
-void	signal_one()
+void	signal_one(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handler_one_c);
@@ -30,7 +30,7 @@ int	check_status(void)
 	return (0);
 }
 
-void	signal_heredocu()
+void	signal_heredocu(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handler_heredocu_c);
@@ -45,7 +45,7 @@ void	handler_cmd(int sig)
 	g_global.status = 128 + sig;
 }
 
-void	signal_cmd()
+void	signal_cmd(void)
 {
 	signal(SIGINT, handler_cmd);
 	signal(SIGQUIT, handler_cmd);

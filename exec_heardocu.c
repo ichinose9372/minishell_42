@@ -73,6 +73,11 @@ int	heredoc_cmd(t_token *p_tok)
 		g_global.heredoc_flag = 0;
 		return (-2);
 	}
+	if (ft_strlen(str) >= 65536)
+	{
+		perror("pipe");
+		return (-1);
+	}
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
 	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));

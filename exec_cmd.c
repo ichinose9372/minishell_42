@@ -114,9 +114,12 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 	builtin = builtin_list(args);
 	if (builtin == 1)
 	{
-		args[0] = make_path(args[0]);
-		if (args[0] == NULL)
-			exit(EXIT_FAILURE);
+		if (ft_strchr(args[0], '/') == 0)
+		{
+			args[0] = make_path(args[0]);
+			if (args[0] == NULL)
+				exit(EXIT_FAILURE);
+		}
 		exec(args);
 	}
 	else if (builtin == -1)
