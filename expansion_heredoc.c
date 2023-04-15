@@ -149,26 +149,17 @@ void	expansion_heredoc(char **top_str)
 	size_t	cnt;
 
 	str = *top_str;
-	// printf("%p\n%p\n", str, *top_str);
 	cnt = 0;
 	new_str = NULL;
-	// printf("str]%s\ntop]%s\n", str, *top_str);
 	while (str[cnt])
 	{
-		// if (str[cnt] == '\"')
-		// 	cnt += h_double_expansion(&new_str, &str[cnt + 1]);
-		// else if (str[cnt] == '\'')
-			// cnt += h_single_expansion(&new_str, &str[cnt + 1]);
 		if (str[cnt] == '$')
 			cnt += h_variable_expansion(&new_str, &str[cnt]);
 		else
 			cnt += h_char_expansion(&new_str, &str[cnt]);
-		// printf("[%c]\n", str[cnt]);
-		// printf("cnt=%zu\n", cnt);
 	}
 	free(str);
 	if (!new_str)
 		new_str = ft_calloc(1, 1);
 	*top_str = new_str;
-	// printf("%s\n", str);
 }

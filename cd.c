@@ -98,7 +98,7 @@ char	*next_move(char *path_name, char *word)
 	return (new_path);
 }
 
-int	serch_home()
+int	serch_home(void)
 {
 	t_env	*tmp;
 

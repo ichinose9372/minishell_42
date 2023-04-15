@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "minishell.h"
 
 void	print_token(t_token **p_tok)
@@ -28,10 +26,10 @@ int	syntax_check(t_token **p_tok)
 	{
 		if ((tmp->kind != WORD && tmp->next && tmp->next->kind == tmp->kind) || \
 			(tmp->kind != WORD && !tmp->next))
-			{
-				ft_putendl_fd("syntax error", STDOUT_FILENO);
-				return (1);
-			}
+		{
+			ft_putendl_fd("syntax error", STDOUT_FILENO);
+			return (1);
+		}
 		tmp = tmp->next;
 	}
 	return (0);
@@ -57,11 +55,6 @@ int	minishell_2(t_token **p_tok, char *str)
 	expansion(tok, p_tok);
 	if (syntax_check(p_tok))
 		return (0);
-	// if (ft_strncmp((*p_tok)->word, "cd", 3) == 0)
-	// 	builtin_cd(p_tok);
-	// else if (ft_strncmp((*p_tok)->word, "exit", 5) == 0)
-	// 	builtin_exit(p_tok);
-	// else
 	exec_cmd(p_tok, 0, 1);
 	return (0);
 }
@@ -100,7 +93,7 @@ void	minishell(void)
 	exit(0);
 }
 
-int	main()
+int	main(void)
 {
 	init_minishell();
 	minishell();

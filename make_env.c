@@ -22,10 +22,10 @@ t_env	*new_env(char *str)
 
 t_env	**make_env(void)
 {
-	t_env	*tmp;
-	t_env	**ret;
+	t_env		*tmp;
+	t_env		**ret;
 	extern char	**environ;
-	size_t	cnt;
+	size_t		cnt;
 
 	cnt = 0;
 	ret = (t_env **)malloc_error(sizeof(t_env *));

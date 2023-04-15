@@ -54,7 +54,7 @@ long long	exit_atoi(char *nptr)
 	return (number * type);
 }
 
-int		check_digit(char *str)
+int	check_digit(char *str)
 {
 	char	*tmp;
 
