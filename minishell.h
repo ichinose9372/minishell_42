@@ -10,6 +10,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <sys/stat.h>
 
 extern char	**environ;
 # define READ	0

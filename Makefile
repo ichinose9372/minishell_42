@@ -25,8 +25,6 @@ SRCS	=	main.c\
 			exit.c\
 			unset.c\
 			exec_pipe.c\
-			exec_redirect_out.c\
-			exec_redirect_inp.c\
 			exec_heardocu.c\
 			signal.c\
 			utils.c\
