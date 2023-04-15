@@ -60,16 +60,22 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		{
 			p_tok = (p_tok)->next;
 			*in = file_open_rd((p_tok)->word);
+			if (*in == -1)
+				return (NULL);
 		}
 		else if ((p_tok)->kind == OUTPUT)
 		{
 			p_tok = (p_tok)->next;
 			*out = file_open_wrt((p_tok)->word);
+			if (*out == -1)
+				return (NULL);
 		}
 		else if ((p_tok)->kind == ADD)
 		{
 			p_tok = (p_tok)->next;
 			*out = file_open_wrt_add((p_tok)->word);
+			if (*out == -1)
+				return (NULL);
 		}
 		else if ((p_tok)->kind == HEREDOC)
 		{
@@ -93,7 +99,7 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 {
 	int	builtin;
 
-	if (input_fd == -1 || output_fd == -1)
+	if (args == NULL || args[0] == NULL)
 		exit(EXIT_FAILURE);
 	if (input_fd != STDIN_FILENO)
 	{
@@ -109,6 +115,8 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 	if (builtin == 1)
 	{
 		args[0] = make_path(args[0]);
+		if (args[0] == NULL)
+			exit(EXIT_FAILURE);
 		exec(args);
 	}
 	else if (builtin == -1)
@@ -142,8 +150,6 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		output_fd = pipe_data.pipe_fd[WRITE];
 	}
 	args = sec_cmd(*p_tok, &input_fd, &output_fd);
-	if (!args)
-		return ;
 	if (!flag && builtin_check(args))
 	{
 		if (input_fd != STDIN_FILENO)

@@ -19,6 +19,8 @@ int	builtin_list(char **args)
 
 int	builtin_check(char **args)
 {
+	if (args == NULL || args[0] == NULL)
+		return (0);
 	if (ft_strncmp(args[0], "pwd", 4) == 0)
 		return (1);
 	else if (ft_strncmp(args[0], "echo", 5) == 0)
