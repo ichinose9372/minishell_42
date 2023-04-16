@@ -94,12 +94,18 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 			p_tok = (p_tok)->next;
 			*in = heredoc_cmd(p_tok);
 			if ((*in == -1 && !p_tok->next) || *in == -2)
+			{
+				all_free(str);
 				return (NULL);
+			}
 		}
 		else
 			str[i++] = ft_strdup(p_tok->word);
 		if (*in == -1 || *out == -1)
+		{
+			all_free(str);
 			return (NULL);
+		}
 		p_tok = (p_tok)->next;
 	}
 	str[i] = NULL;
@@ -124,15 +130,7 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 	}
 	builtin = builtin_list(args);
 	if (builtin == 1)
-	{
-		if (ft_strchr(args[0], '/') == 0)
-		{
-			args[0] = make_path(args[0]);
-			if (args[0] == NULL)
-				exit(EXIT_FAILURE);
-		}
 		exec(args);
-	}
 	else if (builtin == -1)
 	{
 		ft_putendl_fd("builtin error", STDERR_FILENO);
@@ -147,6 +145,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	pid_t	pid;
 	int		flag;
 	int		status;
+	char	*tmp;
 
 	args = NULL;
 	flag = 0;
@@ -164,6 +163,12 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		output_fd = pipe_data.pipe_fd[WRITE];
 	}
 	args = sec_cmd(*p_tok, &input_fd, &output_fd);
+	if (g_global.heredoc_flag == 1)
+	{
+		g_global.heredoc_flag = 0;
+		all_free(args);
+		return ;
+	}
 	if (!flag && builtin_check(args))
 	{
 		if (input_fd != STDIN_FILENO)
@@ -179,10 +184,19 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		if (builtin_list(args) == 0)
 		{
 			g_global.status = 0;
+			all_free(args);
 			return ;
 		}
 		else
 			g_global.status = 1;
+	}
+	if (args != NULL && !builtin_check(args) && ft_strchr(args[0], '/') == 0)
+	{
+		tmp = args[0];
+		args[0] = make_path(args[0]);
+		free(tmp);
+		if (args[0] == NULL)
+			exit(EXIT_FAILURE);
 	}
 	pid = fork();
 	if (pid == -1)
@@ -195,6 +209,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	}
 	else if (pid > 0)
 	{
+		all_free(args);
 		if (flag)
 			close(pipe_data.pipe_fd[WRITE]);
 		while ((*p_tok) && (*p_tok)->kind != PIPE)

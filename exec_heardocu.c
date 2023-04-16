@@ -17,33 +17,38 @@ char	*check_stop(t_token *stop)
 	return (ft_strdup(stop->word));
 }
 
+char	*heredoc_join(char *dest, char *rl)
+{
+	char	*str1;
+	char	*str2;
+
+	str1 = ft_strjoin(rl, "\n");
+	str2 = ft_strjoin(dest, str1);
+	free(rl);
+	free(dest);
+	free(str1);
+	return (str2);
+}
+
 static char	*make_str(char	*stop)
 {
 	char	*str;
-	char	*str2;
-	char	*str3;
 	char	*tmp;
 
 	tmp = NULL;
-	str3 = NULL;
 	str = NULL;
 	while (g_global.heredoc_flag == 0)
 	{
 		str = readline("> ");
 		if (!str)
-			break;
+			break ;
 		if (ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
 		{
 			free(str);
 			return (tmp);
 		}
 		expansion_heredoc(&str);
-		str2 = ft_strjoin(str, "\n");
-		tmp = ft_strjoin(str3, str2);
-		free(str2);
-		free(str);
-		free(str3);
-		str3 = tmp;
+		tmp = heredoc_join(tmp, str);
 	}
 	return (tmp);
 }
@@ -71,10 +76,10 @@ int	heredoc_cmd(t_token *p_tok)
 		return (-1);
 	if (g_global.heredoc_flag == 1)
 	{
-		g_global.heredoc_flag = 0;
+		free(str);
 		return (-2);
 	}
-	if (ft_strlen(str) >= 65536)
+	if (str && ft_strlen(str) >= 65536)
 	{
 		perror("pipe");
 		return (-1);
@@ -82,6 +87,7 @@ int	heredoc_cmd(t_token *p_tok)
 	if (pipe(pipe_data.pipe_fd) == -1)
 		exit (EXIT_FAILURE);
 	write(pipe_data.pipe_fd[WRITE], str, ft_strlen(str));
+	free(str);
 	close(pipe_data.pipe_fd[WRITE]);
 	return (pipe_data.pipe_fd[READ]);
 }

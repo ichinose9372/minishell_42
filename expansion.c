@@ -12,7 +12,7 @@ static size_t	double_expansion(char **dest, char *src)
 	{
 		if (src[cnt] == '$')
 		{
-			tmp = new_strjoin(*dest, src, cnt - last_cnt);
+			tmp = new_strjoin(*dest, &src[last_cnt], cnt - last_cnt);
 			free(*dest);
 			*dest = tmp;
 			cnt += variable_expansion(dest, &src[cnt]);
