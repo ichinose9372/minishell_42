@@ -36,17 +36,3 @@ void	signal_heredocu(void)
 	signal(SIGINT, handler_heredocu_c);
 	rl_event_hook = check_status;
 }
-
-void	handler_cmd(int sig)
-{
-	if (sig == 3)
-		ft_putstr_fd("Quit: 3", STDOUT_FILENO);
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	g_global.status = 128 + sig;
-}
-
-void	signal_cmd(void)
-{
-	signal(SIGINT, handler_cmd);
-	signal(SIGQUIT, handler_cmd);
-}

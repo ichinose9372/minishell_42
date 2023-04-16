@@ -30,6 +30,7 @@ SRCS	=	main.c\
 			exec_pipe.c\
 			exec_heardocu.c\
 			signal.c\
+			signal_cmd.c\
 			utils.c\
 			expansion_heredoc.c\
 
