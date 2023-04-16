@@ -1,111 +1,6 @@
 #include "minishell.h"
 
-char	*new_strjoin(char const *s1, char const *s2, size_t s2_len)
-{
-	size_t	len;
-	char	*str;
-	size_t	i;
-	size_t	j;
-
-	if (!s1)
-		return (new_strdup(s2, s2_len));
-	if (!s2)
-		return (ft_strdup(s1));
-	if (!s1 && !s2)
-		return (NULL);
-	len = ft_strlen(s1) + s2_len;
-	str = (char *)malloc_error(len + 1);
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (j < s2_len)
-	{
-		str[i++] = s2[j++];
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-bool	check_variable(char *src, size_t *cnt)
-{
-	if (!ft_isalpha(src[*cnt]) && src[*cnt] != '_')
-		return (false);
-	*cnt += 1;
-	while (src[*cnt])
-	{
-		if (!ft_isalnum(src[*cnt]) && src[*cnt] != '_')
-			break ;
-		*cnt += 1;
-	}
-	return (true);
-}
-
-char	*new_getenv(char *name)
-{
-	t_env	*tmp;
-	size_t	len;
-
-	tmp = *g_global.env;
-	len = ft_strlen(name);
-	while (tmp)
-	{
-		if (!ft_strncmp(name, tmp->name, len + 1))
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-char	*variable_join(char *src, char *dest, size_t cnt)
-{
-	char	*name;
-	char	*tmp;
-
-	name = new_strdup(&src[1], cnt - 1);
-	tmp = ft_strjoin(dest, new_getenv(name));
-	free(name);
-	free(dest);
-	return (tmp);
-}
-
-size_t	variable_expansion(char **dest, char *src)
-{
-	size_t	cnt;
-	char	*tmp;
-	char	*name;
-
-	cnt = 1;
-	if (src[cnt] == '\0' || src[cnt] == '\'' || src[cnt] == '\"')
-	{
-		tmp = new_strjoin(*dest, src, 1);
-		free(*dest);
-		*dest = tmp;
-		return (cnt);
-	}
-	else if (src[cnt] == '?')
-	{
-		tmp = ft_strjoin(*dest, ft_itoa(g_global.status));
-		free(*dest);
-		*dest = tmp;
-		return (cnt + 1);
-	}
-	if (!check_variable(src, &cnt))
-		return (cnt + 1);
-	name = new_strdup(&src[1], cnt - 1);
-	tmp = ft_strjoin(*dest, new_getenv(name));
-	free(name);
-	free(*dest);
-	*dest = tmp;
-	return (cnt);
-}
-
-size_t	double_expansion(char **dest, char *src)
+static size_t	double_expansion(char **dest, char *src)
 {
 	size_t	cnt;
 	size_t	last_cnt;
@@ -132,7 +27,7 @@ size_t	double_expansion(char **dest, char *src)
 	return (cnt + 2);
 }
 
-size_t	single_expansion(char **dest, char *src)
+static size_t	single_expansion(char **dest, char *src)
 {
 	size_t	cnt;
 	char	*tmp;

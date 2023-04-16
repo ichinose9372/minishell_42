@@ -42,6 +42,30 @@ int	unset_elem_check(char *str)
 	return (1);
 }
 
+// void	in_unset(char *str)
+// {
+// 	t_env	**tmp;
+// 	t_env	*prev;
+
+// 	tmp = g_global.env;
+// 	prev = NULL;
+// 	while (tmp)
+// 	{
+// 		if (ft_strncmp((*tmp)->name, str,
+// 				ft_strlen(str + 1) == 0))
+// 		{
+// 			del_env(tmp, prev);
+// 			break ;
+// 		}
+// 		else
+// 		{
+// 			prev = *tmp;
+// 			tmp = &(*tmp)->next;
+// 		}
+// 	}
+// 	return ;
+// }
+
 int	builtin_unset(char **args)
 {
 	t_env	**tmp;
@@ -54,6 +78,7 @@ int	builtin_unset(char **args)
 		return (0);
 	while (args[cnt] && unset_elem_check(args[cnt]))
 	{
+		// in_unset(args[cnt]);
 		tmp = g_global.env;
 		while (*tmp)
 		{

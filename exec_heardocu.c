@@ -31,12 +31,13 @@ static char	*make_str(char	*stop)
 	{
 		str = readline("> ");
 		if (!str)
-			break ;
+			break;
 		if (ft_strncmp(str, stop, (ft_strlen(stop) + 1)) == 0)
 		{
 			free(str);
 			return (tmp);
 		}
+		expansion_heredoc(&str);
 		str2 = ft_strjoin(str, "\n");
 		tmp = ft_strjoin(str3, str2);
 		free(str2);

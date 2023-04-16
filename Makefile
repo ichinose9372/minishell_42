@@ -16,9 +16,12 @@ SRCS	=	main.c\
 			error_free.c\
 			make_env.c\
 			expansion.c\
+			expantion_utils.c\
 			pwd.c\
 			echo.c\
 			export.c\
+			export_add.c\
+			export_utils.c\
 			env.c\
 			exec_utils.c\
 			cd.c\

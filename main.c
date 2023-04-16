@@ -59,6 +59,11 @@ int	minishell_2(t_token **p_tok, char *str)
 	return (0);
 }
 
+// void	minishell_in(char *str)
+// {
+
+// }
+
 void	minishell(void)
 {
 	char	*str;

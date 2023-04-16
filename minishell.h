@@ -81,13 +81,12 @@ void	token_kind(t_token *tok);
 
 // expantion
 void	expansion(t_token *tok, t_token **p_tok);
+size_t	char_expansion(char **dest, char *src);
 size_t	variable_expansion(char **dest, char *src);
-char	*new_strjoin(char const *s1, char const *s2, size_t s2_len);
 bool	check_variable(char *src, size_t *cnt);
 char	*new_getenv(char *name);
-size_t	double_expansion(char **dest, char *src);
-size_t	single_expansion(char **dest, char *src);
-size_t	char_expansion(char **dest, char *src);
+
+
 
 // exec
 char	**envp_make_path(void);
@@ -109,7 +108,7 @@ int		heredoc_cmd(t_token *p_tok);
 int		builtin_check(char **args);
 
 	// heredoc
-	void expansion_heredoc(char **str);
+void	expansion_heredoc(char **str);
 
 // file oparate
 int		file_open_wrt(char *argv);
@@ -136,12 +135,12 @@ char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
 int		builtin_export(char **args);
-int		elem_check(char *str, int i);
+void	add_env(char *str);
+int	export_elem_error(char *str);
 int		builtin_env(char **args);
 int		builtin_list(char **args);
 int		builtin_exit(char **args);
 int		builtin_unset(char **args);
-
 
 // signal
 void	signal_one(void);
@@ -150,4 +149,6 @@ void	signal_cmd();
 
 // utils
 void	*malloc_error(size_t size);
+char	*new_strjoin(char const *s1, char const *s2, size_t s2_len);
+int		ft_strcmp(char *s1, char *s2);
 #endif

@@ -27,7 +27,7 @@ bool	pipe_check(t_token **p_tok)
 	return (false);
 }
 
-int		count(t_token *p_tok)
+int	count(t_token *p_tok)
 {
 	t_token	*tmp;
 	int		i;
@@ -45,6 +45,33 @@ int		count(t_token *p_tok)
 	return (i);
 }
 
+int	set_input(t_token **p_tok)
+{
+	int		in;
+
+	*p_tok = (*p_tok)->next;
+	in = file_open_rd((*p_tok)->word);
+	return (in);
+}
+
+int	set_output(t_token **p_tok)
+{
+	int		out;
+
+	*p_tok = (*p_tok)->next;
+	out = file_open_wrt((*p_tok)->word);
+	return (out);
+}
+
+int	set_add(t_token **p_tok)
+{
+	int		out;
+
+	*p_tok = (*p_tok)->next;
+	out = file_open_wrt_add((*p_tok)->word);
+	return (out);
+}
+
 char	**sec_cmd(t_token *p_tok, int *in, int *out)
 {
 	char	**str;
@@ -57,26 +84,11 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 	while ((p_tok) && (p_tok)->kind != PIPE)
 	{
 		if ((p_tok)->kind == INPUT)
-		{
-			p_tok = (p_tok)->next;
-			*in = file_open_rd((p_tok)->word);
-			if (*in == -1)
-				return (NULL);
-		}
+			*in = set_input(&p_tok);
 		else if ((p_tok)->kind == OUTPUT)
-		{
-			p_tok = (p_tok)->next;
-			*out = file_open_wrt((p_tok)->word);
-			if (*out == -1)
-				return (NULL);
-		}
+			*out = set_output(&p_tok);
 		else if ((p_tok)->kind == ADD)
-		{
-			p_tok = (p_tok)->next;
-			*out = file_open_wrt_add((p_tok)->word);
-			if (*out == -1)
-				return (NULL);
-		}
+			*out = set_add(&p_tok);
 		else if ((p_tok)->kind == HEREDOC)
 		{
 			p_tok = (p_tok)->next;
@@ -85,10 +97,9 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 				return (NULL);
 		}
 		else
-		{
-			str[i] = ft_strdup(p_tok->word);
-			i++;
-		}
+			str[i++] = ft_strdup(p_tok->word);
+		if (*in == -1 || *out == -1)
+			return (NULL);
 		p_tok = (p_tok)->next;
 	}
 	str[i] = NULL;
