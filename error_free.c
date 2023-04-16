@@ -14,6 +14,8 @@ void	all_free(char **env_split)
 	int	i;
 
 	i = 0;
+	if (!env_split)
+		return ;
 	while (env_split[i])
 	{
 		free(env_split[i]);
