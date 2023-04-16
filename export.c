@@ -91,6 +91,7 @@ int	builtin_export(char **args)
 	size_t	size;
 	size_t	cnt;
 
+	g_global.status = 0;
 	env_tmp = *g_global.env;
 	cnt = 1;
 	size = count_env(env_tmp);

@@ -71,6 +71,7 @@ int	builtin_unset(char **args)
 	size_t	cnt;
 
 	cnt = 1;
+	g_global.status = 0;
 	if (args[cnt] == NULL)
 		return (0);
 	while (args[cnt] && unset_elem_check(args[cnt]))

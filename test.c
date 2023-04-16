@@ -7,7 +7,7 @@ void	print_token(t_token **p_tok)
 	tmp = p_tok;
 	while (*tmp)
 	{
-		printf("[w=%s]\n[ow=%s]\n", (*tmp)->word, (*tmp)->old_word);
+		printf("[%s]\n", (*tmp)->word);
 		tmp = &(*tmp)->next;
 	}
 }

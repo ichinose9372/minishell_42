@@ -17,5 +17,6 @@ int	builtin_env(char **args)
 		}
 		tmp = tmp->next;
 	}
+	g_global.status = 0;
 	return (0);
 }

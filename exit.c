@@ -45,7 +45,7 @@ int	check_digit(char *str)
 	char	*tmp;
 
 	tmp = str;
-	if (*tmp == '-')
+	if (*tmp == '-' || *tmp == '+')
 		tmp++;
 	while (*tmp)
 	{

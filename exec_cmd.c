@@ -183,7 +183,8 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		}
 		if (builtin_list(args) == 0)
 		{
-			g_global.status = 0;
+			// if (ft_strncmp(args[0], "exit", 5))
+				// g_global.status = 0;
 			all_free(args);
 			return ;
 		}
@@ -196,7 +197,8 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 		args[0] = make_path(args[0]);
 		free(tmp);
 		if (args[0] == NULL)
-			exit(EXIT_FAILURE);
+			return ;
+			// exit(EXIT_FAILURE);
 	}
 	pid = fork();
 	if (pid == -1)
