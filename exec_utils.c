@@ -14,6 +14,8 @@ int	builtin_list(char **args)
 		return (builtin_unset(args));
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		return (builtin_exit(args));
+	else if (ft_strncmp(args[0], "cd", 3) == 0)
+		return (builtin_cd(args));
 	return (1);
 }
 
@@ -32,6 +34,8 @@ int	builtin_check(char **args)
 	else if (ft_strncmp(args[0], "unset", 6) == 0)
 		return (1);
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
+		return (1);
+	else if (ft_strncmp(args[0], "cd", 3) == 0)
 		return (1);
 	return (0);
 }

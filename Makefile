@@ -25,6 +25,7 @@ SRCS	=	main.c\
 			env.c\
 			exec_utils.c\
 			cd.c\
+			cd_utils.c\
 			exit.c\
 			unset.c\
 			exec_pipe.c\

@@ -130,13 +130,17 @@ void	print_token(t_token **p_tok);
 // builtin
 int		builtin_pwd(char **args);
 int		builtin_echo(char **args);
-int		builtin_cd(t_token **p_tok);
+//cd
+int		builtin_cd(char **args);
+
+
+
 char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
 int		builtin_export(char **args);
 void	add_env(char *str);
-int	export_elem_error(char *str);
+int		export_elem_error(char *str);
 int		builtin_env(char **args);
 int		builtin_list(char **args);
 int		builtin_exit(char **args);
