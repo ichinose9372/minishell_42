@@ -1,5 +1,10 @@
 #include "minishell.h"
 
+int	ispace_check(char *str, int start)
+{
+	return (str[start] == ' ' || str[start] == '\t' || str[start] == '\n');
+}
+
 int	operater_cmp(char *str, int end)
 {
 	if (ft_strncmp(&str[end], "|", 1) == 0)

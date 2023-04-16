@@ -78,9 +78,10 @@ char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
 int		operater_cmp(char *str, int end);
 void	token_kind(t_token *tok);
+int 	ispace_check(char *str, int start);
 
-// expantion
-void	expansion(t_token *tok, t_token **p_tok);
+	// expantion
+	void expansion(t_token *tok, t_token **p_tok);
 size_t	char_expansion(char **dest, char *src);
 size_t	variable_expansion(char **dest, char *src);
 bool	check_variable(char *src, size_t *cnt);
@@ -132,10 +133,13 @@ int		builtin_pwd(char **args);
 int		builtin_echo(char **args);
 //cd
 int		builtin_cd(char **args);
-
-
-
+char	*home_path(void);
+void	remake_pwd(char *new_path);
+int		serch_home(void);
 char	*my_getcwd(char *buf, size_t length);
+char	*make_next_path(char *path_name, char *word);
+
+char *my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
 int		builtin_export(char **args);

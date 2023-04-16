@@ -28,7 +28,6 @@ SRCS	=	main.c\
 			cd_utils.c\
 			exit.c\
 			unset.c\
-			exec_pipe.c\
 			exec_heardocu.c\
 			signal.c\
 			signal_cmd.c\

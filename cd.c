@@ -25,8 +25,8 @@ char	*next_move(char *path_name, char *word)
 {
 	char	*new_path;
 
+	printf("next_path\n");
 	new_path = make_next_path(path_name, word);
-	printf("new_path = [ %s ]\n", new_path);
 	if (chdir(new_path) == -1)
 	{
 		perror("chdir");

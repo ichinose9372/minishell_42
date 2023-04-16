@@ -39,7 +39,6 @@ char	*serch_path(char	*tmp, char **env_split)
 char	*make_path(char *argv)
 {
 	char	**env_split;
-	char	*trim;
 	char	*path;
 	char	*tmp;
 
@@ -49,8 +48,7 @@ char	*make_path(char *argv)
 		command_not_found(argv);
 		return (NULL);
 	}
-	trim = "/";
-	tmp = ft_strjoin(trim, argv);
+	tmp = ft_strjoin("/", argv);
 	if (tmp == NULL)
 	{
 		all_free(env_split);
