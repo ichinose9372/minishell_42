@@ -90,7 +90,6 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 
 	args = NULL;
 	flag = 0;
-	
 	if (!(*p_tok))
 		return ;
 	if (pipe_check(p_tok))
@@ -109,7 +108,6 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	}
 	if (args != NULL && !builtin_check(args) && ft_strchr(args[0], '/') == 0)
 		args[0] = in_exec_path(args[0]);
-	// fork_and_cmd(args, &pipe_data, input_fd, output_fd);
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);

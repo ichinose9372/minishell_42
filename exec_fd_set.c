@@ -37,7 +37,7 @@ void	set_fd(t_token *p_tok, int *in, int *out)
 		*out = set_add(&p_tok);
 	else if ((p_tok)->kind == HEREDOC)
 	{
-		p_tok = (p_tok)->next;
+		*p_tok = *(p_tok)->next;
 		*in = heredoc_cmd(p_tok);
 	}
 }
