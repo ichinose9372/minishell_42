@@ -5,7 +5,7 @@ char	*check_stop(t_token *stop)
 	size_t	cnt;
 
 	cnt = 0;
-	if (stop->old_word[0] == '\"' || stop->old_word[0]== '\"')
+	if (stop->old_word[0] == '\"' || stop->old_word[0] == '\"')
 		cnt++;
 	if (stop->word[0] != stop->old_word[cnt])
 	{

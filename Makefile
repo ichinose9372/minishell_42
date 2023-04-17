@@ -9,11 +9,13 @@ LFLAGS	=	-L $(shell brew --prefix readline)/lib -lreadline
 SRCS	=	main.c\
 			init.c\
 			exec_cmd.c\
+			exec_cmd_utils.c\
+			exec_fd_set.c\
 			make_path.c\
 			pipe_file_init.c\
 			tokenize.c\
 			tokenize_utils.c\
-			error_free.c\
+			free.c\
 			make_env.c\
 			expansion.c\
 			expantion_utils.c\

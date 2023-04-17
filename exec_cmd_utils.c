@@ -2,8 +2,8 @@
 
 int	check_operation(t_token **p_tok)
 {
-	t_token **tmp;
-	int ret;
+	t_token	**tmp;
+	int		ret;
 
 	tmp = p_tok;
 	ret = 0;
