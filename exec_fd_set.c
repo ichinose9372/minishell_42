@@ -42,9 +42,9 @@ void	set_fd(t_token *p_tok, int *in, int *out)
 	}
 }
 
-void	init_pipe_setfd(int *flag, int *output_fd, t_pipe *pipe_data)
+void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data)
 {
-	*flag = 1;
+	pipe_data->flag = 1;
 	if (pipe(pipe_data->pipe_fd) == -1)
 		exit(1);
 	*output_fd = pipe_data->pipe_fd[WRITE];

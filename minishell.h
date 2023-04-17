@@ -46,6 +46,7 @@ typedef struct s_env
 typedef struct s_pipe
 {
 	int	pipe_fd[2];
+	int	flag;
 }	t_pipe;
 
 typedef struct s_global
@@ -102,7 +103,7 @@ int		set_output(t_token **p_tok);
 int		set_add(t_token **p_tok);
 void	set_fd(t_token *p_tok, int *in, int *out);
 int		check_operation(t_token **p_tok);
-bool	pipe_check(t_token **p_tok);
+bool	pipe_check(t_token **p_tok, t_pipe *pipe_data);
 int		count(t_token *p_tok);
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
 void	exec_pipe(t_token **p_tok, int input_fd, int output_fd);
@@ -119,12 +120,12 @@ int		builtin_check(char **args);
 void	exe_parent(char	**args, t_token **p_tok, int input_fd);
 char	*in_exec_path(char *args);
 void	swich_fd_check_builtin(int input_fd, int output_fd, char **args);
-void	init_pipe_setfd(int *flag, int *output_fd, t_pipe *pipe_data);
-
-
+void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data);
+void	close_pipe(t_pipe *pipe_data);
+void	heredoc_stop(char **args);
 
 	// heredoc
-void	expansion_heredoc(char **str);
+void expansion_heredoc(char **str);
 
 // file oparate
 int		file_open_wrt(char *argv);

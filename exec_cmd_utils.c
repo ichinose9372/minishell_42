@@ -16,8 +16,9 @@ int	check_operation(t_token **p_tok)
 	return (ret);
 }
 
-bool	pipe_check(t_token **p_tok)
+bool	pipe_check(t_token **p_tok, t_pipe *pipe_data)
 {
+	pipe_data->flag = 0;
 	while ((*p_tok))
 	{
 		if ((*p_tok)->kind == PIPE)
@@ -43,4 +44,17 @@ int	count(t_token *p_tok)
 		tmp = tmp->next;
 	}
 	return (i);
+}
+
+void	close_pipe(t_pipe *pipe_data)
+{
+	close(pipe_data->pipe_fd[READ]);
+	close(pipe_data->pipe_fd[WRITE]);
+}
+
+void	heredoc_stop(char **args)
+{
+	g_global.heredoc_flag = 0;
+	all_free(args);
+	return ;
 }
