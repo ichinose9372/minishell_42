@@ -89,7 +89,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	args = NULL;
 	if (!(*p_tok))
 		return ;
-	if (pipe_check(p_tok))
+	if (pipe_check(p_tok, &pipe_data))
 		init_pipe_setfd(&output_fd, &pipe_data);
 	args = sec_cmd(*p_tok, &input_fd, &output_fd);
 	if (g_global.heredoc_flag == 1)
