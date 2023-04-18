@@ -37,11 +37,9 @@ void	path_all_free(char **env_split)
 	free(env_split);
 }
 
-
 void	all_free_token(t_token **p_tok)
 {
 	t_token	*tmp;
-
 
 	while (*p_tok)
 	{
@@ -73,5 +71,3 @@ void	all_free_and_tmp(char *tmp, char **env_split)
 	all_free(env_split);
 	free(tmp);
 }
-
-
