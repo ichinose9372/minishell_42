@@ -30,12 +30,13 @@ int	file_open_wrt(char	*argv)
 {
 	int	fd;
 
+	argv = create_absolute_path(argv);
 	if (acces_check_file(argv))
 		return (-1);
 	fd = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd < 0)
 	{
-		perror("Error");
+		perror("error");
 		g_global.status = 1;
 		return (-1);
 	}
@@ -46,6 +47,7 @@ int	file_open_wrt_add(char	*argv)
 {
 	int	fd;
 
+	argv = create_absolute_path(argv);
 	if (acces_check_file(argv))
 		return (-1);
 	fd = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);

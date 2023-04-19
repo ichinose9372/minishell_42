@@ -81,7 +81,7 @@ char	**in_exec_path(char **args)
 	i = 1;
 	while (args[i])
 	{
-		if (ft_strchr(args[i], '/') != NULL)
+		if (ft_strchr(args[i], '/') != NULL && args[i][0] != '/')
 		{
 			tmp = create_absolute_path(args[i]);
 			args[i] = ft_strdup(tmp);
