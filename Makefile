@@ -12,6 +12,7 @@ SRCS	=	main.c\
 			exec_cmd_utils.c\
 			exec_fd_set.c\
 			make_path.c\
+			make_path_absolut.c\
 			pipe_file_init.c\
 			tokenize.c\
 			tokenize_utils.c\
@@ -73,3 +74,4 @@ fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
 
 re: fclean all
+

@@ -97,7 +97,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	if (!pipe_data.flag && builtin_check(args))
 		return (swich_fd_check_builtin(input_fd, output_fd, args));
 	if (args != NULL && !builtin_check(args) && ft_strchr(args[0], '/') == 0)
-		args[0] = in_exec_path(args[0]);
+		args = in_exec_path(args);
 	fork_and_cmd(args, &pipe_data, input_fd, output_fd);
 	if (pipe_data.flag)
 		close(pipe_data.pipe_fd[WRITE]);

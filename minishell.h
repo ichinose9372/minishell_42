@@ -97,6 +97,7 @@ char	**envp_make_path(void);
 char	*make_path(char *argv);
 char	*serch_path(char	*tmp, char **env_split);
 char	**token_path(t_token **p_tok);
+char	*create_absolute_path(char	*argv);
 int		check_operation(t_token **p_tok);
 int		set_input(t_token **p_tok);
 int		set_output(t_token **p_tok);
@@ -118,14 +119,14 @@ void	exec_colon(t_token **p_tok);
 int		heredoc_cmd(t_token *p_tok);
 int		builtin_check(char **args);
 void	exe_parent(char	**args, t_token **p_tok, int input_fd);
-char	*in_exec_path(char *args);
+char	**in_exec_path(char **args);
 void	swich_fd_check_builtin(int input_fd, int output_fd, char **args);
 void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data);
 void	close_pipe(t_pipe *pipe_data);
 void	heredoc_stop(char **args);
 
 	// heredoc
-void expansion_heredoc(char **str);
+void	expansion_heredoc(char **str);
 
 // file oparate
 int		file_open_wrt(char *argv);
