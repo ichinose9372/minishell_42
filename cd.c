@@ -79,7 +79,7 @@ int	builtin_cd(char	**args)
 	}
 	if (!my_getcwd(path_name, PATH_SIZE))
 		return (1);
-	if (args[0] && args[1] == NULL)
+	if ((args[0] && args[1] == NULL) || (args[0] && args[1][0] == '~'))
 	{
 		only_cd();
 		return (0);

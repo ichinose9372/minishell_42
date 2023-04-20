@@ -20,7 +20,6 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 			all_free(str);
 			return (NULL);
 		}
-		printf("%s\n", p_tok->word);
 		p_tok = p_tok->next;
 	}
 	str[i] = NULL;
