@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 21:04:20 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/26 15:43:36 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:20:11 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

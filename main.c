@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+t_global	g_global;
+
 int	syntax_check(t_token **p_tok)
 {
 	t_token	*tmp;

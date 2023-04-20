@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-t_global	g_global;
-
 void	init_minishell(void)
 {
 	g_global.env = make_env();

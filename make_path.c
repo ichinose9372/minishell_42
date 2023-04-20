@@ -73,14 +73,25 @@ char	*make_path(char *argv)
 	return (path);
 }
 
-char	*in_exec_path(char *args)
+char	**in_exec_path(char **args)
 {
 	char	*tmp;
+	int		i;
 
-	tmp = args;
-	args = make_path(tmp);
+	i = 1;
+	while (args[i])
+	{
+		if (ft_strchr(args[i], '/') != NULL && args[i][0] != '/')
+		{
+			tmp = create_absolute_path(args[i]);
+			args[i] = ft_strdup(tmp);
+		}
+		i++;
+	}
+	tmp = *args;
+	args[0] = make_path(tmp);
 	free(tmp);
-	if (args == NULL)
+	if (args[0] == NULL)
 		return (NULL);
 	return (args);
 }

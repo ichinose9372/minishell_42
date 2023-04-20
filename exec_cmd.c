@@ -12,7 +12,7 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 	while ((p_tok) && (p_tok)->kind != PIPE)
 	{
 		if ((p_tok)->kind != WORD)
-			set_fd(p_tok, in, out);
+			set_fd(&p_tok, in, out);
 		else
 			str[i++] = ft_strdup(p_tok->word);
 		if (*in < 0 || *out < 0)
@@ -20,7 +20,7 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 			all_free(str);
 			return (NULL);
 		}
-		p_tok = (p_tok)->next;
+		p_tok = p_tok->next;
 	}
 	str[i] = NULL;
 	return (str);
@@ -97,7 +97,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	if (!pipe_data.flag && builtin_check(args))
 		return (swich_fd_check_builtin(input_fd, output_fd, args));
 	if (args != NULL && !builtin_check(args) && ft_strchr(args[0], '/') == 0)
-		args[0] = in_exec_path(args[0]);
+		args = in_exec_path(args);
 	fork_and_cmd(args, &pipe_data, input_fd, output_fd);
 	if (pipe_data.flag)
 		close(pipe_data.pipe_fd[WRITE]);

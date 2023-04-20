@@ -27,18 +27,18 @@ int	set_add(t_token **p_tok)
 	return (out);
 }
 
-void	set_fd(t_token *p_tok, int *in, int *out)
+void	set_fd(t_token **p_tok, int *in, int *out)
 {
-	if ((p_tok)->kind == INPUT)
-		*in = set_input(&p_tok);
-	else if ((p_tok)->kind == OUTPUT)
-		*out = set_output(&p_tok);
-	else if ((p_tok)->kind == ADD)
-		*out = set_add(&p_tok);
-	else if ((p_tok)->kind == HEREDOC)
+	if ((*p_tok)->kind == INPUT)
+		*in = set_input(p_tok);
+	else if ((*p_tok)->kind == OUTPUT)
+		*out = set_output(p_tok);
+	else if ((*p_tok)->kind == ADD)
+		*out = set_add(p_tok);
+	else if ((*p_tok)->kind == HEREDOC)
 	{
-		*p_tok = *(p_tok)->next;
-		*in = heredoc_cmd(p_tok);
+		*p_tok = (*p_tok)->next;
+		*in = heredoc_cmd(*p_tok);
 	}
 }
 

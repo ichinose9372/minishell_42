@@ -58,8 +58,7 @@ typedef struct s_global
 	int		fd_out;
 }	t_global;
 
-extern t_global	g_global;
-
+extern t_global g_global;
 //init
 void	init_minishell(void);
 int		minishell_2(t_token **p_tok, char *str);
@@ -69,8 +68,6 @@ void	minishell(void);
 t_env	*new_env(char *str);
 t_env	**make_env(void);
 char	**convet_environ(void);
-
-
 // tokenize
 t_token	*tokenizer(char *str, t_token *tok);
 int		space_check(char *str, int start);
@@ -81,27 +78,24 @@ char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
 int		operater_cmp(char *str, int end);
 void	token_kind(t_token *tok);
-int 	ispace_check(char *str, int start);
-
+int		ispace_check(char *str, int start);
 	// expantion
 void	expansion(t_token *tok, t_token **p_tok);
 size_t	char_expansion(char **dest, char *src);
 size_t	variable_expansion(char **dest, char *src);
 bool	check_variable(char *src, size_t *cnt);
 char	*new_getenv(char *name);
-
-
-
 // exec
 char	**envp_make_path(void);
 char	*make_path(char *argv);
 char	*serch_path(char	*tmp, char **env_split);
 char	**token_path(t_token **p_tok);
+char	*create_absolute_path(char	*argv);
 int		check_operation(t_token **p_tok);
 int		set_input(t_token **p_tok);
 int		set_output(t_token **p_tok);
 int		set_add(t_token **p_tok);
-void	set_fd(t_token *p_tok, int *in, int *out);
+void	set_fd(t_token **p_tok, int *in, int *out);
 int		check_operation(t_token **p_tok);
 bool	pipe_check(t_token **p_tok, t_pipe *pipe_data);
 int		count(t_token *p_tok);
@@ -118,21 +112,18 @@ void	exec_colon(t_token **p_tok);
 int		heredoc_cmd(t_token *p_tok);
 int		builtin_check(char **args);
 void	exe_parent(char	**args, t_token **p_tok, int input_fd);
-char	*in_exec_path(char *args);
+char	**in_exec_path(char **args);
 void	swich_fd_check_builtin(int input_fd, int output_fd, char **args);
 void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data);
 void	close_pipe(t_pipe *pipe_data);
 void	heredoc_stop(char **args);
-
 	// heredoc
-void expansion_heredoc(char **str);
-
+void	expansion_heredoc(char **str);
 // file oparate
 int		file_open_wrt(char *argv);
 int		file_open_rd(char	*argv);
 int		file_open_wrt_add(char *argv);
 int		ft_open(t_token **p_tok);
-
 	// free
 void	all_free(char **env_split);
 void	all_free_token(t_token **p_tok);
@@ -140,10 +131,8 @@ void	free_token(t_token *tok);
 void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
 void	path_all_free(char **env_split);
-
 // テスト用
 void	print_token(t_token **p_tok);
-
 // builtin
 int		builtin_pwd(char **args);
 int		builtin_echo(char **args);
@@ -154,7 +143,6 @@ void	remake_pwd(char *new_path);
 int		serch_home(void);
 char	*my_getcwd(char *buf, size_t length);
 char	*make_next_path(char *path_name, char *word);
-
 char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
@@ -165,12 +153,10 @@ int		builtin_env(char **args);
 int		builtin_list(char **args);
 int		builtin_exit(char **args);
 int		builtin_unset(char **args);
-
 // signal
 void	signal_one(void);
 void	signal_heredocu(void);
 void	signal_cmd(void);
-
 // utils
 void	*malloc_error(size_t size);
 char	*new_strjoin(char const *s1, char const *s2, size_t s2_len);
