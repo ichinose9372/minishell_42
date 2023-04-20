@@ -14,11 +14,14 @@ int	file_open_rd(char	*argv)
 {
 	int	fd;
 
+	printf("aaaa\n");
 	if (acces_check_file(argv))
 		return (-1);
+	printf("tttteeeesssstttt\n");
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
 	{
+		printf("eeeerrrrorrrr\n");
 		perror("Error");
 		g_global.status = 1;
 		return (-1);

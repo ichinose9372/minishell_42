@@ -46,6 +46,7 @@ typedef struct s_env
 typedef struct s_pipe
 {
 	int	pipe_fd[2];
+	int	flag;
 }	t_pipe;
 
 typedef struct s_global
@@ -67,19 +68,22 @@ void	minishell(void);
 // env
 t_env	*new_env(char *str);
 t_env	**make_env(void);
+char	**convet_environ(void);
+
 
 // tokenize
 t_token	*tokenizer(char *str, t_token *tok);
 int		space_check(char *str, int start);
 int		operater_check(char *str, int *start, int *end, t_token **tok);
-int	seartch_quote(char *str, int start, int *end, t_token *tmp);
+int		seartch_quote(char *str, int start, int *end, t_token *tmp);
 void	make_token(t_token **tok, char *str, int start, int end);
 char	*new_strdup(const char *s1, int size);
 t_token	*new_token(char *str, int start, int end);
 int		operater_cmp(char *str, int end);
 void	token_kind(t_token *tok);
+int 	ispace_check(char *str, int start);
 
-// expantion
+	// expantion
 void	expansion(t_token *tok, t_token **p_tok);
 size_t	char_expansion(char **dest, char *src);
 size_t	variable_expansion(char **dest, char *src);
@@ -94,6 +98,13 @@ char	*make_path(char *argv);
 char	*serch_path(char	*tmp, char **env_split);
 char	**token_path(t_token **p_tok);
 int		check_operation(t_token **p_tok);
+int		set_input(t_token **p_tok);
+int		set_output(t_token **p_tok);
+int		set_add(t_token **p_tok);
+void	set_fd(t_token *p_tok, int *in, int *out);
+int		check_operation(t_token **p_tok);
+bool	pipe_check(t_token **p_tok, t_pipe *pipe_data);
+int		count(t_token *p_tok);
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd);
 void	exec_pipe(t_token **p_tok, int input_fd, int output_fd);
 void	exec(char	**path);
@@ -106,9 +117,15 @@ void	exec_heardocu(t_token **p_tok);
 void	exec_colon(t_token **p_tok);
 int		heredoc_cmd(t_token *p_tok);
 int		builtin_check(char **args);
+void	exe_parent(char	**args, t_token **p_tok, int input_fd);
+char	*in_exec_path(char *args);
+void	swich_fd_check_builtin(int input_fd, int output_fd, char **args);
+void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data);
+void	close_pipe(t_pipe *pipe_data);
+void	heredoc_stop(char **args);
 
 	// heredoc
-void	expansion_heredoc(char **str);
+void expansion_heredoc(char **str);
 
 // file oparate
 int		file_open_wrt(char *argv);
@@ -130,13 +147,20 @@ void	print_token(t_token **p_tok);
 // builtin
 int		builtin_pwd(char **args);
 int		builtin_echo(char **args);
-int		builtin_cd(t_token **p_tok);
+//cd
+int		builtin_cd(char **args);
+char	*home_path(void);
+void	remake_pwd(char *new_path);
+int		serch_home(void);
+char	*my_getcwd(char *buf, size_t length);
+char	*make_next_path(char *path_name, char *word);
+
 char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
 int		builtin_export(char **args);
 void	add_env(char *str);
-int	export_elem_error(char *str);
+int		export_elem_error(char *str);
 int		builtin_env(char **args);
 int		builtin_list(char **args);
 int		builtin_exit(char **args);
@@ -144,8 +168,8 @@ int		builtin_unset(char **args);
 
 // signal
 void	signal_one(void);
-void	signal_heredocu();
-void	signal_cmd();
+void	signal_heredocu(void);
+void	signal_cmd(void);
 
 // utils
 void	*malloc_error(size_t size);

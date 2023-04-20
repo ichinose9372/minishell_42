@@ -46,3 +46,62 @@ t_env	**make_env(void)
 	}
 	return (ret);
 }
+
+int	count_environ(t_env	*env)
+{
+	int	count;
+
+	count = 0;
+	while (env)
+	{
+		if (env->value)
+			count++;
+		env = env->next;
+	}
+	return (count);
+}
+
+char	*in_convet_func(t_env *env)
+{
+	char	*tmp;
+	char	*mini_environ;
+
+	mini_environ = ft_strdup(env->name);
+	tmp = ft_strjoin(mini_environ, "=");
+	if (!tmp)
+		exit(1);
+	free(mini_environ);
+	mini_environ = tmp;
+	tmp = ft_strjoin(mini_environ, env->value);
+	if (!tmp)
+		exit(1);
+	free(mini_environ);
+	mini_environ = tmp;
+	return (mini_environ);
+}
+
+char	**convet_environ(void)
+{
+	int		cnt;
+	t_env	*env;
+	char	**mini_environ;
+
+	env = *g_global.env;
+	cnt = count_environ(env);
+	mini_environ = (char **)malloc(sizeof(char *) * cnt + 1);
+	if (!mini_environ)
+		exit(1);
+	env = *g_global.env;
+	cnt = 0;
+	while (env)
+	{
+		if (env->value)
+		{
+			mini_environ[cnt] = in_convet_func(env);
+			cnt++;
+		}
+		env = env->next;
+	}
+	mini_environ[cnt] = NULL;
+	return (mini_environ);
+}

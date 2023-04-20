@@ -1,10 +1,5 @@
 #include "minishell.h"
 
-int	space_check(char *str, int start)
-{
-	return (str[start] == ' ' || str[start] == '\t' || str[start] == '\n');
-}
-
 int	operater_check(char *str, int *start, int *end, t_token **tok)
 {
 	if (operater_cmp(str, *end))

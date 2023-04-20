@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+void	command_not_found(char *str)
+{
+	ft_putstr_fd("minishell: ", 1);
+	ft_putstr_fd(str + 1, 1);
+	ft_putstr_fd(": ", 1);
+	ft_putendl_fd("command not found", 1);
+	g_global.status = 127;
+}
+
 char	**envp_make_path(void)
 {
 	t_env	*tmp;
@@ -39,7 +48,6 @@ char	*serch_path(char	*tmp, char **env_split)
 char	*make_path(char *argv)
 {
 	char	**env_split;
-	char	*trim;
 	char	*path;
 	char	*tmp;
 
@@ -49,8 +57,7 @@ char	*make_path(char *argv)
 		command_not_found(argv);
 		return (NULL);
 	}
-	trim = "/";
-	tmp = ft_strjoin(trim, argv);
+	tmp = ft_strjoin("/", argv);
 	if (tmp == NULL)
 	{
 		all_free(env_split);
@@ -64,4 +71,16 @@ char	*make_path(char *argv)
 	}
 	all_free_and_tmp(tmp, env_split);
 	return (path);
+}
+
+char	*in_exec_path(char *args)
+{
+	char	*tmp;
+
+	tmp = args;
+	args = make_path(tmp);
+	free(tmp);
+	if (args == NULL)
+		return (NULL);
+	return (args);
 }

@@ -1,14 +1,5 @@
 #include "minishell.h"
 
-void	command_not_found(char *str)
-{
-	ft_putstr_fd("minishell: ", 1);
-	ft_putstr_fd(str + 1, 1);
-	ft_putstr_fd(": ", 1);
-	ft_putendl_fd("command not found", 1);
-	g_global.status = 127;
-}
-
 void	all_free(char **env_split)
 {
 	int	i;
