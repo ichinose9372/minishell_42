@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	option_check(char *str, int *flag)
+int	option_check(char *str)
 {
 	int	cnt;
 
@@ -13,7 +13,6 @@ int	option_check(char *str, int *flag)
 				return (0);
 			cnt++;
 		}
-		*flag = 1;
 		return (1);
 	}
 	return (0);
@@ -25,19 +24,21 @@ int	builtin_echo(char **args)
 	size_t	cnt;
 
 	cnt = 0;
-	g_global.status = 0;
 	if (args[cnt++] == NULL)
 	{
 		ft_putchar_fd('\n', 1);
-		g_global.status = 0;
 		return (0);
 	}
 	flag = 0;
-	while (args[cnt] && option_check(args[cnt], &flag))
+	while (args[cnt] && option_check(args[cnt]))
+	{
+		flag = 1;
 		cnt++;
+	}
 	while (args[cnt])
 	{
-		ft_putstr_fd(args[cnt++], STDOUT_FILENO);
+		ft_putstr_fd(args[cnt], STDOUT_FILENO);
+		cnt++;
 		if (args[cnt])
 			ft_putchar_fd(' ', 1);
 	}

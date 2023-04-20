@@ -25,20 +25,6 @@ int	syntax_check(t_token **p_tok)
 	return (0);
 }
 
-// void	del_null()
-
-// void	null_expantion(t_token **p_tok)
-// {
-// 	t_token	*prev;
-// 	t_token	*tmp;
-
-// 	tmp = *p_tok;
-// 	while (tmp)
-// 	{
-// 		if (tmp->word[0] == '\0')
-
-// 	}
-// }
 int	minishell_2(t_token **p_tok, char *str)
 {
 	t_token	*tok;
@@ -59,7 +45,6 @@ int	minishell_2(t_token **p_tok, char *str)
 	expansion(tok, p_tok);
 	if (syntax_check(p_tok))
 		return (0);
-	// print_token(p_tok);
 	exec_cmd(p_tok, 0, 1);
 	return (0);
 }
@@ -79,7 +64,7 @@ void	minishell(void)
 	char	*str;
 	t_token	**p_tok;
 
-	// rl_outstream = stderr;
+	rl_outstream = stderr;
 	while (1)
 	{
 		p_tok = (t_token **)malloc_error(sizeof(t_token *));
