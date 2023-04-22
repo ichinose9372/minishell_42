@@ -72,8 +72,6 @@ void	fork_and_cmd(char **args, t_pipe *pipe_data,
 		exit(EXIT_FAILURE);
 	if (pid == 0)
 	{
-		if (input_fd < 0 || output_fd < 0)
-			exit(1);
 		if (pipe_data->flag == 1)
 			close(pipe_data->pipe_fd[READ]);
 		exe_chiled(args, input_fd, output_fd);
