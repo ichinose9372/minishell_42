@@ -23,6 +23,7 @@ int	file_open_rd(char	*argv)
 		g_global.status = 1;
 		return (-1);
 	}
+	free(argv);
 	return (fd);
 }
 
@@ -40,6 +41,7 @@ int	file_open_wrt(char	*argv)
 		g_global.status = 1;
 		return (-1);
 	}
+	free(argv);
 	return (fd);
 }
 
@@ -57,5 +59,6 @@ int	file_open_wrt_add(char	*argv)
 		g_global.status = 1;
 		return (-1);
 	}
+	free(argv);
 	return (fd);
 }
