@@ -55,19 +55,19 @@ char	*make_path(char *argv)
 	if (env_split == NULL)
 	{
 		command_not_found(argv);
-		return (NULL);
+		return (argv);
 	}
 	tmp = ft_strjoin("/", argv);
 	if (tmp == NULL)
 	{
 		all_free(env_split);
-		return (NULL);
+		return (argv);
 	}
 	path = serch_path(tmp, env_split);
 	if (path == NULL)
 	{
 		all_free_and_tmp(tmp, env_split);
-		return (NULL);
+		return (argv);
 	}
 	all_free_and_tmp(tmp, env_split);
 	return (path);
@@ -91,7 +91,5 @@ char	**in_exec_path(char **args)
 	tmp = *args;
 	args[0] = make_path(tmp);
 	free(tmp);
-	if (args[0] == NULL)
-		return (NULL);
 	return (args);
 }
