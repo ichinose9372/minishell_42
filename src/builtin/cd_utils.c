@@ -53,10 +53,7 @@ char	*my_getcwd(char *buf, size_t length)
 
 	tmp = *g_global.env;
 	while (tmp && ft_strncmp(tmp->name, "PWD", 4) != 0)
-	{
 		tmp = tmp->next;
-		printf("%s\n", tmp->name);
-	}
 	if (tmp == NULL)
 		return (NULL);
 	size = 0;
@@ -66,7 +63,6 @@ char	*my_getcwd(char *buf, size_t length)
 		size++;
 	}
 	buf[size] = '\0';
-	printf("[%s]\n", buf);
 	return (buf);
 }
 
