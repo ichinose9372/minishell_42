@@ -14,7 +14,7 @@ BUILT = $(addprefix builtin/, $(BUILT_SRC))
 MAIN_SRC = main.c
 MAIN = $(addprefix main/, $(MAIN_SRC))
 
-EXEC_SRC = exec_cmd_utils.c exec_cmd.c exec_fd_set.c exec_heardocu.c exec_utils.c\
+EXEC_SRC = exec_cmd_utils.c exec_cmd.c exec_fd_set.c exec_heardocu.c exec_check_builtin.c\
 			make_path_absolut.c make_path.c file_init.c
 EXEC = $(addprefix exec/, $(EXEC_SRC))
 
