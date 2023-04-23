@@ -33,6 +33,7 @@ char	*create_absolute_path(char	*argv)
 
 	if (!my_getcwd(path_name, PATH_SIZE))
 		return (NULL);
+	printf("{%s}\n", path_name);
 	if (argv[0] == '.')
 	{
 		tmp = in_create_absolute_path(path_name, argv);
