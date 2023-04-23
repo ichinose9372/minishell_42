@@ -91,13 +91,18 @@ int	builtin_export(char **args)
 	t_env	*env_tmp;
 	size_t	size;
 	size_t	cnt;
+	int		status;
 
+	status = 0;
 	env_tmp = *g_global.env;
 	cnt = 1;
 	size = count_env(env_tmp);
 	if (args[cnt] == NULL)
 		put_export(size);
 	while (args[cnt])
-		add_env(args[cnt++]);
-	return (0);
+	{
+		if (add_env(args[cnt++]) == 1)
+			status = 1;
+	}
+	return (status);
 }
