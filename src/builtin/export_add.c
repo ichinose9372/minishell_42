@@ -80,17 +80,17 @@ static size_t	set_cnt(char *str)
 	return (cnt);
 }
 
-void	add_env(char *str)
+int	add_env(char *str)
 {
 	t_env	*new_env;
 	t_env	*tmp;
 	size_t	cnt;
 
 	if (export_elem_check(str))
-		return ;
+		return (1);
 	cnt = set_cnt(str);
 	if (cnt == 0)
-		return ;
+		return (1);
 	new_env = (t_env *)malloc_error(sizeof(t_env));
 	new_env->name = new_strdup(str, cnt);
 	if (str[cnt] == '=')
@@ -103,4 +103,5 @@ void	add_env(char *str)
 		tmp = tmp->next;
 	tmp->next = new_env;
 	g_global.status = 0;
+	return (0);
 }

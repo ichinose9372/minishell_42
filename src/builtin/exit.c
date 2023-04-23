@@ -91,8 +91,7 @@ int	builtin_exit(char **args)
 	if (args[cnt + 1])
 	{
 		ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
-		g_global.status = 1;
-		return (0);
+		return (1);
 	}
 	set_exit(args[cnt]);
 	exit(255);
