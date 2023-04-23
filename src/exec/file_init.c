@@ -15,8 +15,11 @@ int	file_open_rd(char	*argv)
 	int	fd;
 
 	argv = create_absolute_path(argv);
-	if (acces_check_file(argv))
-		return (-1);
+	// if (acces_check_file(argv))
+	// {
+	// 	free(argv);
+	// 	return (-1);
+	// }
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
 	{
@@ -34,8 +37,8 @@ int	file_open_wrt(char	*argv)
 	int	fd;
 
 	argv = create_absolute_path(argv);
-	if (acces_check_file(argv))
-		return (-1);
+	// if (acces_check_file(argv))
+	// 	return (-1);
 	fd = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd < 0)
 	{
@@ -53,8 +56,8 @@ int	file_open_wrt_add(char	*argv)
 	int	fd;
 
 	argv = create_absolute_path(argv);
-	if (acces_check_file(argv))
-		return (-1);
+	// if (acces_check_file(argv))
+	// 	return (-1);
 	fd = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd < 0)
 	{

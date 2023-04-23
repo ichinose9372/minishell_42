@@ -16,6 +16,8 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 		else
 			str[i++] = ft_strdup(p_tok->word);
 		p_tok = p_tok->next;
+		if (*in < 0 || *out < 0)
+			break ;
 	}
 	str[i] = NULL;
 	return (str);
