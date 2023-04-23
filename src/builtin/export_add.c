@@ -76,10 +76,7 @@ static size_t	set_cnt(char *str)
 			return (0);
 	}
 	if (env_overwrite(str, cnt))
-	{
-		free(str);
 		return (0);
-	}
 	return (cnt);
 }
 
