@@ -44,5 +44,6 @@ int	builtin_echo(char **args)
 	}
 	if (flag == 0)
 		ft_putchar_fd('\n', 1);
+	g_global.status = 0;
 	return (0);
 }

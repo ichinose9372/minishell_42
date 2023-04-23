@@ -31,9 +31,10 @@ long long	exit_atoi(char *nptr)
 		number = number * 10 + (nptr[cnt++] - '0');
 		if (check_llong(number, nptr[cnt], type))
 		{
-			ft_putstr_fd("exit: ", STDOUT_FILENO);
-			ft_putstr_fd(nptr, STDOUT_FILENO);
-			ft_putendl_fd(": numeric argument required", STDOUT_FILENO);
+			// printf("test\n");
+			ft_putstr_fd("exit: ", STDERR_FILENO);
+			ft_putstr_fd(nptr, STDERR_FILENO);
+			ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 			exit (255);
 		}
 	}
@@ -45,7 +46,7 @@ int	check_digit(char *str)
 	char	*tmp;
 
 	tmp = str;
-	if (*tmp == '-')
+	if (*tmp == '-' || *tmp == '+')
 		tmp++;
 	while (*tmp)
 	{
@@ -73,9 +74,9 @@ void	set_exit(char *str)
 	}
 	else
 	{
-		ft_putstr_fd("exit: ", STDOUT_FILENO);
-		ft_putstr_fd(str, STDOUT_FILENO);
-		ft_putendl_fd(" numeric argument required", STDOUT_FILENO);
+		ft_putstr_fd("exit: ", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 	}
 }
 
@@ -89,7 +90,7 @@ int	builtin_exit(char **args)
 		exit (g_global.status);
 	if (args[cnt + 1])
 	{
-		ft_putendl_fd("exit: too many arguments", STDOUT_FILENO);
+		ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
 		g_global.status = 1;
 		return (0);
 	}

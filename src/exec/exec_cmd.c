@@ -15,11 +15,6 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 			set_fd(&p_tok, in, out);
 		else
 			str[i++] = ft_strdup(p_tok->word);
-		if (*in < 0 || *out < 0)
-		{
-			all_free(str);
-			return (NULL);
-		}
 		p_tok = p_tok->next;
 	}
 	str[i] = NULL;
@@ -47,9 +42,10 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 		exec(args);
 	else if (builtin == -1)
 	{
+		g_global.status = 1;
 		ft_putendl_fd("builtin error", STDERR_FILENO);
 	}
-	exit(EXIT_SUCCESS);
+	exit(g_global.status);
 }
 
 void	exe_parent(char	**args, t_token **p_tok, int input_fd)
@@ -106,7 +102,6 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	exe_parent(args, p_tok, pipe_data.pipe_fd[READ]);
 	if (pipe_data.flag)
 		close_pipe(&pipe_data);
-	if (WIFEXITED(status))
-		g_global.status = WEXITSTATUS(status);
+	g_global.status = WEXITSTATUS(status);
 	wait(NULL);
 }

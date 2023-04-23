@@ -83,6 +83,7 @@ void	put_export(size_t size)
 	sort_name(str, size);
 	print_export(str);
 	free(str);
+	g_global.status = 0;
 }
 
 int	builtin_export(char **args)
