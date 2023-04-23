@@ -5,18 +5,17 @@ char	*prev_move(char	*path_name)
 	char	*last;
 	char	*new_path;
 	size_t	len;
-	int		ret;
 
 	last = ft_strrchr(path_name, '/');
 	len = ft_strlen(path_name) - ft_strlen(last);
 	new_path = ft_substr(path_name, 0, len);
 	if (!new_path)
-		exit(1);
-	ret = chdir(new_path);
-	if (ret == -1)
+		return (NULL);
+	if (chdir(new_path) == -1)
 	{
+		free(new_path);
 		perror("chdir");
-		exit(1);
+		return (NULL);
 	}
 	return (new_path);
 }
@@ -28,8 +27,8 @@ char	*next_move(char *path_name, char *word)
 	new_path = make_next_path(path_name, word);
 	if (chdir(new_path) == -1)
 	{
-		perror("chdir");
 		free(new_path);
+		perror("chdir");
 		return (NULL);
 	}
 	return (new_path);
@@ -42,30 +41,34 @@ int	only_cd(void)
 	new_path = home_path();
 	if (chdir(new_path) == -1)
 	{
+		free(new_path);
 		perror("chdir");
-		return (0);
+		return (1);
 	}
 	remake_pwd(new_path);
 	free(new_path);
 	return (0);
 }
 
-void	path_cd(char *path_name, char *args)
+int	path_cd(char *path_name, char *args)
 {
 	char	*new_path;
 
 	if (ft_strncmp(args, "..", 3) == 0)
 	{
 		new_path = prev_move(path_name);
+		if (new_path == NULL)
+			return (1);
 		remake_pwd(new_path);
-		free(new_path);
 	}
 	else
 	{
 		new_path = next_move(path_name, args);
+		if (new_path == NULL)
+			return (1);
 		remake_pwd(new_path);
-		free(new_path);
 	}
+	return (0);
 }
 
 int	builtin_cd(char	**args)
@@ -75,16 +78,13 @@ int	builtin_cd(char	**args)
 	if (serch_home())
 	{
 		ft_putendl_fd("cd: HOME not set", 1);
-		return (0);
+		return (1);
 	}
 	if (!my_getcwd(path_name, PATH_SIZE))
 		return (1);
 	if ((args[0] && args[1] == NULL) || (args[0] && args[1][0] == '~'))
-	{
-		only_cd();
-		return (0);
-	}
+		return (g_global.status = only_cd());
 	if (args[0] && args[1])
-		path_cd(path_name, args[1]);
+		return (g_global.status = path_cd(path_name, args[1]));
 	return (0);
 }

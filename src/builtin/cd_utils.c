@@ -29,6 +29,7 @@ void	remake_pwd(char	*new_path)
 		size++;
 	}
 	(*tmp)->value[size] = '\0';
+	free(new_path);
 }
 
 int	serch_home(void)
