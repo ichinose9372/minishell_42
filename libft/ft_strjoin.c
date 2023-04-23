@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 21:04:20 by ichinoseyuu       #+#    #+#             */
-/*   Updated: 2023/03/26 15:43:36 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/20 15:53:18 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	str_new = str;
 	while (*s1 != 0)
-	{
-		*str = *s1;
-		str++;
-		s1++;
-	}
+		*str++ = *s1++;
 	while (*s2 != 0)
-	{
-		*str = *s2;
-		str++;
-		s2++;
-	}
+		*str++ = *s2++;
 	*str = '\0';
 	return (str_new);
 }

@@ -1,16 +1,6 @@
 #include "minishell.h"
 
-void	print_token(t_token **p_tok)
-{
-	t_token	**tmp;
-
-	tmp = p_tok;
-	while (*tmp)
-	{
-		printf("[w=%s]\n[ow=%s]\n", (*tmp)->word, (*tmp)->old_word);
-		tmp = &(*tmp)->next;
-	}
-}
+t_global	g_global;
 
 int	syntax_check(t_token **p_tok)
 {
@@ -59,12 +49,21 @@ int	minishell_2(t_token **p_tok, char *str)
 	return (0);
 }
 
+void	in_minishell(t_token **p_tok, char *str)
+{
+	add_history(str);
+	if (minishell_2(p_tok, str) == 1)
+		free(p_tok);
+	else
+		all_free_token(p_tok);
+	free(str);
+}
+
 void	minishell(void)
 {
 	char	*str;
 	t_token	**p_tok;
 
-	rl_outstream = stderr;
 	while (1)
 	{
 		p_tok = (t_token **)malloc_error(sizeof(t_token *));
@@ -77,16 +76,12 @@ void	minishell(void)
 			exit(EXIT_SUCCESS);
 		}
 		else if (*str == '\0')
-			free(p_tok);
-		else
 		{
-			add_history(str);
-			if (minishell_2(p_tok, str) == 1)
-				free(p_tok);
-			else
-				all_free_token(p_tok);
+			free(str);
+			free(p_tok);
 		}
-		free(str);
+		else
+			in_minishell(p_tok, str);
 		dup2(g_global.fd_in, STDIN_FILENO);
 		dup2(g_global.fd_out, STDOUT_FILENO);
 	}

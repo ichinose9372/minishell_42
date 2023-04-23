@@ -1,6 +1,4 @@
-#include "minishell.h"
-
-t_global	g_global;
+#include "../../include/minishell.h"
 
 void	init_minishell(void)
 {

@@ -14,6 +14,8 @@ int	builtin_list(char **args)
 		return (builtin_unset(args));
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		return (builtin_exit(args));
+	else if (ft_strncmp(args[0], "cd", 3) == 0)
+		return (builtin_cd(args));
 	return (1);
 }
 
@@ -33,46 +35,9 @@ int	builtin_check(char **args)
 		return (1);
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		return (1);
+	else if (ft_strncmp(args[0], "cd", 3) == 0)
+		return (1);
 	return (0);
-}
-
-char	**convet_environ()
-{
-	int		cnt;
-	t_env	*env;
-	char	*tmp;
-	char	**mini_environ;
-
-	cnt = 0;
-	env = *g_global.env;
-	while (env)
-	{
-		if (env->value)
-			cnt++;
-		env = env->next;
-	}
-	mini_environ = (char **)malloc(sizeof(char *) * cnt + 1);
-	if (!mini_environ)
-		exit(1);
-	env = *g_global.env;
-	cnt = 0;
-	while (env)
-	{
-		if (env->value)
-		{
-			mini_environ[cnt] = ft_strdup(env->name);
-			tmp = ft_strjoin(mini_environ[cnt], "=");
-			free(mini_environ[cnt]);
-			mini_environ[cnt] = tmp;
-			tmp = ft_strjoin(mini_environ[cnt], env->value);
-			free(mini_environ[cnt]);
-			mini_environ[cnt] = tmp;
-			cnt++;
-		}
-		env = env->next;
-	}
-	mini_environ[cnt] = NULL;
-	return (mini_environ);
 }
 
 void	exec(char	**path)
@@ -82,5 +47,30 @@ void	exec(char	**path)
 	mini_environ = convet_environ();
 	execve(path[0], path, mini_environ);
 	perror("exec");
-	exit (1);
+	exit (EXIT_FAILURE);
+}
+
+void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
+{
+	if (input_fd != STDIN_FILENO)
+	{
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
+	}
+	if (output_fd != STDOUT_FILENO)
+	{
+		dup2(output_fd, STDOUT_FILENO);
+		close(output_fd);
+	}
+	if (builtin_list(args) == 0)
+	{
+		g_global.status = 0;
+		all_free(args);
+		return ;
+	}
+	else
+	{
+		g_global.status = 1;
+		return ;
+	}
 }

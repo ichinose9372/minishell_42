@@ -6,57 +6,58 @@ CFLAGS	=	-Wall -Wextra -Werror
 
 LFLAGS	=	-L $(shell brew --prefix readline)/lib -lreadline
 
-SRCS	=	main.c\
-			init.c\
-			exec_cmd.c\
-			make_path.c\
-			pipe_file_init.c\
-			tokenize.c\
-			tokenize_utils.c\
-			error_free.c\
-			make_env.c\
-			expansion.c\
-			pwd.c\
-			echo.c\
-			export.c\
-			env.c\
-			exec_utils.c\
-			cd.c\
-			exit.c\
-			unset.c\
-			exec_pipe.c\
-			exec_heardocu.c\
-			signal.c\
-			utils.c\
-			expansion_heredoc.c\
+INCLUDE	=	./include
 
-HEAD_FILE	=	minishell.h
+BUILT_SRC = cd.c cd_utils.c echo.c env.c exit.c export_add.c export_utils.c export.c pwd.c unset.c
+BUILT = $(addprefix builtin/, $(BUILT_SRC))
 
-LIBFT_DIR	=	libft
+MAIN_SRC = main.c
+MAIN = $(addprefix main/, $(MAIN_SRC))
+
+EXEC_SRC = exec_cmd_utils.c exec_cmd.c exec_fd_set.c exec_heardocu.c exec_utils.c\
+			make_path_absolut.c make_path.c file_init.c
+EXEC = $(addprefix exec/, $(EXEC_SRC))
+
+EXPANSION_SRC = expansion_heredoc.c expansion.c expansion_utils.c
+EXPANSION = $(addprefix expansion/, $(EXPANSION_SRC))
+
+INIT_AND_UTILS_SRC = free.c init.c make_env.c utils.c
+INIT_AND_UTILS = $(addprefix init_and_utils/, $(INIT_AND_UTILS_SRC))
+
+SIGNAL_SRC = signal.c signal_cmd.c
+SIGNAL = $(addprefix signal/, $(SIGNAL_SRC))
+
+TOKENIZE_SRC = tokenize.c tokenize_utils.c
+TOKENIZE = $(addprefix tokenize/, $(TOKENIZE_SRC))
+
+SRCS = $(MAIN) $(BUILT) $(EXEC) $(EXPANSION) $(INIT_AND_UTILS) $(SIGNAL) $(TOKENIZE)
+
+SRCS_DIR	=	src/
+OBJ_DIR	=	obj/
+
+# OBJS = $(patsubst $(SRCS), $(OBJ_DIR), $(SRCS:.c=.o))
+OBJ_NAME	=	$(SRCS:.c=.o)
+OBJS		=	$(addprefix obj/, $(OBJ_NAME))
+
+
+LIBFT_DIR	= ./libft
 LIBFT	=	$(LIBFT_DIR)/libft.a
 
 RM	=	rm -rf
 
-OBJ_DIR	=	obj
-
-OBJS	=	$(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
 .PHONY:	all clean fclean re
 
 all: $(NAME)
 	$(shell echo > ~/.inputrc set echo-control-characters off)
 
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LFLAGS) -o $@
-
-$(OBJ_DIR)/%.o: %.c $(HEAD_FILE) | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(shell brew --prefix readline)/include
-
-$(LIBFT):
+$(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) -I$(INCLUDE) $(OBJS) $(LIBFT) $(LFLAGS) -o $@
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(SRCS_DIR)%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -I $(INCLUDE) -I $(shell brew --prefix readline)/include -c $< -o $@
 
 clean:
 	$(RM) $(OBJ_DIR)
@@ -67,3 +68,4 @@ fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
 
 re: fclean all
+
