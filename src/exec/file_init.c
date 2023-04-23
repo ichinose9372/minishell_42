@@ -20,6 +20,8 @@ int	file_open_rd(char	*argv)
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
 	{
+		free(argv);
+		perror("error");
 		g_global.status = 1;
 		return (-1);
 	}
@@ -37,6 +39,7 @@ int	file_open_wrt(char	*argv)
 	fd = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd < 0)
 	{
+		free(argv);
 		perror("error");
 		g_global.status = 1;
 		return (-1);
@@ -55,7 +58,8 @@ int	file_open_wrt_add(char	*argv)
 	fd = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd < 0)
 	{
-		perror("Error");
+		free(argv);
+		perror("error");
 		g_global.status = 1;
 		return (-1);
 	}

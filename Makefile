@@ -15,7 +15,7 @@ MAIN_SRC = main.c
 MAIN = $(addprefix main/, $(MAIN_SRC))
 
 EXEC_SRC = exec_cmd_utils.c exec_cmd.c exec_fd_set.c exec_heardocu.c exec_utils.c\
-			make_path_absolut.c make_path.c pipe_file_init.c
+			make_path_absolut.c make_path.c file_init.c
 EXEC = $(addprefix exec/, $(EXEC_SRC))
 
 EXPANSION_SRC = expansion_heredoc.c expansion.c expansion_utils.c

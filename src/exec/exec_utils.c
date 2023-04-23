@@ -47,7 +47,7 @@ void	exec(char	**path)
 	mini_environ = convet_environ();
 	execve(path[0], path, mini_environ);
 	perror("exec");
-	exit (1);
+	exit (EXIT_FAILURE);
 }
 
 void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)

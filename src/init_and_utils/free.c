@@ -7,6 +7,8 @@ void	all_free(char **env_split)
 	i = 0;
 	if (!env_split)
 		return ;
+	if (env_split[i] == NULL)
+		i++;
 	while (env_split[i])
 	{
 		free(env_split[i]);

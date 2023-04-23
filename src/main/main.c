@@ -64,7 +64,6 @@ void	minishell(void)
 	char	*str;
 	t_token	**p_tok;
 
-	rl_outstream = stderr;
 	while (1)
 	{
 		p_tok = (t_token **)malloc_error(sizeof(t_token *));
@@ -77,7 +76,10 @@ void	minishell(void)
 			exit(EXIT_SUCCESS);
 		}
 		else if (*str == '\0')
+		{
+			free(str);
 			free(p_tok);
+		}
 		else
 			in_minishell(p_tok, str);
 		dup2(g_global.fd_in, STDIN_FILENO);

@@ -30,6 +30,8 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 {
 	int	builtin;
 
+	if (args == NULL || args[0] == NULL)
+		exit(EXIT_FAILURE);
 	if (input_fd != STDIN_FILENO)
 	{
 		dup2(input_fd, STDIN_FILENO);
@@ -65,6 +67,8 @@ void	fork_and_cmd(char **args, t_pipe *pipe_data,
 {
 	pid_t	pid;
 
+	if (input_fd < 0 || output_fd < 0)
+		return ;
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);

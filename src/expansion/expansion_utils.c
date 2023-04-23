@@ -42,6 +42,21 @@ static char	*variable_join(char *src, char *dest, size_t cnt)
 	return (tmp);
 }
 
+char	*expansion_pues(char *dest)
+{
+	char	*tmp;
+	char	*num;
+
+	num = ft_itoa(g_global.status);
+	if (!num)
+		exit(EXIT_FAILURE);
+	tmp = ft_strjoin(dest, num);
+	if (!tmp)
+		exit(EXIT_FAILURE);
+	free(num);
+	return (tmp);
+}
+
 size_t	variable_expansion(char **dest, char *src)
 {
 	size_t	cnt;
@@ -58,7 +73,7 @@ size_t	variable_expansion(char **dest, char *src)
 	}
 	else if (src[cnt] == '?')
 	{
-		tmp = ft_strjoin(*dest, ft_itoa(g_global.status));
+		tmp = expansion_pues(*dest);
 		free(*dest);
 		*dest = tmp;
 		return (cnt + 1);

@@ -53,21 +53,18 @@ char	*make_path(char *argv)
 
 	env_split = envp_make_path();
 	if (env_split == NULL)
-	{
-		command_not_found(argv);
-		return (argv);
-	}
+		return (NULL);
 	tmp = ft_strjoin("/", argv);
 	if (tmp == NULL)
 	{
 		all_free(env_split);
-		return (argv);
+		return (NULL);
 	}
 	path = serch_path(tmp, env_split);
 	if (path == NULL)
 	{
 		all_free_and_tmp(tmp, env_split);
-		return (argv);
+		return (NULL);
 	}
 	all_free_and_tmp(tmp, env_split);
 	return (path);
