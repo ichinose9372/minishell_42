@@ -102,4 +102,5 @@ void	add_env(char *str)
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = new_env;
+	g_global.status = 0;
 }

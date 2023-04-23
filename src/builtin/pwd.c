@@ -8,5 +8,6 @@ int	builtin_pwd(char **args)
 	if (!my_getcwd(path_name, PATH_SIZE))
 		return (-1);
 	ft_putendl_fd(path_name, STDOUT_FILENO);
+	g_global.status = 0;
 	return (0);
 }

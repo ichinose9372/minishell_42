@@ -63,6 +63,7 @@ void	in_unset(char *str)
 			tmp = &(*tmp)->next;
 		}
 	}
+	g_global.status = 0;
 	return ;
 }
 

@@ -47,7 +47,8 @@ void	exec(char	**path)
 	mini_environ = convet_environ();
 	execve(path[0], path, mini_environ);
 	perror("exec");
-	exit (EXIT_FAILURE);
+	g_global.status = 127;
+	exit (g_global.status);
 }
 
 void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
@@ -64,7 +65,6 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
 	}
 	if (builtin_list(args) == 0)
 	{
-		g_global.status = 0;
 		all_free(args);
 		return ;
 	}
