@@ -42,20 +42,22 @@ int	print_export(char **str)
 	t_env	*tmp;
 	size_t	cnt;
 
+	tmp = *g_global.env;
 	cnt = 0;
 	while (str[cnt])
 	{
 		tmp = *g_global.env;
-		while (ft_strcmp(str[cnt], tmp->name) != 0)
-			tmp = tmp->next;
-		if (tmp->value)
+		while (ft_strcmp(str[cnt], tmp->name) != 0 && tmp)
 		{
-			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			ft_putstr_fd(tmp->name, STDOUT_FILENO);
-			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(tmp->value, STDOUT_FILENO);
-			ft_putchar_fd('\"', STDOUT_FILENO);
+			tmp = tmp->next;
+			if (tmp == NULL)
+			{
+				put_export_environ(tmp, str[cnt]);
+				break ;
+			}
 		}
+		if (tmp && tmp->value)
+			put_export_environ(tmp, str[cnt]);
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		cnt++;
 	}
@@ -69,6 +71,8 @@ void	put_export(size_t size)
 	t_env	*tmp;
 
 	tmp = *g_global.env;
+	if (g_global.oldpwd == NULL)
+		size += 1;
 	str = (char **)malloc_error(sizeof(char *) * size + 1);
 	cnt = 0;
 	while (tmp)
@@ -77,9 +81,13 @@ void	put_export(size_t size)
 		tmp = tmp->next;
 		cnt++;
 	}
+	if (g_global.oldpwd == NULL)
+	{
+		str[cnt] = ft_strdup("OLDPWD");
+		cnt++;
+	}
 	str[cnt] = NULL;
 	sort_name(str, size);
-	printf("!!!!!!!!%s\n", str[10]);
 	print_export(str);
 	free(str);
 	g_global.status = 0;
@@ -97,7 +105,7 @@ int	builtin_export(char **args)
 	cnt = 1;
 	size = count_env(env_tmp);
 	if (args[cnt] == NULL)
-		put_export(size);
+		put_export(size);//oldpwd分
 	while (args[cnt])
 	{
 		if (add_env(args[cnt++]) == 1)

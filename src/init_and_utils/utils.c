@@ -54,3 +54,20 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
+
+void	put_export_environ(t_env *tmp, char *str)
+{
+	if (tmp == NULL)
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(str, STDOUT_FILENO);
+	}
+	else if (tmp && tmp->value)
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(tmp->name, STDOUT_FILENO);
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd(tmp->value, STDOUT_FILENO);
+		ft_putchar_fd('\"', STDOUT_FILENO);
+	}
+}

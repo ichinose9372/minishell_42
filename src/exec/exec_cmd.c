@@ -85,7 +85,6 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	char	**args;
 	t_pipe	pipe_data;
 	int		status;
-	pid_t	pid;
 
 	args = NULL;
 	if (!(*p_tok))
@@ -105,6 +104,6 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	exe_parent(args, p_tok, pipe_data.pipe_fd[READ]);
 	if (pipe_data.flag)
 		close_pipe(&pipe_data);
-	pid = wait(&status);
-		g_global.status = WEXITSTATUS(status);
+	wait(&status);
+	g_global.status = WEXITSTATUS(status);
 }
