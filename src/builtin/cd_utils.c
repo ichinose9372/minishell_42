@@ -22,6 +22,7 @@ void	remake_pwd(char	*new_path)
 	tmp = g_global.env;
 	while (ft_strncmp((*tmp)->name, "PWD", 4) != 0)
 		tmp = &(*tmp)->next;
+	g_global.oldpwd = (*tmp)->value;
 	size = 0;
 	while (new_path[size])
 	{
@@ -79,11 +80,17 @@ char	*make_next_path(char *path_name, char	*word)
 	}
 	else
 	{
+		if (word[ft_strlen(word) - 1] == '/')
+		{
+			tmp = ft_strtrim(word, "/");
+			free(word);
+			word = tmp;
+		}
 		tmp = ft_strjoin("/", word);
 		new_path = ft_strjoin(path_name, tmp);
 		if (!new_path)
 			exit(1);
-		free(tmp);
+		free(word);
 	}
 	return (new_path);
 }
