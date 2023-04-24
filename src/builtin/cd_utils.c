@@ -89,7 +89,7 @@ char	*make_next_path(char *path_name, char	*word)
 		new_path = ft_strjoin(path_name, tmp);
 		if (!new_path)
 			exit(1);
-		free(word);
+		free(tmp);
 	}
 	return (new_path);
 }
