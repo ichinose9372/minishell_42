@@ -15,11 +15,6 @@ int	file_open_rd(char	*argv)
 	int	fd;
 
 	argv = create_absolute_path(argv);
-	// if (acces_check_file(argv))
-	// {
-	// 	free(argv);
-	// 	return (-1);
-	// }
 	fd = open(argv, O_RDONLY);
 	if (fd < 0)
 	{

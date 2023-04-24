@@ -56,7 +56,6 @@ typedef struct s_global
 	int		heredoc_flag;
 	int		fd_in;
 	int		fd_out;
-	char	*oldpwd;
 }	t_global;
 
 extern t_global	g_global;
@@ -162,5 +161,4 @@ void	signal_cmd(void);
 void	*malloc_error(size_t size);
 char	*new_strjoin(char const *s1, char const *s2, size_t s2_len);
 int		ft_strcmp(char *s1, char *s2);
-void	put_export_environ(t_env *tmp, char *str);
 #endif

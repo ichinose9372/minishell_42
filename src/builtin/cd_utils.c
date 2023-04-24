@@ -22,7 +22,6 @@ void	remake_pwd(char	*new_path)
 	tmp = g_global.env;
 	while (ft_strncmp((*tmp)->name, "PWD", 4) != 0)
 		tmp = &(*tmp)->next;
-	g_global.oldpwd = (*tmp)->value;
 	size = 0;
 	while (new_path[size])
 	{
@@ -50,17 +49,17 @@ int	serch_home(void)
 char	*my_getcwd(char *buf, size_t length)
 {
 	size_t	size;
-	t_env	**tmp;
+	t_env	*tmp;
 
-	tmp = g_global.env;
-	while (*tmp && ft_strncmp((*tmp)->name, "PWD", 4) != 0)
-		tmp = &(*tmp)->next;
-	if (*tmp == NULL)
+	tmp = *g_global.env;
+	while (tmp && ft_strncmp(tmp->name, "PWD", 4) != 0)
+		tmp = tmp->next;
+	if (tmp == NULL)
 		return (NULL);
 	size = 0;
-	while (size < length - 1 && (*tmp)->value[size])
+	while (size < length - 1 && tmp->value[size])
 	{
-		buf[size] = (*tmp)->value[size];
+		buf[size] = tmp->value[size];
 		size++;
 	}
 	buf[size] = '\0';

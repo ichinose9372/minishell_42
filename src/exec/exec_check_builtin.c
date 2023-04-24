@@ -53,6 +53,12 @@ void	exec(char	**path)
 
 void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
 {
+	if (input_fd < 0 || output_fd < 0)
+	{
+		all_free(args);
+		g_global.status = 1;
+		return ;
+	}
 	if (input_fd != STDIN_FILENO)
 	{
 		dup2(input_fd, STDIN_FILENO);

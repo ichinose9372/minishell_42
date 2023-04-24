@@ -55,27 +55,3 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-void	put_export_environ(t_env *tmp, char *str)
-{
-	if (ft_strcmp(str, "OLDPWD") == 0)
-	{
-		ft_putstr_fd("declare -x OLDPWD", STDOUT_FILENO);
-		if (g_global.oldpwd != NULL)
-		{
-			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(g_global.oldpwd, STDOUT_FILENO);
-			ft_putchar_fd('\"', STDOUT_FILENO);
-		}
-	}
-	else if (tmp->value)
-	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(tmp->name, STDOUT_FILENO);
-		ft_putstr_fd("=\"", STDOUT_FILENO);
-		if (ft_strcmp(tmp->name, "OLDPWD") == 0)
-			ft_putstr_fd(g_global.oldpwd, STDOUT_FILENO);
-		else
-			ft_putstr_fd(tmp->value, STDOUT_FILENO);
-		ft_putchar_fd('\"', STDOUT_FILENO);
-	}
-}

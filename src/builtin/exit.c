@@ -31,7 +31,6 @@ long long	exit_atoi(char *nptr)
 		number = number * 10 + (nptr[cnt++] - '0');
 		if (check_llong(number, nptr[cnt], type))
 		{
-			// printf("test\n");
 			ft_putstr_fd("exit: ", STDERR_FILENO);
 			ft_putstr_fd(nptr, STDERR_FILENO);
 			ft_putendl_fd(": numeric argument required", STDERR_FILENO);
