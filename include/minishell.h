@@ -58,7 +58,7 @@ typedef struct s_global
 	int		fd_out;
 }	t_global;
 
-extern t_global g_global;
+extern t_global	g_global;
 //init
 void	init_minishell(void);
 int		minishell_2(t_token **p_tok, char *str);

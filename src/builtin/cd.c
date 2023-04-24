@@ -46,7 +46,6 @@ int	only_cd(void)
 		return (1);
 	}
 	remake_pwd(new_path);
-	free(new_path);
 	return (0);
 }
 

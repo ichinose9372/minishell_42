@@ -49,17 +49,17 @@ int	serch_home(void)
 char	*my_getcwd(char *buf, size_t length)
 {
 	size_t	size;
-	t_env	**tmp;
+	t_env	*tmp;
 
-	tmp = g_global.env;
-	while (*tmp && ft_strncmp((*tmp)->name, "PWD", 4) != 0)
-		tmp = &(*tmp)->next;
-	if (*tmp == NULL)
+	tmp = *g_global.env;
+	while (tmp && ft_strncmp(tmp->name, "PWD", 4) != 0)
+		tmp = tmp->next;
+	if (tmp == NULL)
 		return (NULL);
 	size = 0;
-	while (size < length - 1 && (*tmp)->value[size])
+	while (size < length - 1 && tmp->value[size])
 	{
-		buf[size] = (*tmp)->value[size];
+		buf[size] = tmp->value[size];
 		size++;
 	}
 	buf[size] = '\0';
@@ -79,6 +79,12 @@ char	*make_next_path(char *path_name, char	*word)
 	}
 	else
 	{
+		if (word[ft_strlen(word) - 1] == '/')
+		{
+			tmp = ft_strtrim(word, "/");
+			free(word);
+			word = tmp;
+		}
 		tmp = ft_strjoin("/", word);
 		new_path = ft_strjoin(path_name, tmp);
 		if (!new_path)

@@ -65,13 +65,13 @@ void	fork_and_cmd(char **args, t_pipe *pipe_data,
 {
 	pid_t	pid;
 
-	if (input_fd < 0 || output_fd < 0)
-		return ;
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	if (pid == 0)
 	{
+		if (input_fd < 0 || output_fd < 0)
+			exit (1);
 		if (pipe_data->flag == 1)
 			close(pipe_data->pipe_fd[READ]);
 		exe_chiled(args, input_fd, output_fd);
@@ -104,6 +104,6 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	exe_parent(args, p_tok, pipe_data.pipe_fd[READ]);
 	if (pipe_data.flag)
 		close_pipe(&pipe_data);
+	wait(&status);
 	g_global.status = WEXITSTATUS(status);
-	wait(NULL);
 }

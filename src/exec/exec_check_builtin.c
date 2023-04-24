@@ -47,11 +47,18 @@ void	exec(char	**path)
 	mini_environ = convet_environ();
 	execve(path[0], path, mini_environ);
 	perror("exec");
-	exit (EXIT_FAILURE);
+	g_global.status = 127;
+	exit (g_global.status);
 }
 
 void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
 {
+	if (input_fd < 0 || output_fd < 0)
+	{
+		all_free(args);
+		g_global.status = 1;
+		return ;
+	}
 	if (input_fd != STDIN_FILENO)
 	{
 		dup2(input_fd, STDIN_FILENO);

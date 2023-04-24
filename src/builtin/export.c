@@ -41,19 +41,17 @@ int	print_export(char **str)
 {
 	t_env	*tmp;
 	size_t	cnt;
-	char	*s;
 
-	cnt = 1;
+	cnt = 0;
 	while (str[cnt])
 	{
 		tmp = *g_global.env;
 		while (ft_strcmp(str[cnt], tmp->name) != 0)
 			tmp = tmp->next;
-		s = "declare -x ";
-		ft_putstr_fd(s, STDOUT_FILENO);
-		ft_putstr_fd(tmp->name, STDOUT_FILENO);
 		if (tmp->value)
 		{
+			ft_putstr_fd("declare -x ", STDOUT_FILENO);
+			ft_putstr_fd(tmp->name, STDOUT_FILENO);
 			ft_putstr_fd("=\"", STDOUT_FILENO);
 			ft_putstr_fd(tmp->value, STDOUT_FILENO);
 			ft_putchar_fd('\"', STDOUT_FILENO);
