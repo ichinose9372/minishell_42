@@ -58,7 +58,7 @@ typedef struct s_global
 	int		fd_out;
 }	t_global;
 
-extern t_global g_global;
+extern t_global	g_global;
 //init
 void	init_minishell(void);
 int		minishell_2(t_token **p_tok, char *str);
@@ -113,7 +113,8 @@ int		heredoc_cmd(t_token *p_tok);
 int		builtin_check(char **args);
 void	exe_parent(char	**args, t_token **p_tok, int input_fd, int *status);
 char	**in_exec_path(char **args);
-void	swich_fd_check_builtin(int input_fd, int output_fd, char **args, int *status);
+void	swich_fd_check_builtin(int input_fd, int output_fd,
+			char **args, int *status);
 void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data);
 void	close_pipe(t_pipe *pipe_data);
 void	heredoc_stop(char **args);

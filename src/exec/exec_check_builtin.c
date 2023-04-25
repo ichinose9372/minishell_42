@@ -59,7 +59,6 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args, int *statu
 	{
 		all_free(args);
 		*status = 1;
-		// printf("1:%d\n", g_global.status);
 		return ;
 	}
 	if (input_fd != STDIN_FILENO)
@@ -74,11 +73,10 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args, int *statu
 	}
 	wait(&child_status);
 	g_global.status = WEXITSTATUS(child_status);
-	// printf("1:%d\n", g_global.status);
 	if (builtin_list(args) == 0)
 	{
 		*status = 0;
-		// printf("2:%d\n", g_global.status);
+		g_global.status = 0;
 		all_free(args);
 		return ;
 	}
@@ -86,6 +84,7 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args, int *statu
 	{
 		all_free(args);
 		*status = 1;
+		g_global.status = 1;
 		return ;
 	}
 }

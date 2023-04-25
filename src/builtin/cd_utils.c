@@ -79,6 +79,12 @@ char	*make_next_path(char *path_name, char	*word)
 	}
 	else
 	{
+		if (word[ft_strlen(word) - 1] == '/')
+		{
+			tmp = ft_strtrim(word, "/");
+			free(word);
+			word = tmp;
+		}
 		tmp = ft_strjoin("/", word);
 		new_path = ft_strjoin(path_name, tmp);
 		if (!new_path)

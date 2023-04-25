@@ -79,7 +79,6 @@ void	put_export(size_t size)
 	}
 	str[cnt] = NULL;
 	sort_name(str, size);
-	printf("!!!!!!!!%s\n", str[10]);
 	print_export(str);
 	free(str);
 	g_global.status = 0;

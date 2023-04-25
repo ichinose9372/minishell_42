@@ -59,6 +59,7 @@ void	exe_parent(char	**args, t_token **p_tok, int input_fd, int *status)
 	if ((*p_tok))
 		p_tok = &(*p_tok)->next;
 	exec_cmd(p_tok, input_fd, g_global.fd_out, status);
+}
 
 void	fork_and_cmd(char **args, t_pipe *pipe_data,
 						int input_fd, int output_fd)
@@ -80,11 +81,21 @@ void	fork_and_cmd(char **args, t_pipe *pipe_data,
 		return ;
 }
 
+void	lets_go_wait(int status)
+{
+	int	child_status;
+
+	wait(&child_status);
+	if (status == -1)
+		g_global.status = WEXITSTATUS(child_status);
+	else
+		g_global.status = status;
+}
+
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd, int *status)
 {
 	char	**args;
 	t_pipe	pipe_data;
-	int		child_status;
 
 	args = NULL;
 	if (!(*p_tok))
@@ -95,7 +106,10 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd, int *status)
 	if (g_global.heredoc_flag == 1)
 		return (heredoc_stop(args));
 	if (!pipe_data.flag && builtin_check(args))
+	{
+		close(pipe_data.pipe_fd[READ]);
 		return (swich_fd_check_builtin(input_fd, output_fd, args, status));
+	}
 	if (args != NULL && !builtin_check(args) && ft_strchr(args[0], '/') == 0)
 		args = in_exec_path(args);
 	fork_and_cmd(args, &pipe_data, input_fd, output_fd);
@@ -104,9 +118,5 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd, int *status)
 	exe_parent(args, p_tok, pipe_data.pipe_fd[READ], status);
 	if (pipe_data.flag)
 		close_pipe(&pipe_data);
-	wait(&child_status);
-	if (*status == -1)
-		g_global.status = WEXITSTATUS(child_status);
-	else
-		g_global.status = *status;
+	lets_go_wait(*status);
 }
