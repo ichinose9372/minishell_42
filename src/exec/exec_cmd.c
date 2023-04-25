@@ -81,17 +81,6 @@ void	fork_and_cmd(char **args, t_pipe *pipe_data,
 		return ;
 }
 
-void	lets_go_wait(int status)
-{
-	int	child_status;
-
-	wait(&child_status);
-	if (status == -1)
-		g_global.status = WEXITSTATUS(child_status);
-	else
-		g_global.status = status;
-}
-
 void	exec_cmd(t_token **p_tok, int input_fd, int output_fd, int *status)
 {
 	char	**args;

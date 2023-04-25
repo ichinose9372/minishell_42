@@ -118,8 +118,10 @@ void	swich_fd_check_builtin(int input_fd, int output_fd,
 void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data);
 void	close_pipe(t_pipe *pipe_data);
 void	heredoc_stop(char **args);
+void 	lets_go_wait(int status);
+
 	// heredoc
-void	expansion_heredoc(char **str);
+void expansion_heredoc(char **str);
 // file oparate
 int		file_open_wrt(char *argv);
 int		file_open_rd(char	*argv);

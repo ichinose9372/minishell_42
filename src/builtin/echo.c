@@ -18,6 +18,17 @@ int	option_check(char *str)
 	return (0);
 }
 
+void	put_args(char	**args, int cnt)
+{
+	while (args[cnt])
+	{
+		ft_putstr_fd(args[cnt], STDOUT_FILENO);
+		cnt++;
+		if (args[cnt])
+			ft_putchar_fd(' ', 1);
+	}
+}
+
 int	builtin_echo(char **args)
 {
 	int		flag;
@@ -35,13 +46,7 @@ int	builtin_echo(char **args)
 		flag = 1;
 		cnt++;
 	}
-	while (args[cnt])
-	{
-		ft_putstr_fd(args[cnt], STDOUT_FILENO);
-		cnt++;
-		if (args[cnt])
-			ft_putchar_fd(' ', 1);
-	}
+	put_args(args, cnt);
 	if (flag == 0)
 		ft_putchar_fd('\n', 1);
 	g_global.status = 0;
