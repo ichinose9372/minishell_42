@@ -28,7 +28,9 @@ int	syntax_check(t_token **p_tok)
 int	minishell_2(t_token **p_tok, char *str)
 {
 	t_token	*tok;
+	int		status;
 
+	status = -1;
 	(void)p_tok;
 	tok = malloc_error(sizeof(t_token));
 	tok->word = NULL;
@@ -45,7 +47,7 @@ int	minishell_2(t_token **p_tok, char *str)
 	expansion(tok, p_tok);
 	if (syntax_check(p_tok))
 		return (0);
-	exec_cmd(p_tok, 0, 1);
+	exec_cmd(p_tok, 0, 1, &status);
 	return (0);
 }
 
