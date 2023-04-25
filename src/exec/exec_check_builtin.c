@@ -61,16 +61,9 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args, int *statu
 		*status = 1;
 		return ;
 	}
-	if (input_fd != STDIN_FILENO)
-	{
-		dup2(input_fd, STDIN_FILENO);
-		close(input_fd);
-	}
+	close(input_fd);
 	if (output_fd != STDOUT_FILENO)
-	{
 		dup2(output_fd, STDOUT_FILENO);
-		close(output_fd);
-	}
 	wait(&child_status);
 	g_global.status = WEXITSTATUS(child_status);
 	if (builtin_list(args) == 0)
