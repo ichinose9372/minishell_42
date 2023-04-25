@@ -52,12 +52,16 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 
 void	exe_parent(char	**args, t_token **p_tok, int input_fd)
 {
+	int status;
+
 	all_free(args);
 	while ((*p_tok) && (*p_tok)->kind != PIPE)
 			p_tok = &(*p_tok)->next;
 	if ((*p_tok))
 		p_tok = &(*p_tok)->next;
 	exec_cmd(p_tok, input_fd, g_global.fd_out);
+	wait(&status);
+	g_global.status = WEXITSTATUS(status);
 }
 
 void	fork_and_cmd(char **args, t_pipe *pipe_data,
@@ -84,8 +88,8 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 {
 	char	**args;
 	t_pipe	pipe_data;
-	int		status;
-	pid_t	pid;
+	// int		status;
+	// pid_t	pid;
 
 	args = NULL;
 	if (!(*p_tok))
@@ -105,6 +109,8 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd)
 	exe_parent(args, p_tok, pipe_data.pipe_fd[READ]);
 	if (pipe_data.flag)
 		close_pipe(&pipe_data);
-	pid = wait(&status);
-	g_global.status = WEXITSTATUS(status);
+	// pid = wait(&status);
+	// printf("3:%d\n", g_global.status);
+	// g_global.status = WEXITSTATUS(status);
+	// printf("3:%d\n", g_global.status);
 }

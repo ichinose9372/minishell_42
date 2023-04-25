@@ -53,6 +53,8 @@ void	exec(char	**path)
 
 void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
 {
+	int	status;
+
 	if (input_fd < 0 || output_fd < 0)
 	{
 		all_free(args);
@@ -69,9 +71,13 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
 		dup2(output_fd, STDOUT_FILENO);
 		close(output_fd);
 	}
+	wait(&status);
+	g_global.status = WEXITSTATUS(status);
+	// printf("1:%d\n", g_global.status);
 	if (builtin_list(args) == 0)
 	{
 		g_global.status = 0;
+		// printf("2:%d\n", g_global.status);
 		all_free(args);
 		return ;
 	}
