@@ -3,7 +3,6 @@
 char	*in_create_absolute_path(char *path_name, char	*argv)
 {
 	char	*tmp;
-	// char	*tmp2;
 
 	if (argv[1] == '.')
 	{
@@ -14,13 +13,8 @@ char	*in_create_absolute_path(char *path_name, char	*argv)
 	}
 	else if (argv[1] == '/')
 	{
-		// tmp = ft_strtrim(argv, ".");
-		// tmp2 = new_getenv("PWD");
-		// argv = ft_strjoin(tmp2, tmp);
 		tmp = argv;
 		argv = ft_strjoin(path_name, &argv[1]);
-		// free(tmp);
-		// free(tmp2);
 	}
 	else
 		return (NULL);
