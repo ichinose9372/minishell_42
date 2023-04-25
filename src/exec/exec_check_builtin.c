@@ -51,12 +51,14 @@ void	exec(char	**path)
 	exit (g_global.status);
 }
 
-void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
+void	swich_fd_check_builtin(int input_fd, int output_fd, char **args, int *status)
 {
+	int	child_status;
+
 	if (input_fd < 0 || output_fd < 0)
 	{
 		all_free(args);
-		g_global.status = 1;
+		*status = 1;
 		return ;
 	}
 	if (input_fd != STDIN_FILENO)
@@ -69,8 +71,11 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
 		dup2(output_fd, STDOUT_FILENO);
 		close(output_fd);
 	}
+	wait(&child_status);
+	g_global.status = WEXITSTATUS(child_status);
 	if (builtin_list(args) == 0)
 	{
+		*status = 0;
 		g_global.status = 0;
 		all_free(args);
 		return ;
@@ -78,6 +83,7 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args)
 	else
 	{
 		all_free(args);
+		*status = 1;
 		g_global.status = 1;
 		return ;
 	}
