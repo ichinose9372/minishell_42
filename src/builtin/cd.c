@@ -53,13 +53,15 @@ int	path_cd(char *path_name, char *args)
 {
 	char	*new_path;
 
-	if (ft_strncmp(args, "..", 3) == 0)
+	if ((ft_strncmp(args, "..", 3) == 0) || ft_strncmp(args, "../", 4) == 0)
 	{
 		new_path = prev_move(path_name);
 		if (new_path == NULL)
 			return (1);
 		remake_pwd(new_path);
 	}
+	else if (ft_strncmp(args, "./", 3) == 0)
+		return (0);
 	else
 	{
 		new_path = next_move(path_name, args);
