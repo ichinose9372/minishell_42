@@ -51,7 +51,8 @@ void	exec(char	**path)
 	exit (g_global.status);
 }
 
-void	swich_fd_check_builtin(int input_fd, int output_fd, char **args, int *status)
+void	swich_fd_check_builtin(int input_fd,
+		int output_fd, char **args, int *status)
 {
 	int	child_status;
 
@@ -67,17 +68,21 @@ void	swich_fd_check_builtin(int input_fd, int output_fd, char **args, int *statu
 	wait(&child_status);
 	g_global.status = WEXITSTATUS(child_status);
 	if (builtin_list(args) == 0)
-	{
 		*status = 0;
-		g_global.status = 0;
-		all_free(args);
-		return ;
-	}
 	else
-	{
-		all_free(args);
 		*status = 1;
-		g_global.status = 1;
-		return ;
-	}
+	g_global.status = *status;
+	all_free(args);
+	return ;
+}
+
+void	lets_go_wait(int status)
+{
+	int	child_status;
+
+	wait(&child_status);
+	if (status == -1)
+		g_global.status = WEXITSTATUS(child_status);
+	else
+		g_global.status = status;
 }
