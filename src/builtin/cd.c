@@ -74,6 +74,8 @@ int	builtin_cd(char	**args)
 {
 	char	path_name[PATH_SIZE];
 
+	if (args[0] && (args[1][0] == '.' && args[1][1] == '\0'))
+		return (0);
 	if (serch_home())
 	{
 		ft_putendl_fd("cd: HOME not set", 1);
