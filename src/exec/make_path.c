@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_path.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/26 14:49:53 by stakimot          #+#    #+#             */
+/*   Updated: 2023/04/26 14:49:54 by stakimot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	command_not_found(char *str)
 {
 	ft_putstr_fd("minishell: ", 1);
-	ft_putstr_fd(str + 1, 1);
+	ft_putstr_fd(str, 1);
 	ft_putstr_fd(": ", 1);
 	ft_putendl_fd("command not found", 1);
 	g_global.status = 127;
