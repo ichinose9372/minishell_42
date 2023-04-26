@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/26 14:53:44 by stakimot          #+#    #+#             */
+/*   Updated: 2023/04/26 14:56:38 by stakimot         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -58,7 +70,8 @@ typedef struct s_global
 	int		fd_out;
 }	t_global;
 
-extern t_global	g_global;
+t_global	g_global;
+
 //init
 void	init_minishell(void);
 int		minishell_2(t_token **p_tok, char *str);
@@ -134,8 +147,7 @@ void	free_token(t_token *tok);
 void	all_free_and_tmp(char *tmp, char **env_split);
 void	command_not_found(char *str);
 void	path_all_free(char **env_split);
-// テスト用
-void	print_token(t_token **p_tok);
+
 // builtin
 int		builtin_pwd(char **args);
 int		builtin_echo(char **args);
