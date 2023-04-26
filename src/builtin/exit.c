@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:23 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:48:24 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:15:01 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	builtin_exit(char **args)
 	cnt = 1;
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	if (args[cnt] == NULL)
-		exit (g_global.status);
+		exit (0);
 	if (args[cnt + 1])
 	{
 		ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
