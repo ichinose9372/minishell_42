@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:55 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:48:56 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:37:29 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	builtin_pwd(char **args)
 
 	(void)args;
 	if (!my_getcwd(path_name, PATH_SIZE))
+	{
+		ft_putstr_fd("pwd not set\n", 1);
 		return (-1);
+	}
 	ft_putendl_fd(path_name, STDOUT_FILENO);
 	g_global.status = 0;
 	return (0);

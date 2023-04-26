@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_check_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:15 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:49:16 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:23:00 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
