@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:01 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 18:36:10 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:43:27 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,21 @@ int	builtin_cd(char	**args)
 {
 	char	path_name[PATH_SIZE];
 
-	if (args[0] && (args[1][0] == '.' && args[1][1] == '\0'))
-		return (0);
+	if (args[0] && args[1])
+	{
+		if (args[1][0] == '.' && args[1][1] == '\0')
+			return (0);
+	}
 	if (serch_home())
 	{
 		ft_putendl_fd("cd: HOME not set", 1);
 		return (1);
 	}
 	if (!my_getcwd(path_name, PATH_SIZE))
+	{
+		ft_putstr_fd("pwd not set\n", 1);
 		return (1);
+	}
 	if ((args[0] && args[1] == NULL) || (args[0] && args[1][0] == '~'))
 		return (g_global.status = only_cd());
 	if (args[0] && args[1])
