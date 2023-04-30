@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:06 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:49:07 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/30 18:07:35 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	in_unset(char *str)
 			tmp = &(*tmp)->next;
 		}
 	}
-	g_global.status = 0;
 	return ;
 }
 
@@ -86,10 +85,13 @@ int	builtin_unset(char **args)
 	cnt = 1;
 	if (args[cnt] == NULL)
 		return (0);
-	while (args[cnt] && unset_elem_check(args[cnt]))
+	while (args[cnt])
 	{
-		in_unset(args[cnt]);
+		if (unset_elem_check(args[cnt]))
+			in_unset(args[cnt]);
 		cnt++;
 	}
+	if (g_global.status == 1)
+		return (1);
 	return (0);
 }

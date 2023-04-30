@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_check_builtin.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:15 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 18:43:40 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/04/30 17:43:33 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	exec(char	**path)
 
 	mini_environ = convet_environ();
 	execve(path[0], path, mini_environ);
-	perror("exec");
 	g_global.status = 127;
 	exit (g_global.status);
 }
@@ -93,6 +92,8 @@ void	lets_go_wait(int status)
 	int	child_status;
 
 	wait(&child_status);
+	if (g_global.status == 130 || g_global.status == 131)
+		return ;
 	if (status == -1)
 		g_global.status = WEXITSTATUS(child_status);
 	else
