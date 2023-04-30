@@ -6,7 +6,11 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:51 by stakimot          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/30 17:28:30 by yichinos         ###   ########.fr       */
+=======
+/*   Updated: 2023/04/30 16:43:54 by stakimot         ###   ########.fr       */
+>>>>>>> ed8f733165f49080d829075284982bc5cf45825e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +58,16 @@ int	print_export(char **str)
 	t_env	*tmp;
 	size_t	cnt;
 
-	cnt = 0;
+	cnt = 1;
 	while (str[cnt])
 	{
 		tmp = *g_global.env;
 		while (ft_strcmp(str[cnt], tmp->name) != 0)
 			tmp = tmp->next;
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(tmp->name, STDOUT_FILENO);
 		if (tmp->value)
 		{
-			ft_putstr_fd("declare -x ", STDOUT_FILENO);
-			ft_putstr_fd(tmp->name, STDOUT_FILENO);
 			ft_putstr_fd("=\"", STDOUT_FILENO);
 			ft_putstr_fd(tmp->value, STDOUT_FILENO);
 			ft_putchar_fd('\"', STDOUT_FILENO);
