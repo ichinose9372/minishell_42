@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:33 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:49:34 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/30 13:51:41 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	file_open_rd(char	*argv)
 	if (acces_check_file(argv) == -1)
 	{
 		free(argv);
+		perror("error");
 		return (-1);
 	}
 	fd = open(argv, O_RDONLY);
