@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:20 by stakimot          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2023/04/30 18:12:40 by yichinos         ###   ########.fr       */
+=======
 /*   Updated: 2023/04/30 17:55:54 by stakimot         ###   ########.fr       */
+>>>>>>> ed8f733165f49080d829075284982bc5cf45825e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +44,7 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 	int	builtin;
 
 	if (args == NULL || args[0] == NULL)
-		exit(EXIT_FAILURE);
+		exit(127);
 	if (input_fd != STDIN_FILENO)
 	{
 		dup2(input_fd, STDIN_FILENO);

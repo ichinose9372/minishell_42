@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:51 by stakimot          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2023/04/30 17:28:30 by yichinos         ###   ########.fr       */
+=======
 /*   Updated: 2023/04/30 16:43:54 by stakimot         ###   ########.fr       */
+>>>>>>> ed8f733165f49080d829075284982bc5cf45825e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +85,7 @@ void	put_export(size_t size)
 	t_env	*tmp;
 
 	tmp = *g_global.env;
-	str = (char **)malloc_error(sizeof(char *) * size + 1);
+	str = (char **)malloc_error(sizeof(char *) * (size + 1));
 	cnt = 0;
 	while (tmp)
 	{
