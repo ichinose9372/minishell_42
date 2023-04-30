@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:47:48 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:47:49 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/04/30 17:50:45 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,8 @@ void	remake_pwd(char	*new_path)
 	while (ft_strncmp((*tmp)->name, "PWD", 4) != 0)
 		tmp = &(*tmp)->next;
 	size = 0;
-	while (new_path[size])
-	{
-		(*tmp)->value[size] = new_path[size];
-		size++;
-	}
-	(*tmp)->value[size] = '\0';
+	free((*tmp)->value);
+	(*tmp)->value = ft_strdup(new_path);
 	free(new_path);
 }
 
