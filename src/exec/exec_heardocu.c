@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heardocu.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:30 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:49:31 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:56:28 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

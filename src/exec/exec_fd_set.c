@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:28 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/30 13:51:54 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:28:07 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	set_add(t_token **p_tok)
 	return (out);
 }
 
-void	set_fd(t_token **p_tok, int *in, int *out)
+void	set_fd(t_token **p_tok, int *in, int *out, char **str)
 {
 	if ((*p_tok)->kind == INPUT)
 		*in = set_input(p_tok);

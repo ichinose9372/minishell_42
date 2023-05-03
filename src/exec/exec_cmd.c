@@ -6,11 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:20 by stakimot          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/30 18:12:40 by yichinos         ###   ########.fr       */
-=======
-/*   Updated: 2023/04/30 17:55:54 by stakimot         ###   ########.fr       */
->>>>>>> ed8f733165f49080d829075284982bc5cf45825e
+/*   Updated: 2023/05/03 16:23:20 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +32,12 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 			break ;
 	}
 	str[i] = NULL;
+	i = 0;
+	while (str[i])
+	{
+		printf("%s\n", str[i]);
+		i++;
+	}
 	return (str);
 }
 
