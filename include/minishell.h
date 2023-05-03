@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:53:44 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/27 12:49:53 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:28:40 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int		check_operation(t_token **p_tok);
 int		set_input(t_token **p_tok);
 int		set_output(t_token **p_tok);
 int		set_add(t_token **p_tok);
-void	set_fd(t_token **p_tok, int *in, int *out);
+void	set_fd(t_token **p_tok, int *in, int *out, int *flag);
 int		check_operation(t_token **p_tok);
 bool	pipe_check(t_token **p_tok, t_pipe *pipe_data);
 int		count(t_token *p_tok);
