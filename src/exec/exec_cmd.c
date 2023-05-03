@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:20 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 16:29:28 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:33:53 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	exe_chiled(char	**args, int input_fd, int output_fd)
 	int	builtin;
 
 	if (args == NULL || args[0] == NULL)
-		exit(EXIT_FAILURE);
+		exit(127);
 	if (input_fd != STDIN_FILENO)
 	{
 		dup2(input_fd, STDIN_FILENO);
