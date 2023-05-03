@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:47:48 by stakimot          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/30 17:50:45 by yichinos         ###   ########.fr       */
-=======
-/*   Updated: 2023/04/30 17:46:44 by stakimot         ###   ########.fr       */
->>>>>>> ed8f733165f49080d829075284982bc5cf45825e
+/*   Updated: 2023/05/03 16:40:52 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +38,6 @@ void	remake_pwd(char	*new_path)
 	free((*tmp)->value);
 	(*tmp)->value = ft_strdup(new_path);
 	free(new_path);
-
-	// char	*str;
-
-	// str = ft_strjoin("PWD=", new_path);
-	// add_env(str);
 }
 
 int	serch_home(void)
