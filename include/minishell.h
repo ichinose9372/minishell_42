@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:53:44 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/27 12:49:53 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:35:04 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ t_global	g_global;
 void	init_minishell(void);
 int		minishell_2(t_token **p_tok, char *str);
 void	minishell(void);
-
 // env
 t_env	*new_env(char *str);
 t_env	**make_env(void);
@@ -108,7 +107,7 @@ int		check_operation(t_token **p_tok);
 int		set_input(t_token **p_tok);
 int		set_output(t_token **p_tok);
 int		set_add(t_token **p_tok);
-void	set_fd(t_token **p_tok, int *in, int *out);
+void	set_fd(t_token **p_tok, int *in, int *out, int *flag);
 int		check_operation(t_token **p_tok);
 bool	pipe_check(t_token **p_tok, t_pipe *pipe_data);
 int		count(t_token *p_tok);
@@ -132,7 +131,6 @@ void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data);
 void	close_pipe(t_pipe *pipe_data);
 void	heredoc_stop(char **args);
 void	lets_go_wait(int status);
-
 	// heredoc
 void	expansion_heredoc(char **str);
 // file oparate

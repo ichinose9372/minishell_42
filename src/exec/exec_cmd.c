@@ -6,11 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:20 by stakimot          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/04/30 18:12:40 by yichinos         ###   ########.fr       */
-=======
-/*   Updated: 2023/04/30 17:55:54 by stakimot         ###   ########.fr       */
->>>>>>> ed8f733165f49080d829075284982bc5cf45825e
+/*   Updated: 2023/05/03 16:34:42 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +16,9 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 {
 	char	**str;
 	int		i;
+	int		flag;
 
+	flag = 0;
 	signal_cmd();
 	i = count(p_tok);
 	str = malloc(sizeof(char *) * (i + 1));
@@ -28,11 +26,11 @@ char	**sec_cmd(t_token *p_tok, int *in, int *out)
 	while ((p_tok) && (p_tok)->kind != PIPE)
 	{
 		if ((p_tok)->kind != WORD)
-			set_fd(&p_tok, in, out);
+			set_fd(&p_tok, in, out, &flag);
 		else
 			str[i++] = ft_strdup(p_tok->word);
 		p_tok = p_tok->next;
-		if (*in < 0 || *out < 0)
+		if ((*in < 0 || *out < 0) && flag == 0)
 			break ;
 	}
 	str[i] = NULL;

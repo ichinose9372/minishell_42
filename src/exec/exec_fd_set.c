@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:28 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/30 13:51:54 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/03 16:35:14 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	set_add(t_token **p_tok)
 	return (out);
 }
 
-void	set_fd(t_token **p_tok, int *in, int *out)
+void	set_fd(t_token **p_tok, int *in, int *out, int *flag)
 {
 	if ((*p_tok)->kind == INPUT)
 		*in = set_input(p_tok);
@@ -51,6 +51,7 @@ void	set_fd(t_token **p_tok, int *in, int *out)
 	{
 		*p_tok = (*p_tok)->next;
 		*in = heredoc_cmd(*p_tok);
+		*flag = 1;
 	}
 }
 
