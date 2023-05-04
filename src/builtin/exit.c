@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:23 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/30 17:01:42 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:15:41 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_digit(char *str)
 	return (1);
 }
 
-void	set_exit(char *str)
+int	set_exit(char *str)
 {
 	int	status;
 
@@ -76,11 +76,11 @@ void	set_exit(char *str)
 	{
 		status = exit_atoi(str);
 		if (status < 256)
-			exit (status);
+			return (status);
 		else if (status > 255)
 		{
 			status = status - 256 * (status / 256);
-			exit (status);
+			return (status);
 		}
 	}
 	else
@@ -88,25 +88,33 @@ void	set_exit(char *str)
 		ft_putstr_fd("exit: ", STDERR_FILENO);
 		ft_putstr_fd(str, STDERR_FILENO);
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+		return (-1);
 	}
+	return (0);
 }
 
 int	builtin_exit(char **args)
 {
 	size_t		cnt;
+	int			status;
 
 	cnt = 1;
 	ft_putendl_fd("exit", STDOUT_FILENO);
-
 	if (args[cnt] == NULL)
-		exit (0);
+		exit (g_global.status);
 	if (args[cnt][0] == '\0')
+	{
+		ft_putendl_fd("exit: : numeric argument required", STDERR_FILENO);
 		exit (255);
-	if (args[cnt + 1])
+	}
+	status = set_exit(args[cnt]);
+	if (status == -1)
+		exit(255);
+	else if (args[cnt + 1])
 	{
 		ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
 		return (1);
 	}
-	set_exit(args[cnt]);
-	exit(255);
+	exit (status);
+	return (1);
 }
