@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:53 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/30 18:10:59 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:51:59 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ char	*make_path(char *argv)
 	char	*path;
 	char	*tmp;
 
+	if (argv[0] == '\0')
+	{
+		command_not_found(argv);
+		return (NULL);
+	}
 	env_split = envp_make_path();
 	if (env_split == NULL)
 	{
