@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:20 by stakimot          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/04 14:44:09 by yichinos         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/03 16:36:57 by stakimot         ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2023/05/04 14:58:47 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

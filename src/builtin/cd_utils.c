@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:47:48 by stakimot          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/04 14:00:59 by yichinos         ###   ########.fr       */
-=======
-/*   Updated: 2023/05/03 16:40:52 by stakimot         ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2023/05/04 15:05:36 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +87,6 @@ char	*make_next_path(char *path_name, char	*word)
 	}
 	else
 	{
-		if (word[ft_strlen(word) - 1] == '/')
-		{
-			tmp = ft_strtrim(word, "/");
-			free(word);
-			word = ft_strdup(tmp);
-			free(tmp);
-		}
 		tmp = ft_strjoin("/", word);
 		new_path = ft_strjoin(path_name, tmp);
 		if (!new_path)
