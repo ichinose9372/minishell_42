@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:47:48 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 15:07:50 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:00:59 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ void	remake_pwd(char	*new_path)
 	free((*tmp)->value);
 	(*tmp)->value = ft_strdup(new_path);
 	free(new_path);
-
-	// char	*str;
-
-	// str = ft_strjoin("PWD=", new_path);
-	// add_env(str);
 }
 
 int	serch_home(void)

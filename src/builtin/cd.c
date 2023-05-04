@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:01 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/30 17:31:17 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:05:17 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,42 @@ int	only_cd(void)
 	return (0);
 }
 
-int	path_cd(char *path_name, char *args)
+int	path_cd(char *args)
 {
 	char	*new_path;
+	char	**tmp;
+	char	path_name[PATH_SIZE];
+	int		i;
 
-	if ((ft_strncmp(args, "..", 3) == 0) || ft_strncmp(args, "../", 4) == 0)
+	i = 0;
+	tmp = ft_split(args, '/');
+	while (tmp[i])
 	{
-		new_path = prev_move(path_name);
-		if (new_path == NULL)
-			return (1);
-		remake_pwd(new_path);
+		my_getcwd(path_name, PATH_SIZE);
+		if (ft_strncmp(*tmp, ".", 2) == 0)
+			;
+		else if ((ft_strncmp(*tmp, "..", 3) == 0))
+		{
+			new_path = prev_move(path_name);
+			if (new_path == NULL)
+				return (1);
+			remake_pwd(new_path);
+		}
+		else
+		{
+			new_path = next_move(path_name, *tmp);
+			if (new_path == NULL)
+				return (1);
+			remake_pwd(new_path);
+		}
+		i++;
 	}
-	else if (ft_strncmp(args, "./", 3) == 0)
-		return (0);
-	else
-	{
-		new_path = next_move(path_name, args);
-		if (new_path == NULL)
-			return (1);
-		remake_pwd(new_path);
-	}
+	all_free(tmp);
 	return (0);
 }
 
 int	builtin_cd(char	**args)
 {
-	char	path_name[PATH_SIZE];
-
 	if (args[0] && args[1])
 	{
 		if (args[1][0] == '.' && args[1][1] == '\0')
@@ -98,14 +107,9 @@ int	builtin_cd(char	**args)
 		ft_putendl_fd("cd: HOME not set", 1);
 		return (1);
 	}
-	if (!my_getcwd(path_name, PATH_SIZE))
-	{
-		ft_putstr_fd("pwd not set\n", 1);
-		return (1);
-	}
 	if ((args[0] && args[1] == NULL) || (args[0] && args[1][0] == '~'))
 		return (g_global.status = only_cd());
 	if (args[0] && args[1])
-		return (g_global.status = path_cd(path_name, args[1]));
+		return (g_global.status = path_cd(args[1]));
 	return (0);
 }
