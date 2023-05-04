@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heardocu.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:30 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 16:34:58 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:02:51 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*check_stop(t_token *stop)
+char	*check_stop(t_token *stop, int *flag)
 {
 	size_t	cnt;
 
 	cnt = 0;
 	if (stop->old_word[0] == '\"' || stop->old_word[0] == '\"')
+	{
 		cnt++;
+		*flag += 1;
+	}
 	if (stop->word[0] != stop->old_word[cnt])
 	{
 		if (cnt == 1)
@@ -42,7 +45,7 @@ char	*heredoc_join(char *dest, char *rl)
 	return (str2);
 }
 
-static char	*make_str(char	*stop)
+static char	*make_str(char	*stop, int flag)
 {
 	char	*str;
 	char	*tmp;
@@ -59,7 +62,8 @@ static char	*make_str(char	*stop)
 			free(str);
 			return (tmp);
 		}
-		expansion_heredoc(&str);
+		if (!flag)
+			expansion_heredoc(&str);
 		tmp = heredoc_join(tmp, str);
 	}
 	return (tmp);
@@ -69,9 +73,11 @@ static char	*heredocu(t_token *p_tok)
 {
 	char	*str;
 	char	*stop;
+	int		flag;
 
-	stop = check_stop(p_tok);
-	str = make_str(stop);
+	flag = 0;
+	stop = check_stop(p_tok, &flag);
+	str = make_str(stop, flag);
 	free(stop);
 	return (str);
 }

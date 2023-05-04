@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:06 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/30 18:07:35 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/04 13:54:56 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ int	unset_elem_check(char *str)
 	size_t	cnt;
 
 	cnt = 0;
+	if (str[cnt] == '\0')
+	{
+		ft_putstr_fd("unset: `", STDOUT_FILENO);
+		ft_putstr_fd(str, STDOUT_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDOUT_FILENO);
+		g_global.status = 1;
+		return (0);
+	}
 	while (str[cnt])
 	{
 		if ((cnt == 0 && !ft_isalpha(str[cnt]) && str[cnt] != '_') || \

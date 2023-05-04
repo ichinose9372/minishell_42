@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:43 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:48:44 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:54:16 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,18 @@ int	add_env(char *str)
 	t_env	*new_env;
 	t_env	*tmp;
 	size_t	cnt;
+	int		plus_flag;
 
+	plus_flag = 0;
 	if (export_elem_check(str))
 		return (1);
 	cnt = set_cnt(str);
 	if (cnt == 0)
 		return (1);
+	if (str[cnt - 1] == '+')
+		plus_flag = 1;
 	new_env = (t_env *)malloc_error(sizeof(t_env));
-	new_env->name = new_strdup(str, cnt);
+	new_env->name = new_strdup(str, cnt - plus_flag);
 	if (str[cnt] == '=')
 		new_env->value = new_strdup(&str[cnt + 1], ft_strlen(str) - cnt + 1);
 	else if (str[cnt] == '\0')

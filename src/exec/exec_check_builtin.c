@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:15 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/30 17:43:33 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:15:12 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	swich_fd_check_builtin(int input_fd,
 	if (output_fd != STDOUT_FILENO)
 		dup2(output_fd, STDOUT_FILENO);
 	wait(&child_status);
-	g_global.status = WEXITSTATUS(child_status);
+	if (ft_strncmp(args[0], "exit", 5))
+		g_global.status = WEXITSTATUS(child_status);
 	if (builtin_list(args) == 0)
 		*status = 0;
 	else
