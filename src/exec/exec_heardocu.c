@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:30 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/04 14:02:51 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:16:08 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*check_stop(t_token *stop, int *flag)
 	size_t	cnt;
 
 	cnt = 0;
-	if (stop->old_word[0] == '\"' || stop->old_word[0] == '\"')
+	if (stop->old_word[0] == '\"' || stop->old_word[0] == '\'')
 	{
 		cnt++;
 		*flag += 1;
