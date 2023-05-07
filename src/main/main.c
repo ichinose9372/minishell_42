@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:53 by yichinos          #+#    #+#             */
-/*   Updated: 2023/04/26 14:56:01 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:18:47 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	minishell(void)
 		if (str == NULL)
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
-			exit(EXIT_SUCCESS);
+			exit(g_global.status);
 		}
 		else if (*str == '\0')
 		{
