@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:51 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/07 20:00:35 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/07 20:04:47 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,6 @@ int	builtin_export(char **args)
 	env_tmp = *g_global.env;
 	cnt = 1;
 	size = count_env(env_tmp);
-	if (args[cnt] == NULL)
-		put_export(size);
 	while (args[cnt])
 	{
 		if (add_env(args[cnt++]) == 1)
