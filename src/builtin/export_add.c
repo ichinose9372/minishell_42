@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:43 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/04 14:54:16 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:57:45 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,5 @@ int	add_env(char *str)
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = new_env;
-	g_global.status = 0;
 	return (0);
 }
