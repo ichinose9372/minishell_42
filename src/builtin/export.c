@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:51 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/07 19:36:08 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/07 19:45:28 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	print_export(char **str)
 		tmp = *g_global.env;
 		while (ft_strcmp(str[cnt], tmp->name) != 0)
 			tmp = tmp->next;
+		if (cnt == 0 && tmp->name[0] == '\0')
+			break ;
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putstr_fd(tmp->name, STDOUT_FILENO);
 		if (tmp->value)
