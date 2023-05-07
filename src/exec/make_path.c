@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:53 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/04 14:51:59 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:24:13 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*serch_path(char	*tmp, char **env_split)
 {
 	char	*path;
 
+	if (tmp == NULL)
+		return (NULL);
 	while (*env_split)
 	{
 		path = ft_strjoin(*env_split, tmp);
@@ -75,11 +77,6 @@ char	*make_path(char *argv)
 		return (NULL);
 	}
 	tmp = ft_strjoin("/", argv);
-	if (tmp == NULL)
-	{
-		all_free(env_split);
-		return (NULL);
-	}
 	path = serch_path(tmp, env_split);
 	if (path == NULL)
 	{

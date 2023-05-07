@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:01 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/04 15:05:20 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:20:12 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,32 +63,15 @@ int	only_cd(void)
 
 int	path_cd(char *args)
 {
-	char	*new_path;
 	char	**tmp;
-	char	path_name[PATH_SIZE];
 	int		i;
 
 	i = 0;
 	tmp = ft_split(args, '/');
 	while (tmp[i])
 	{
-		my_getcwd(path_name, PATH_SIZE);
-		if (ft_strncmp(*tmp, ".", 2) == 0)
-			;
-		else if ((ft_strncmp(*tmp, "..", 3) == 0))
-		{
-			new_path = prev_move(path_name);
-			if (new_path == NULL)
-				return (1);
-			remake_pwd(new_path);
-		}
-		else
-		{
-			new_path = next_move(path_name, tmp[i]);
-			if (new_path == NULL)
-				return (1);
-			remake_pwd(new_path);
-		}
+		if (in_path_cd(tmp[i]))
+			return (1);
 		i++;
 	}
 	all_free(tmp);
