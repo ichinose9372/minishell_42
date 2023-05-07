@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:01 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/07 14:20:12 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/07 19:35:58 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	path_cd(char *args)
 	while (tmp[i])
 	{
 		if (in_path_cd(tmp[i]))
+		{
+			all_free(tmp);
 			return (1);
+		}
 		i++;
 	}
 	all_free(tmp);

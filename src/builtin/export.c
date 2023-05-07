@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:51 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 16:37:38 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/07 19:36:08 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	print_export(char **str)
 	t_env	*tmp;
 	size_t	cnt;
 
-	cnt = 1;
+	cnt = 0;
 	while (str[cnt])
 	{
 		tmp = *g_global.env;
