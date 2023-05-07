@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:20 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/04 14:58:47 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:37:04 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd, int *status)
 		init_pipe_setfd(&output_fd, &pipe_data);
 	args = sec_cmd(*p_tok, &input_fd, &output_fd);
 	if (args[0] == NULL)
-	{
-		g_global.status = 0;
-		free(args);
-		return ;
-	}
+		return (exec_cmd_error(args, &input_fd));
 	if (g_global.heredoc_flag == 1)
 		return (heredoc_stop(args));
 	if (!pipe_data.flag && builtin_check(args))

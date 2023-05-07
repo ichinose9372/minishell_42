@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:00 by yichinos          #+#    #+#             */
-/*   Updated: 2023/04/26 14:49:01 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:36:42 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,14 @@ int	ft_strcmp(char *s1, char *s2)
 		i++;
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+void	exec_cmd_error(char **args, int *input_fd)
+{
+	if (*input_fd < 0)
+		g_global.status = 1;
+	else
+		g_global.status = 0;
+	free(args);
+	return ;
 }

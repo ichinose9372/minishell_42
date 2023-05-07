@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:53:44 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 16:35:04 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:37:19 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data);
 void	close_pipe(t_pipe *pipe_data);
 void	heredoc_stop(char **args);
 void	lets_go_wait(int status);
-	// heredoc
+void	exec_cmd_error(char **args, int *input_fd);
+// heredoc
 void	expansion_heredoc(char **str);
 // file oparate
 int		file_open_wrt(char *argv);
@@ -150,6 +151,8 @@ int		builtin_pwd(char **args);
 int		builtin_echo(char **args);
 //cd
 int		builtin_cd(char **args);
+int		in_path_cd(char *tmp);
+char	*next_move(char *path_name, char *word);
 char	*home_path(void);
 void	remake_pwd(char *new_path);
 int		serch_home(void);

@@ -8,7 +8,7 @@ LFLAGS	=	-L $(shell brew --prefix readline)/lib -lreadline
 
 INCLUDE	=	./include
 
-BUILT_SRC = cd.c cd_utils.c echo.c env.c exit.c export_add.c export_utils.c export.c pwd.c unset.c
+BUILT_SRC = cd.c cd_utils.c cd_utils2.c echo.c env.c exit.c export_add.c export_utils.c export.c pwd.c unset.c
 BUILT = $(addprefix builtin/, $(BUILT_SRC))
 
 MAIN_SRC = main.c
