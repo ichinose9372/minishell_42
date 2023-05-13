@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:01 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/07 19:35:58 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/13 11:51:01 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ char	*prev_move(char	*path_name)
 	return (new_path);
 }
 
-char	*next_move(char *path_name, char *word)
+char	*other_move(char *path_name, char *word)
 {
 	char	*new_path;
 
-	new_path = make_next_path(path_name, word);
+	new_path = cd_make_path(path_name, word);
 	if (chdir(new_path) == -1)
 	{
 		free(new_path);
@@ -67,9 +67,20 @@ int	path_cd(char *args)
 	int		i;
 
 	i = 0;
+	if (args[0] == '/' && !args[1])
+	{
+		if (chdir("/") == -1)
+		{
+			perror("chdir");
+			return (1);
+		}
+		remake_pwd("/");
+		return (0);
+	}
 	tmp = ft_split(args, '/');
 	while (tmp[i])
 	{
+		printf("tmp = %s\n", tmp[i]);
 		if (in_path_cd(tmp[i]))
 		{
 			all_free(tmp);

@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 14:11:19 by yichinos          #+#    #+#             */
-/*   Updated: 2023/05/07 14:18:31 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/13 11:53:54 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	in_path_cd(char *tmp)
 	}
 	else
 	{
-		new_path = next_move(path_name, tmp);
+		new_path = other_move(path_name, tmp);
 		if (new_path == NULL)
 			return (1);
 		remake_pwd(new_path);
