@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:47:48 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/13 12:08:16 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:56:33 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,10 @@ char	*cd_make_path(char *path_name, char	*word)
 	char	*new_path;
 	char	*tmp;
 
-	// if (word[0] == '/')
-	// {
-	// 	new_path = ft_strdup(word);
-	// 	if (!new_path)
-	// 		exit(1);
-	// }
-	// else
-	// {
-		printf("path_name = %s\n", path_name);
-		printf("word = %s\n", word);
-		tmp = ft_strjoin("/", word);
-		new_path = ft_strjoin(path_name, tmp);
-		if (!new_path)
-			exit(1);
-		free(tmp);
-	// }
+	tmp = ft_strjoin("/", word);
+	new_path = ft_strjoin(path_name, tmp);
+	if (!new_path)
+		exit(EXIT_FAILURE);
+	free(tmp);
 	return (new_path);
 }

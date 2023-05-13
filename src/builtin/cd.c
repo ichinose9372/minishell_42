@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:01 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/13 11:51:01 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:50:46 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,11 @@ int	path_cd(char *args)
 	int		i;
 
 	i = 0;
-	if (args[0] == '/' && !args[1])
-	{
-		if (chdir("/") == -1)
-		{
-			perror("chdir");
-			return (1);
-		}
-		remake_pwd("/");
-		return (0);
-	}
+	if (args[0] == '/')
+		return (absolute_move(args));
 	tmp = ft_split(args, '/');
 	while (tmp[i])
 	{
-		printf("tmp = %s\n", tmp[i]);
 		if (in_path_cd(tmp[i]))
 		{
 			all_free(tmp);
