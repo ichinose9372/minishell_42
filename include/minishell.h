@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:53:44 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/09 14:47:53 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/13 13:59:07 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,12 +152,13 @@ int		builtin_echo(char **args);
 //cd
 int		builtin_cd(char **args);
 int		in_path_cd(char *tmp);
-char	*next_move(char *path_name, char *word);
+char	*other_move(char *path_name, char *word);
 char	*home_path(void);
 void	remake_pwd(char *new_path);
 int		serch_home(void);
 char	*my_getcwd(char *buf, size_t length);
-char	*make_next_path(char *path_name, char *word);
+int		absolute_move(char *args);
+char	*cd_make_path(char *path_name, char *word);
 char	*my_getcwd(char *buf, size_t length);
 void	remake_pwd(char	*new_path);
 char	*prev_move(char	*path_name);
