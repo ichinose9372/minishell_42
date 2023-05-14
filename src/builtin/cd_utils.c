@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:47:48 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/13 16:56:33 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/14 11:52:02 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,11 @@ char	*home_path(void)
 void	remake_pwd(char	*new_path)
 {
 	t_env	**tmp;
-	size_t	size;
+
 
 	tmp = g_global.env;
 	while (ft_strncmp((*tmp)->name, "PWD", 4) != 0)
 		tmp = &(*tmp)->next;
-	size = 0;
 	free((*tmp)->value);
 	(*tmp)->value = ft_strdup(new_path);
 	free(new_path);
@@ -79,7 +78,10 @@ char	*cd_make_path(char *path_name, char	*word)
 	char	*new_path;
 	char	*tmp;
 
-	tmp = ft_strjoin("/", word);
+	if (path_name[0] == '/' && !path_name[1])
+		tmp = ft_strtrim(word, "/");
+	else
+		tmp = ft_strjoin("/", word);
 	new_path = ft_strjoin(path_name, tmp);
 	if (!new_path)
 		exit(EXIT_FAILURE);
