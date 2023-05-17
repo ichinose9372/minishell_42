@@ -6,7 +6,7 @@
 /*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:47:48 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/14 11:52:02 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/05/17 23:21:22 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char	*home_path(void)
 void	remake_pwd(char	*new_path)
 {
 	t_env	**tmp;
-
 
 	tmp = g_global.env;
 	while (ft_strncmp((*tmp)->name, "PWD", 4) != 0)

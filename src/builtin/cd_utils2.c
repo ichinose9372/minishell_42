@@ -6,7 +6,7 @@
 /*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 14:11:19 by yichinos          #+#    #+#             */
-/*   Updated: 2023/05/14 11:42:23 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/05/17 23:27:09 by ichinoseyuu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int	absolute_move(char *args)
 {
 	char	*tmp;
 
-	tmp = ft_strdup(args);
+	if (args[0] == '/' && !args[1])
+		tmp = ft_strdup(args);
+	else
+		tmp = ft_substr(args, 0, (ft_strlen(args) - 1));
 	if (chdir(tmp) == -1)
 	{
 		perror("chdir");
