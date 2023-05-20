@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:01 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/17 23:16:24 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/05/20 14:52:44 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ char	*prev_move(char	*path_name)
 
 	last = ft_strrchr(path_name, '/');
 	len = ft_strlen(path_name) - ft_strlen(last);
-	new_path = ft_substr(path_name, 0, len);
+	if (len == 0)
+		new_path = ft_strdup("/");
+	else
+		new_path = ft_substr(path_name, 0, len);
 	if (!new_path)
 		return (NULL);
 	if (chdir(new_path) == -1)
