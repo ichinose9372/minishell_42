@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:20 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/07 14:37:04 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/20 14:39:32 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	fork_and_cmd(char **args, t_pipe *pipe_data,
 	if (pid == 0)
 	{
 		if (input_fd < 0 || output_fd < 0)
-			exit (1);
+			exit (EXIT_FAILURE);
 		if (pipe_data->flag == 1)
 			close(pipe_data->pipe_fd[READ]);
 		exe_chiled(args, input_fd, output_fd);
