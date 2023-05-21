@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:28 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/03 16:35:14 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:41:17 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	set_fd(t_token **p_tok, int *in, int *out, int *flag)
 void	init_pipe_setfd(int *output_fd, t_pipe *pipe_data)
 {
 	pipe_data->flag = 1;
+	g_global.pipe_aruyo = 1;
 	if (pipe(pipe_data->pipe_fd) == -1)
 		exit(1);
 	*output_fd = pipe_data->pipe_fd[WRITE];
