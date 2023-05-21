@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:53 by yichinos          #+#    #+#             */
-/*   Updated: 2023/05/07 14:18:47 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:30:23 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	in_minishell(t_token **p_tok, char *str)
 	else
 		all_free_token(p_tok);
 	free(str);
+	g_global.pipe_aruyo = 0;
 }
 
 void	minishell(void)

@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:53:44 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/13 13:59:07 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:29:09 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_global
 	int		heredoc_flag;
 	int		fd_in;
 	int		fd_out;
+	int		pipe_aruyo;
 }	t_global;
 
 t_global	g_global;
@@ -152,6 +153,7 @@ int		builtin_echo(char **args);
 //cd
 int		builtin_cd(char **args);
 int		in_path_cd(char *tmp);
+int		only_cd(void);
 char	*other_move(char *path_name, char *word);
 char	*home_path(void);
 void	remake_pwd(char *new_path);
