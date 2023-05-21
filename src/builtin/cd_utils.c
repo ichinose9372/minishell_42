@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichinoseyuuki <ichinoseyuuki@student.42    +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:47:48 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/17 23:21:22 by ichinoseyuu      ###   ########.fr       */
+/*   Updated: 2023/05/21 16:52:54 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	remake_pwd(char	*new_path)
 		tmp = &(*tmp)->next;
 	free((*tmp)->value);
 	(*tmp)->value = ft_strdup(new_path);
-	free(new_path);
 }
 
 int	serch_home(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:18 by stakimot          #+#    #+#             */
-/*   Updated: 2023/04/26 14:49:19 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:29:48 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	check_operation(t_token **p_tok)
 bool	pipe_check(t_token **p_tok, t_pipe *pipe_data)
 {
 	pipe_data->flag = 0;
+	g_global.pipe_aruyo = 1;
 	while ((*p_tok))
 	{
 		if ((*p_tok)->kind == PIPE)

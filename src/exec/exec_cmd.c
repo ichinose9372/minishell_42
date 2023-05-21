@@ -6,7 +6,7 @@
 /*   By: yichinos <yichinos@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:49:20 by stakimot          #+#    #+#             */
-/*   Updated: 2023/05/21 13:25:47 by yichinos         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:37:30 by yichinos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ void	fork_and_cmd(char **args, t_pipe *pipe_data,
 			exit (EXIT_FAILURE);
 		if (pipe_data->flag == 1)
 			close(pipe_data->pipe_fd[READ]);
+		if (ft_strncmp(args[0], "exit", 5) == 0)
+			exit(EXIT_SUCCESS);
 		exe_chiled(args, input_fd, output_fd);
 	}
 	else if (pid > 0)
@@ -112,7 +114,7 @@ void	exec_cmd(t_token **p_tok, int input_fd, int output_fd, int *status)
 		return (heredoc_stop(args));
 	if (args[0] == NULL)
 		return (exec_cmd_error(args, &input_fd));
-	if (!pipe_data.flag && builtin_check(args))
+	if (!pipe_data.flag && builtin_check(args) && g_global.pipe_aruyo == 0)
 		return (swich_fd_check_builtin(input_fd, output_fd, args, status));
 	if (args != NULL && !builtin_check(args) && ft_strchr(args[0], '/') == NULL)
 		args = in_exec_path(args);
