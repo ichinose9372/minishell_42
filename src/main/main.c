@@ -6,7 +6,7 @@
 /*   By: stakimot <stakimot@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 14:48:53 by yichinos          #+#    #+#             */
-/*   Updated: 2023/05/07 14:18:47 by stakimot         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:17:59 by stakimot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	syntax_check(t_token **p_tok)
 	}
 	while (tmp)
 	{
-		if ((tmp->kind != WORD && tmp->next && tmp->next->kind == tmp->kind) || \
+		if ((tmp->kind != WORD && tmp->next && tmp->next->kind != WORD) || \
 			(tmp->kind != WORD && !tmp->next))
 		{
 			ft_putendl_fd("syntax error", STDOUT_FILENO);
